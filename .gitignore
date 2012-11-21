@@ -1,0 +1,12 @@
+*.pyc
+*.sql
+*.db
+*.bak
+*.exe
+*.pdf
+*.csv
+old_dbs
+*~
+\#*\#
+build
+dist
