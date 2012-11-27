@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>icons/application-pkcs7-signature.png</file>
+    <file>icons/adobe.pdf.png</file>
+    <file>icons/application-vnd.ms-excel.png</file>
+    <file>icons/text-x-sql.png</file>
+    <file>icons/exit.png</file>
+</qresource>
+</RCC>
