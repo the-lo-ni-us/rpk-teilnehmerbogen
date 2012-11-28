@@ -36,14 +36,14 @@ class MainWindow(QtGui.QMainWindow):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/application-pkcs7-signature.png'), 
                                      u"&Institutsangaben eingeben", self, 
                                      statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben")
-        self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/adobe.pdf.png'), 
+        self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
                                         u"Auswertung als &Pdf", self, 
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern")
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
                                         statusTip=u"Die Daten im CSV-Format exportieren")
         if True: #self.use_sqlite:
-            self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/text-x-sql.png'), 
+            self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/database.png'), 
                                                u"S&QLite Datei speichern", self, 
                                                statusTip=u"Eine Kopie der internen SQLite Datenbank speichern")
         self.exitAct = QtGui.QAction(QtGui.QIcon(':icons/exit.png'),u"&Beenden", 
