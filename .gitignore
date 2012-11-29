@@ -6,6 +6,7 @@
 *.pdf
 *.csv
 old_dbs
+*_rc.py
 *~
 \#*\#
 build

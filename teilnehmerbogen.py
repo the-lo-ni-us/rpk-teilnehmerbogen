@@ -14,13 +14,47 @@ from PyQt4 import QtCore, QtGui
 
 import resources_rc
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QtGui.QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
 
+        self.mainVBox = QtGui.QVBoxLayout()
+        self.mainHBox = QtGui.QHBoxLayout()
+        self.setLayout(self.mainVBox)
+
         self.createActions()
         self.createToolBar()
-        self.createStatusBar()
+        self.createMainPanel()
+        self.mainVBox.addLayout(self.mainHBox)
+        self.createRightBox()
+        # self.createStatusBar()
+
+    def createRightBox(self):
+        scrolled = QtGui.QScrollArea(self) 
+        scrolled.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.mainHBox.addWidget(scrolled)
+        self.rightInnerBox = QtGui.QWidget(self)
+        self.rightVBox = QtGui.QVBoxLayout()
+        self.rightInnerBox.setLayout(self.rightVBox)
+        for i in range(30):
+            self.rightVBox.addWidget(QtGui.QLabel('label %0.2d' % i, self))
+        scrolled.setWidget(self.rightInnerBox)
+
+    def createMainPanel(self):
+        self.participants_lv = QtGui.QListWidget(self)
+        self.participants_lv.addItems(('bla','blubb','knusper'))
+        leftVBox = QtGui.QVBoxLayout()
+        leftVBox.addWidget(self.participants_lv)
+        buttonBox = QtGui.QHBoxLayout()
+        leftVBox.addLayout(buttonBox)
+        self.saveButton = QtGui.QPushButton("Speichern", self)
+        buttonBox.addWidget(self.saveButton)
+        self.deleteButton = QtGui.QPushButton(u"L;schen", self)
+        buttonBox.addWidget(self.deleteButton)
+        self.newButton = QtGui.QPushButton("Neu", self)
+        buttonBox.addWidget(self.newButton)
+        self.mainHBox.addLayout(leftVBox)
+
 
     def closeEvent(self, event):
         if self.askSave():
@@ -55,15 +89,18 @@ class MainWindow(QtGui.QMainWindow):
         #         triggered=self.about)
 
     def createToolBar(self):
-        self.mainToolBar = self.addToolBar("Main")
+        self.mainToolBar = QtGui.QToolBar(self)
         self.mainToolBar.addAction(self.prefAct)
         self.mainToolBar.addAction(self.savePdfAct)
         self.mainToolBar.addAction(self.saveCsvAct)
         self.mainToolBar.addAction(self.saveSqliteAct)
         self.mainToolBar.addAction(self.exitAct)
+        self.mainVBox.addWidget(self.mainToolBar)
 
     def createStatusBar(self):
-        self.statusBar().showMessage("Ready")
+        self.statusBar = QtGui.QStatusBar(self) #.showMessage("Ready")
+        self.mainVBox.addWidget(self.statusBar)
+        # self.exitAct.hovered.connect(self.statusBar.showEvent)
 
     def leck(self, event):
         pass
