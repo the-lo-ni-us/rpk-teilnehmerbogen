@@ -26,16 +26,16 @@ from structure import structure as STRUCTURE
 from settings import *
 
 class MainWindow(QtGui.QMainWindow):
-    typ2class = {
-        'enum': Fake, # EnumChooser,      # maps 'typ'-property of STRUCTURE to widget-class
-        'multi_bool': Fake, # MultiChooser,
-        'multi_int': Fake, # MultiSpinner,
-        'str': Text,
-        'heading': Fake, # Heading,
-        'int': Spinner,
-        'dropdown': Chooser,
-        'date': Fake # DateChooser 
-        }
+
+    typ2class = {'enum': EnumChooser,      # maps 'typ'-property of STRUCTURE-items to widget-classes
+                 'multi_bool': MultiChooser,
+                 'multi_int': MultiSpinner,
+                 'str': Text,
+                 'heading': Heading,
+                 'int': Spinner,
+                 'date': Fake, # DateChooser,
+                 'dropdown': Chooser}
+
     def __init__(self):
         super(MainWindow, self).__init__()
 
@@ -71,6 +71,7 @@ class MainWindow(QtGui.QMainWindow):
         scrolled = QtGui.QScrollArea(self) 
         scrolled.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         scrolled.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        scrolled.setWidgetResizable(True)
         self.mainHBox.addWidget(scrolled)
         self.rightInnerBox = QtGui.QWidget(self)
         self.rightVBox = QtGui.QVBoxLayout()
@@ -117,7 +118,9 @@ class MainWindow(QtGui.QMainWindow):
         return True
 
     def test(self, event):
-        self.widg_dict['f2a'].set_value(55)
+        # from composite_col import CompositeCol
+        # v = CompositeCol(*[False,True,True,True,True,False,False,False,False])
+        print self.widg_dict['jahr'].set_value('2012')
 
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/application-pkcs7-signature.png'), 
