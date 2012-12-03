@@ -26,12 +26,6 @@ from structure import structure as STRUCTURE
 from settings import *
 
 class MainWindow(QtGui.QMainWindow):
-    participant = None # currently diplayed Participant() or None if none
-                       # Changed attributes will only be saved by a session.commit() 
-                       # if the session is the same in which the Participant() is created (loaded).
-    Dirty = False
-    # config = wx.Config(CONFIG_MAIN_NAME)
-    # use_sqlite = config.Read(CONFIG_USE_SQLITE_DB) == 'True'
     typ2class = {
         'enum': Fake, # EnumChooser,      # maps 'typ'-property of STRUCTURE to widget-class
         'multi_bool': Fake, # MultiChooser,
@@ -44,6 +38,9 @@ class MainWindow(QtGui.QMainWindow):
         }
     def __init__(self):
         super(MainWindow, self).__init__()
+
+        # config = wx.Config(CONFIG_MAIN_NAME)
+        # use_sqlite = config.Read(CONFIG_USE_SQLITE_DB) == 'True'
 
         centralWidget = QtGui.QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -61,7 +58,9 @@ class MainWindow(QtGui.QMainWindow):
         self._reset()
 
     def _reset(self):
-        self.participant = None
+        self.participant = None # currently diplayed Participant() or None if none
+                                # Changed attributes will only be saved by a session.commit() if 
+                                # the session is the same in which the Participant() is created (loaded).
         self.participants_lv.setCurrentIndex(QtCore.QModelIndex()) # sets invalid value (like -1 but much more sophisticated)
         for widg in self.widg_dict.values():
             widg.reset()
