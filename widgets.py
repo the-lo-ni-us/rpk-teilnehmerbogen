@@ -24,12 +24,13 @@ class Fake():
         pass
 
 class GridRow():
-    def __init__(self, grid_layout):
-        self.row = grid_layout.rowCount()
+    row = 0
+    # def __init__(self, grid_layout):
+    #     self.row = grid_layout.rowCount()
 
-class Heading(GridRow):
+class Heading():
     def __init__(self, parent, parent_grid, **kwargs):
-        GridRow.__init__(self, parent_grid)
+        self.row = GridRow.row
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         font = self.label.font()
         font.setPointSize(font.pointSize()+3)
@@ -37,10 +38,11 @@ class Heading(GridRow):
         self.label.setMargin(10)
         # self.label.SetDimensions(0,0,PANEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
         parent_grid.addWidget(self.label, self.row, 0, 1, 2)
+        GridRow.row += 1
 
-class MultiSpinner(GridRow):
+class MultiSpinner():
     def __init__(self, parent, parent_grid, **kwargs):
-        GridRow.__init__(self, parent_grid)
+        self.row = GridRow.row
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         parent_grid.addWidget(self.label, self.row, 0)
         grid = QtGui.QGridLayout()
@@ -55,6 +57,7 @@ class MultiSpinner(GridRow):
             spinner = QtGui.QSpinBox(parent)
             grid.addWidget(spinner, i, 1)
             self.spinners.append(spinner)
+        GridRow.row += 1
 
     def get_value(self):
         return CompositeCol(*[sp.value() for sp in self.spinners])
@@ -63,15 +66,16 @@ class MultiSpinner(GridRow):
     def reset(self):
         [sp.setValue(0) for sp in self.spinners]
 
-class LabeledWidget(GridRow):
+class LabeledWidget():
     def __init__(self, parent, parent_grid, **kwargs):
-        GridRow.__init__(self, parent_grid)
+        self.row = GridRow.row
         self.default = kwargs['default']
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         # self.label.SetDimensions(0,0,LABEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
         parent_grid.addWidget(self.label, self.row, 0)
         self.add_widget(parent, **kwargs)
         parent_grid.addWidget(self.widget, self.row, 1)
+        GridRow.row += 1
         # self.widget.SetDimensions(0,0,WIDGET_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
     def add_widget(self, parent, **kwargs):
         pass

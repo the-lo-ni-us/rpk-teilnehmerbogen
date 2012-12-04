@@ -39,8 +39,9 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        # config = wx.Config(CONFIG_MAIN_NAME)
-        # use_sqlite = config.Read(CONFIG_USE_SQLITE_DB) == 'True'
+        self.config = QtCore.QSettings('Thelonius', CONFIG_MAIN_NAME)
+        self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB) is not 'False'
+        print self.config.value('soize')
 
         centralWidget = QtGui.QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -56,6 +57,8 @@ class MainWindow(QtGui.QMainWindow):
         self.createRightBox()
         self.createStatusBar()
         self._reset()
+        if self.config.value('geometry'):
+            self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
 
     def _reset(self):
         self.participant = None # currently diplayed Participant() or None if none
@@ -75,6 +78,7 @@ class MainWindow(QtGui.QMainWindow):
         self.mainHBox.addWidget(scrolled)
         self.rightInnerBox = QtGui.QWidget(self)
         self.rightGrid = QtGui.QGridLayout()
+        self.rightGrid.setVerticalSpacing(10)
         self.rightInnerBox.setLayout(self.rightGrid)
         self.widg_dict = {}
 
@@ -88,6 +92,7 @@ class MainWindow(QtGui.QMainWindow):
         scrolled.setWidget(self.rightInnerBox)
         self.rightGrid.setColumnStretch(0, 15)
         self.rightGrid.setColumnStretch(1, 10)
+        # scrolled.adjustSize()
 
     def createMainPanel(self):
         self.participants_lv = QtGui.QListWidget(self)
@@ -111,13 +116,16 @@ class MainWindow(QtGui.QMainWindow):
 
     def closeEvent(self, event):
         if self.askSave():
-            # self.writeSettings()
+            self.writeSettings()
             event.accept()
         else:
             event.ignore()
 
     def askSave(self):
         return True
+
+    def writeSettings(self):
+        self.config.setValue('geometry',self.saveGeometry())
 
     def test(self, event):
         # from composite_col import CompositeCol
