@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+The classes here are designed to get_value()/set_value() what the
+Participant() ORM-class expects/returns for/from its various kinds
+of columns.
+"""
+
 # This is only needed for Python v2 but is harmless for Python v3.
 import sip
 sip.setapi('QVariant', 2)
@@ -12,30 +18,33 @@ from composite_col import CompositeCol
 from settings import *
 
 class Fake():
-    def __init__(self, parent, parent_box, **kwargs):
+    def __init__(self, parent, parent_grid, **kwargs):
         pass
     def reset(self):
         pass
 
-class Heading(QtGui.QHBoxLayout):
-    def __init__(self, parent, parent_box, **kwargs):
-        QtGui.QHBoxLayout.__init__(self)
+class GridRow():
+    def __init__(self, grid_layout):
+        self.row = grid_layout.rowCount()
+
+class Heading(GridRow):
+    def __init__(self, parent, parent_grid, **kwargs):
+        GridRow.__init__(self, parent_grid)
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         font = self.label.font()
         font.setPointSize(font.pointSize()+3)
         self.label.setFont(font)
         self.label.setMargin(10)
         # self.label.SetDimensions(0,0,PANEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        self.addWidget(self.label)
-        parent_box.addLayout(self)
+        parent_grid.addWidget(self.label, self.row, 0, 1, 2)
 
-class MultiSpinner(QtGui.QHBoxLayout):
-    def __init__(self, parent, parent_box, **kwargs):
-        QtGui.QHBoxLayout.__init__(self)
+class MultiSpinner(GridRow):
+    def __init__(self, parent, parent_grid, **kwargs):
+        GridRow.__init__(self, parent_grid)
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
-        self.addWidget(self.label)
+        parent_grid.addWidget(self.label, self.row, 0)
         grid = QtGui.QGridLayout()
-        self.addLayout(grid)
+        parent_grid.addLayout(grid, self.row, 1)
         font = self.label.font()
         font.setPointSize(font.pointSize()-1)
         self.spinners = []
@@ -46,7 +55,6 @@ class MultiSpinner(QtGui.QHBoxLayout):
             spinner = QtGui.QSpinBox(parent)
             grid.addWidget(spinner, i, 1)
             self.spinners.append(spinner)
-        parent_box.addLayout(self)
 
     def get_value(self):
         return CompositeCol(*[sp.value() for sp in self.spinners])
@@ -55,17 +63,16 @@ class MultiSpinner(QtGui.QHBoxLayout):
     def reset(self):
         [sp.setValue(0) for sp in self.spinners]
 
-class LabeledWidget(QtGui.QHBoxLayout):
-    def __init__(self, parent, parent_box, **kwargs):
-        QtGui.QHBoxLayout.__init__(self)
+class LabeledWidget(GridRow):
+    def __init__(self, parent, parent_grid, **kwargs):
+        GridRow.__init__(self, parent_grid)
         self.default = kwargs['default']
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         # self.label.SetDimensions(0,0,LABEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        self.addWidget(self.label)
+        parent_grid.addWidget(self.label, self.row, 0)
         self.add_widget(parent, **kwargs)
-        self.addWidget(self.widget)
+        parent_grid.addWidget(self.widget, self.row, 1)
         # self.widget.SetDimensions(0,0,WIDGET_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        parent_box.addLayout(self)
     def add_widget(self, parent, **kwargs):
         pass
     def get_value(self):
@@ -75,6 +82,11 @@ class LabeledWidget(QtGui.QHBoxLayout):
     def reset(self):
         self.set_value(self.default)
 
+class Spinner(LabeledWidget):
+    def add_widget(self, parent, **kwargs):
+        self.widget = QtGui.QSpinBox(parent)
+        self.widget.setMinimum(-1)
+
 class Text(LabeledWidget):
     def add_widget(self, parent, **kwargs):
         self.widget = QtGui.QLineEdit(parent)
@@ -82,13 +94,6 @@ class Text(LabeledWidget):
         return self.widget.text()
     def set_value(self, value):
         self.widget.setText(value)
-
-class Spinner(LabeledWidget):
-    def __init__(self, parent, parent_sizer, **kwargs):
-        LabeledWidget.__init__(self, parent, parent_sizer, **kwargs)
-    def add_widget(self, parent, **kwargs):
-        self.widget = QtGui.QSpinBox(parent)
-        self.widget.setMinimum(-1)
 
 class Chooser(LabeledWidget):
     def add_widget(self, parent, **kwargs):

@@ -74,18 +74,20 @@ class MainWindow(QtGui.QMainWindow):
         scrolled.setWidgetResizable(True)
         self.mainHBox.addWidget(scrolled)
         self.rightInnerBox = QtGui.QWidget(self)
-        self.rightVBox = QtGui.QVBoxLayout()
-        self.rightInnerBox.setLayout(self.rightVBox)
+        self.rightGrid = QtGui.QGridLayout()
+        self.rightInnerBox.setLayout(self.rightGrid)
         self.widg_dict = {}
 
         for field in STRUCTURE.cap_items:
-            wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightVBox, 
+            wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, 
                                                label=field['title'], allowance=field.get('allowance', None), 
                                                default=field.get('default', None))
             if field['typ'] != 'heading':
                 self.widg_dict[field['fieldname']] = wid
 
         scrolled.setWidget(self.rightInnerBox)
+        self.rightGrid.setColumnStretch(0, 15)
+        self.rightGrid.setColumnStretch(1, 10)
 
     def createMainPanel(self):
         self.participants_lv = QtGui.QListWidget(self)
