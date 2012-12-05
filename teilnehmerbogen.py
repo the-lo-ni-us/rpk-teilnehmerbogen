@@ -125,7 +125,7 @@ class MainWindow(QtGui.QMainWindow):
         return True
 
     def writeSettings(self):
-        self.config.setValue('geometry',self.saveGeometry())
+        self.config.setValue('geometry', self.saveGeometry())
 
     def test(self, event):
         # from composite_col import CompositeCol
