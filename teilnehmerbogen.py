@@ -22,6 +22,7 @@ from PyQt4 import QtCore, QtGui
 import resources_rc
 
 from widgets import *
+from dialog_prefs import PrefsDialog
 from structure import structure as STRUCTURE
 from settings import *
 
@@ -39,9 +40,8 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.config = QtCore.QSettings('Thelonius', CONFIG_MAIN_NAME)
-        self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB) is not 'False'
-        print self.config.value('soize')
+        self.config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
+        self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB) != QtCore.QString(u'false')
 
         centralWidget = QtGui.QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -50,25 +50,41 @@ class MainWindow(QtGui.QMainWindow):
         self.mainHBox = QtGui.QHBoxLayout()
         centralWidget.setLayout(self.mainVBox)
 
+        self.setWindowIcon(QtGui.QIcon(':icons/python.ico'))
         self.createActions()
         self.createToolBar()
         self.createMainPanel()
         self.mainVBox.addLayout(self.mainHBox)
         self.createRightBox()
         self.createStatusBar()
+        self.wire()
         self._reset()
         if self.config.value('geometry'):
             self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
 
+    def wire(self):
+        for w in self.widg_dict.values():
+            w.connect_dirty(self.set_dirty)
+        self.newButton.clicked.connect(self._reset)
+        self.participants_lv.itemClicked.connect(self.load_participant)
+
+    def load_participant(self, item):
+        print item.type()
+
+    def set_dirty(self, e):
+        self.Dirty = True
+        # print 'set dirty'
+
     def _reset(self):
-        self.participant = None # currently diplayed Participant() or None if none
+        self.participant = None # currently diplayed Participant() or None when none
                                 # Changed attributes will only be saved by a session.commit() if 
-                                # the session is the same in which the Participant() is created (loaded).
+                                # session is the same in which the Participant() is created (loaded).
         self.participants_lv.setCurrentIndex(QtCore.QModelIndex()) # sets invalid value (like -1 but much more sophisticated)
         for widg in self.widg_dict.values():
             widg.reset()
         self.Dirty = False
         self.widg_dict['name'].widget.setFocus()
+        # print 'set clean'
 
     def createRightBox(self):
         scrolled = QtGui.QScrollArea(self) 
@@ -135,14 +151,14 @@ class MainWindow(QtGui.QMainWindow):
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/application-pkcs7-signature.png'), 
                                      u"&Institutsangaben eingeben", self, 
-                                     statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben")
+                                     statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben", triggered=self.dialog_prefs)
         self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
                                         u"Auswertung als &Pdf", self, 
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern")
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
                                         statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.test)
-        if True: #self.use_sqlite:
+        if self.use_sqlite:
             self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/database.png'), 
                                                u"S&QLite Datei speichern", self, 
                                                statusTip=u"Eine Kopie der internen SQLite Datenbank speichern")
@@ -162,7 +178,8 @@ class MainWindow(QtGui.QMainWindow):
         self.mainToolBar.addSeparator()
         self.mainToolBar.addAction(self.savePdfAct)
         self.mainToolBar.addAction(self.saveCsvAct)
-        self.mainToolBar.addAction(self.saveSqliteAct)
+        if self.use_sqlite:
+            self.mainToolBar.addAction(self.saveSqliteAct)
         self.mainToolBar.addSeparator()
         self.mainToolBar.addAction(self.exitAct)
 
@@ -171,6 +188,10 @@ class MainWindow(QtGui.QMainWindow):
 
     def leck(self, event):
         pass
+
+    def dialog_prefs(self, event):
+        prefsdialog = PrefsDialog(self.config)
+        prefsdialog.exec_()
 
 if __name__ == '__main__':
 

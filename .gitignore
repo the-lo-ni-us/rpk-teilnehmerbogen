@@ -10,5 +10,6 @@ old_dbs
 *_ui.py
 *~
 \#*\#
+.\#*
 build
 dist

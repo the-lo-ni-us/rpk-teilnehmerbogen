@@ -65,6 +65,8 @@ class MultiSpinner():
         [sp.setValue(values[i]) for i,sp in enumerate(self.spinners)]
     def reset(self):
         [sp.setValue(0) for sp in self.spinners]
+    def connect_dirty(self, slot):
+        [sp.valueChanged.connect(slot) for sp in self.spinners]
 
 class LabeledWidget():
     def __init__(self, parent, parent_grid, **kwargs):
@@ -85,6 +87,8 @@ class LabeledWidget():
         self.widget.setValue(value)
     def reset(self):
         self.set_value(self.default)
+    def connect_dirty(self, slot):
+        self.widget.valueChanged.connect(slot)
 
 class Spinner(LabeledWidget):
     def add_widget(self, parent, **kwargs):
@@ -98,6 +102,8 @@ class Text(LabeledWidget):
         return self.widget.text()
     def set_value(self, value):
         self.widget.setText(value)
+    def connect_dirty(self, slot):
+        self.widget.textEdited.connect(slot)
 
 class Chooser(LabeledWidget):
     def add_widget(self, parent, **kwargs):
@@ -107,6 +113,8 @@ class Chooser(LabeledWidget):
         return self.widget.currentIndex()
     def set_value(self, value):
         self.widget.setCurrentIndex(value)
+    def connect_dirty(self, slot):
+        self.widget.currentIndexChanged.connect(slot)
 
 class EnumChooser(LabeledWidget):
     def add_widget(self, parent, **kwargs):
@@ -120,6 +128,8 @@ class EnumChooser(LabeledWidget):
     #     return self.values[self.widget.GetSelection()],self.widget.GetStringSelection()
     def set_value(self, value):
         self.widget.setCurrentIndex(self.values.index(value))
+    def connect_dirty(self, slot):
+        self.widget.currentIndexChanged.connect(slot)
 
 class MultiChooser(LabeledWidget):
     def add_widget(self, parent, **kwargs):
@@ -132,4 +142,6 @@ class MultiChooser(LabeledWidget):
         [self.widget.item(i).setSelected(v) for i,v in enumerate(values)]
     def reset(self):
         [self.widget.item(i).setSelected(False) for i in range(self.widget.count())]
+    def connect_dirty(self, slot):
+        self.widget.itemSelectionChanged.connect(slot)
 
