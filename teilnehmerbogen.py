@@ -18,6 +18,7 @@ import sip
 sip.setapi('QVariant', 2)
 
 from PyQt4 import QtCore, QtGui
+import os, collections
 
 import resources_rc
 
@@ -61,6 +62,11 @@ class MainWindow(QtGui.QMainWindow):
         self._reset()
         if self.config.value('geometry'):
             self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
+        # QtGui.QMessageBox.information(self,
+        #         "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
+        #          <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a> und die Quellen 
+        #          sind auf <a href='https://github.com/the-lo-ni-us/bagrpk-summenbogen'>github.com</a> jedermann zugänglich.</p>
+        #          <p>&copy; 2012 Thelonius Kort</p>""")
 
     def wire(self):
         for w in self.widg_dict.values():
@@ -148,13 +154,36 @@ class MainWindow(QtGui.QMainWindow):
         # v = CompositeCol(*[False,True,True,True,True,False,False,False,False])
         print self.widg_dict['jahr'].set_value('2012')
 
+    def years_dict(self):
+        now = datetime.date.today().year
+        jahre = [(u'alle erfassten', None),( u'ungewiss', '')]
+        jahre += [(str(i), str(i)) for i in reversed(range(now-3, now+1))]
+        return collections.OrderedDict([(QtCore.QString(i[0]),i[1]) for i in jahre])
+
+    def save_pdf(self):
+        if not self.askSave():
+            return 1
+        items = self.years_dict()
+        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", u"Auswertung beschränken auf:", items.keys(), 2, False)
+        jahr = items[item]
+        if not ok:
+            return 1
+
+        path = QtGui.QFileDialog.getSaveFileName(self,
+                                          "Pdf Auswertung/Zusammenfassung speichern unter...",
+                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.pdf'),
+                                          "Pdf-Dateien(*.pdf);; Alle Dateien (*)")
+        # print '%s - %s' % (path, os.path.dirname(str(path)))
+        if path:
+            self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(str(path)))
+
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/application-pkcs7-signature.png'), 
                                      u"&Institutsangaben eingeben", self, 
                                      statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben", triggered=self.dialog_prefs)
         self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
                                         u"Auswertung als &Pdf", self, 
-                                        statusTip=u"Auswertung der Daten im PDF-Format speichern")
+                                        statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
                                         statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.test)
