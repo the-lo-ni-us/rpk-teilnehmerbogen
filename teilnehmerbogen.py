@@ -77,7 +77,7 @@ class MainWindow(QtGui.QMainWindow):
     def load_participant(self, item):
         print item.type()
 
-    def set_dirty(self, e):
+    def set_dirty(self, e=None):
         self.Dirty = True
         # print 'set dirty'
 
@@ -155,16 +155,22 @@ class MainWindow(QtGui.QMainWindow):
         print self.widg_dict['jahr'].set_value('2012')
 
     def years_dict(self):
-        now = datetime.date.today().year
+        """
+        Returns an OrderedDict with values None, '', and years as strings (for four years back),
+        and the indexes of current year and the year a half year back in the dict.
+        """
+        now = datetime.date.today()
+        half_year_back = now - datetime.timedelta(days=182)
+        this_year = now.year
         jahre = [(u'alle erfassten', None),( u'ungewiss', '')]
-        jahre += [(str(i), str(i)) for i in reversed(range(now-3, now+1))]
-        return collections.OrderedDict([(QtCore.QString(i[0]),i[1]) for i in jahre])
+        jahre += [(str(i), str(i)) for i in reversed(range(this_year-3, this_year+1))]
+        return collections.OrderedDict([(QtCore.QString(i[0]),i[1]) for i in jahre]), 2, 2 + (this_year - half_year_back.year)
 
     def save_pdf(self):
         if not self.askSave():
             return 1
-        items = self.years_dict()
-        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", u"Auswertung beschränken auf:", items.keys(), 2, False)
+        items, nyi, byi = self.years_dict()
+        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", u"Auswertung beschränken auf:", items.keys(), byi, False)
         jahr = items[item]
         if not ok:
             return 1
