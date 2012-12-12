@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Summenbögen erfassen...
-"""
 # On Mon, Sep 6, 2010 at 10:15 PM, Hans-Peter Jansen <hpj at urpla.net> wrote:
 # 
 # > Start browsing the Qt documentation. Yes, it's a bit arkward to ignore the
@@ -143,8 +140,27 @@ class MainWindow(QtGui.QMainWindow):
         else:
             event.ignore()
 
-    def askSave(self):
+    def askSave(self, message_title='Datensatz speichern?'):
+        if not self.Dirty:
+            return True
+        msgBox = QtGui.QMessageBox(QtGui.QMessageBox.Question,
+                message_title, 'Soll gespeichert werden?',
+                QtGui.QMessageBox.NoButton, self)
+        sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.AcceptRole)
+        dsb = msgBox.addButton("&Nicht speichern", QtGui.QMessageBox.DestructiveRole)
+        cb = msgBox.addButton("&Abbrechen", QtGui.QMessageBox.NoRole)
+        msgBox.setEscapeButton(cb)
+        msgBox.exec_()
+        reply = msgBox.clickedButton()
+        print 'reply: %s' % reply
+        if reply == cb:
+            return False
+        elif reply == sb:
+            self._save_participant()
         return True
+
+    def _save_participant(self):
+        print 'shoulda be saved'
 
     def writeSettings(self):
         self.config.setValue('geometry', self.saveGeometry())
