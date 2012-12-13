@@ -221,17 +221,25 @@ class MainWindow(QtGui.QMainWindow):
         #         statusTip="Show the application's About box",
         #         triggered=self.about)
 
+    def space_widget(self): # should become a class
+        space = QtGui.QWidget(self)
+        spacel = QtGui.QHBoxLayout()
+        space.setLayout(spacel)
+        spacel.addStretch()
+        return space
+
     def createToolBar(self):
         self.mainToolBar = self.addToolBar('main')
         self.mainToolBar.setFloatable(False)
         self.mainToolBar.setMovable(False)
         self.mainToolBar.addAction(self.prefAct)
-        self.mainToolBar.addSeparator()
-        self.mainToolBar.addAction(self.savePdfAct)
+        self.mainToolBar.addWidget(self.space_widget())
         self.mainToolBar.addAction(self.saveCsvAct)
         if self.use_sqlite:
             self.mainToolBar.addAction(self.saveSqliteAct)
-        self.mainToolBar.addSeparator()
+        # self.mainToolBar.addWidget(space)
+        self.mainToolBar.addAction(self.savePdfAct)
+        self.mainToolBar.addWidget(self.space_widget())
         self.mainToolBar.addAction(self.exitAct)
 
     def createStatusBar(self):
