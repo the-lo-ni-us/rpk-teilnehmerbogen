@@ -48,6 +48,7 @@ class MainWindow(QtGui.QMainWindow):
         self.mainHBox = QtGui.QHBoxLayout()
         centralWidget.setLayout(self.mainVBox)
 
+        self.setWindowTitle(CONFIG_MAIN_NAME)
         self.setWindowIcon(QtGui.QIcon(':icons/python.ico'))
         self.createActions()
         self.createToolBar()
