@@ -1,7 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>icons/python.ico</file>
-    <file>icons/application-pkcs7-signature.png</file>
+    <file>icons/preferences-32.png</file>
     <file>icons/application-pdf.png</file>
     <file>icons/application-vnd.ms-excel.png</file>
     <file>icons/database.png</file>

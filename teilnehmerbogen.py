@@ -201,7 +201,7 @@ class MainWindow(QtGui.QMainWindow):
             self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(str(path)))
 
     def createActions(self):
-        self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/application-pkcs7-signature.png'), 
+        self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'), 
                                      u"&Institutsangaben eingeben", self, 
                                      statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben", triggered=self.dialog_prefs)
         self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
