@@ -72,7 +72,7 @@ class MainWindow(QtGui.QMainWindow):
         self.participants_lv.itemClicked.connect(self.load_participant)
 
     def load_participant(self, item):
-        print item.type()
+        print item.data(QtCore.Qt.UserRole)
 
     def set_dirty(self, e=None):
         self.Dirty = True
@@ -118,7 +118,9 @@ class MainWindow(QtGui.QMainWindow):
         self.participants_lv.setMinimumHeight(500)
         self.participants_lv.setMaximumWidth(300)
         for l,d in {'bla': 5, 'blubb': 56, 'knusper': 2}.items():
-            self.participants_lv.addItem(QtGui.QListWidgetItem(l,None, d))
+            wi = QtGui.QListWidgetItem(l)
+            wi.setData(QtCore.Qt.UserRole, d)
+            self.participants_lv.addItem(wi)
         # self.participants_lv.setCurrentRow(2)
         leftVBox = QtGui.QVBoxLayout()
         leftVBox.addWidget(self.participants_lv)
