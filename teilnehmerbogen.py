@@ -17,11 +17,15 @@ sip.setapi('QVariant', 2)
 from PyQt4 import QtCore, QtGui
 import os, collections
 
+import sqlalchemy as sqAl
+from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
+
 import resources_rc
 
 from widgets import *
 from dialog_prefs import PrefsDialog
 from structure import structure as STRUCTURE
+from participant import Participant
 from settings import *
 
 class MainWindow(QtGui.QMainWindow):
@@ -39,7 +43,7 @@ class MainWindow(QtGui.QMainWindow):
         super(MainWindow, self).__init__()
 
         self.config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
-        self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB) != QtCore.QString(u'false')
+        self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB, True, type=bool)
 
         centralWidget = QtGui.QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -57,6 +61,8 @@ class MainWindow(QtGui.QMainWindow):
         self.createRightBox()
         self.createStatusBar()
         self.wire()
+        self.initialize_db()
+        self.list_participants()
         self._reset()
         if self.config.value('geometry'):
             self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
@@ -66,17 +72,109 @@ class MainWindow(QtGui.QMainWindow):
         #          sind auf <a href='https://github.com/the-lo-ni-us/bagrpk-summenbogen'>github.com</a> jedermann zugänglich.</p>
         #          <p>&copy; 2012 Thelonius Kort</p>""")
 
+    def initialize_db(self):
+        if self.use_sqlite:
+            engine = sqAl.create_engine('sqlite:///%s' % self.config.value(CONFIG_DB_PATH_NAME))
+        else:
+            engine = sqAl.create_engine('%s://%s:%s@%s:%s/%s' % (self.config.value(CONFIG_REMOTE_DB_SCHEME),
+                                                                 self.config.value(CONFIG_REMOTE_DB_USER),
+                                                                 self.config.value(CONFIG_REMOTE_DB_PASSWORD),
+                                                                 self.config.value(CONFIG_REMOTE_DB_HOST),
+                                                                 self.config.value(CONFIG_REMOTE_DB_PORT),
+                                                                 self.config.value(CONFIG_REMOTE_DB_NAME)), pool_timeout=10)
+        self.session = sqAl_sessionmaker(bind=engine)()
+
     def wire(self):
         for w in self.widg_dict.values():
             w.connect_dirty(self.set_dirty)
         self.newButton.clicked.connect(self._reset)
+        self.saveButton.clicked.connect(self.save_participant)
+        self.deleteButton.clicked.connect(self.delete_participant)
+        QtGui.QShortcut(QtGui.QKeySequence(self.tr("Ctrl+S")), self, member=self.save_participant)
         self.participants_lv.itemClicked.connect(self.load_participant)
 
+    def list_participants(self):
+        self.participants_lv.clear()
+        try:
+            result = self.session.query(Participant.id, Participant.name).order_by(sqAl.func.lower(Participant.name)).all()
+            for p in result:
+                wi = QtGui.QListWidgetItem(p.name)
+                wi.setData(QtCore.Qt.UserRole, p.id)
+                self.participants_lv.addItem(wi)
+            # self.right_panel.Enable()
+        except sqAl.exc.OperationalError:
+            # self.right_panel.Disable()
+            QtGui.QMessageBox.information(self,
+                "Fehler", "Datenbankserver nicht erreichbar")
+
+    def new_participant(self, event):
+        if not self.ask_save('Neuen Teilnehmer anlegen'):
+            return
+        self._reset()
+
+    def save_participant(self, event=None):
+        if not self.Dirty:
+            QtGui.QMessageBox.information(self, 
+                                          u'Teilnehmerdatensatz speichern...', 
+                                          u'Es wurde nichts geändert')
+            return False
+        self._save_participant()
+        self.statusBar().showMessage("Teilnehmer gespeichert")
+        self._highlight_participant()
+
+    def _save_participant(self):
+        if not self.participant:
+            self.participant = Participant()
+        message = ""
+        for name, widg in self.widg_dict.items():
+            setattr(self.participant, name, widg.get_value())
+        if not self.participant.id:
+            self.session.add(self.participant)
+        self.session.commit()
+        self.Dirty = False
+        self.list_participants()
+
+    def _highlight_participant(self):
+        if self.participant:
+            for i in range(self.participants_lv.count()):
+                if self.participants_lv.item(i).data(QtCore.Qt.UserRole) == self.participant.id:
+                    self.participants_lv.setCurrentRow(i)
+
     def load_participant(self, item):
-        print item.data(QtCore.Qt.UserRole)
+        newly_current_participant_id = item.data(QtCore.Qt.UserRole)
+        if not(newly_current_participant_id): # How can this ever happen?
+            return False
+        elif not(self.askSave()):
+            if self.participant:
+                self._highlight_participant()
+            return False
+        self.participant = self.session.query(Participant).filter(Participant.id == newly_current_participant_id).first()
+        for f, widg in self.widg_dict.items():
+            widg.set_value(getattr(self.participant, f))
+        self._highlight_participant()
+        self.Dirty = False
+        self.statusBar().showMessage('')
+
+    def delete_participant(self, event):
+        if self.participant:
+            reply = QtGui.QMessageBox.critical(self, u'Teilnehmerdatensatz löschen',
+                                     u'Wirklich "%s" löschen?' % self.participant.name,
+                                     QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Yes)
+            if reply == QtGui.QMessageBox.Yes:
+                self.session.delete(self.participant)
+                self.session.commit()
+                self._reset()
+                self.list_participants()
+        else:
+            QtGui.QMessageBox.information(self, 
+                                          u'Teilnehmerdatensatz löschen', 
+                                          u'Kein Teilnehmer ausgewählt')
+
+###########################################################################
 
     def set_dirty(self, e=None):
         self.Dirty = True
+        self.statusBar().showMessage("")
         # print 'set dirty'
 
     def _reset(self):
@@ -118,11 +216,7 @@ class MainWindow(QtGui.QMainWindow):
         self.participants_lv = QtGui.QListWidget(self)
         self.participants_lv.setMinimumHeight(500)
         self.participants_lv.setMaximumWidth(300)
-        for l,d in {'bla': 5, 'blubb': 56, 'knusper': 2}.items():
-            wi = QtGui.QListWidgetItem(l)
-            wi.setData(QtCore.Qt.UserRole, d)
-            self.participants_lv.addItem(wi)
-        # self.participants_lv.setCurrentRow(2)
+
         leftVBox = QtGui.QVBoxLayout()
         leftVBox.addWidget(self.participants_lv)
         buttonBox = QtGui.QHBoxLayout()
@@ -146,24 +240,25 @@ class MainWindow(QtGui.QMainWindow):
     def askSave(self, message_title='Datensatz speichern?'):
         if not self.Dirty:
             return True
+        record_descr = (u"'%s'" % self.participant.name) if self.participant else u'der neue Datensatz'
         msgBox = QtGui.QMessageBox(QtGui.QMessageBox.Question,
-                message_title, 'Soll gespeichert werden?',
+                message_title, u'Soll %s gespeichert werden?' % record_descr,
                 QtGui.QMessageBox.NoButton, self)
-        sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.AcceptRole)
-        dsb = msgBox.addButton("&Nicht speichern", QtGui.QMessageBox.DestructiveRole)
+        # sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.AcceptRole)
+        # dsb = msgBox.addButton("&Nicht speichern", QtGui.QMessageBox.DestructiveRole)
+        sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.NoRole)
+        dsb = msgBox.addButton("&Nicht speichern", QtGui.QMessageBox.NoRole)
         cb = msgBox.addButton("&Abbrechen", QtGui.QMessageBox.NoRole)
         msgBox.setEscapeButton(cb)
+        msgBox.setDefaultButton(sb)
         msgBox.exec_()
         reply = msgBox.clickedButton()
-        print 'reply: %s' % reply
+        # print 'reply: %s' % reply
         if reply == cb:
             return False
         elif reply == sb:
             self._save_participant()
         return True
-
-    def _save_participant(self):
-        print 'shoulda be saved'
 
     def writeSettings(self):
         self.config.setValue('geometry', self.saveGeometry())
@@ -246,7 +341,7 @@ class MainWindow(QtGui.QMainWindow):
         self.mainToolBar.addAction(self.exitAct)
 
     def createStatusBar(self):
-        self.statusBar().showMessage("Ready")
+        self.statusBar() # .showMessage("Ready")
 
     def leck(self, event):
         pass

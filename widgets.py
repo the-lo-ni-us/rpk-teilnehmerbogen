@@ -55,6 +55,8 @@ class MultiSpinner():
             label.setFont(font)
             grid.addWidget(label, i, 0)
             spinner = QtGui.QSpinBox(parent)
+            spinner.setMinimum(-1)
+            spinner.setMaximum(1000)
             grid.addWidget(spinner, i, 1)
             self.spinners.append(spinner)
         GridRow.row += 1
@@ -94,12 +96,13 @@ class Spinner(LabeledWidget):
     def add_widget(self, parent, **kwargs):
         self.widget = QtGui.QSpinBox(parent)
         self.widget.setMinimum(-1)
+        self.widget.setMaximum(1000)
 
 class Text(LabeledWidget):
     def add_widget(self, parent, **kwargs):
         self.widget = QtGui.QLineEdit(parent)
     def get_value(self):
-        return self.widget.text()
+        return str(self.widget.text())
     def set_value(self, value):
         self.widget.setText(value)
     def connect_dirty(self, slot):

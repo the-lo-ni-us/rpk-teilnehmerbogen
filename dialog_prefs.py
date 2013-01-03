@@ -80,12 +80,8 @@ class PrefsDialog(QtGui.QDialog):
         tab_widg.setLayout(mainLayout)
         self.tabWidget.addTab(tab_widg, "Datenbank")
 
-        {QtCore.QString(u'true'): self.sqliteRadioButton,      # QSettings-class is a little undecided about boolean type.
-         True: self.sqliteRadioButton, 
-         None: self.sqliteRadioButton, 
-         False: remoteRadioButton, 
-         QtCore.QString(u'false'): remoteRadioButton}\
-            [self.config.value(CONFIG_USE_SQLITE_DB)].setChecked(True)
+        {True: self.sqliteRadioButton, False: remoteRadioButton}\
+            [self.config.value(CONFIG_USE_SQLITE_DB, True, type=bool)].setChecked(True)
         self.db_change()
 
     def db_change(self):
