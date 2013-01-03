@@ -44,7 +44,7 @@ class MultiSpinner():
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
-        parent_grid.addWidget(self.label, self.row, 0)
+        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
         grid = QtGui.QGridLayout()
         parent_grid.addLayout(grid, self.row, 1)
         font = self.label.font()
@@ -76,9 +76,9 @@ class LabeledWidget():
         self.default = kwargs['default']
         self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
         # self.label.SetDimensions(0,0,LABEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        parent_grid.addWidget(self.label, self.row, 0)
+        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
         self.add_widget(parent, **kwargs)
-        parent_grid.addWidget(self.widget, self.row, 1)
+        parent_grid.addWidget(self.widget, self.row, 1, QtCore.Qt.AlignTop)
         GridRow.row += 1
         # self.widget.SetDimensions(0,0,WIDGET_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
     def add_widget(self, parent, **kwargs):
