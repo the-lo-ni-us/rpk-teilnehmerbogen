@@ -83,6 +83,7 @@ class MainWindow(QtGui.QMainWindow):
                                                                  self.config.value(CONFIG_REMOTE_DB_PORT),
                                                                  self.config.value(CONFIG_REMOTE_DB_NAME)), pool_timeout=10)
         self.session = sqAl_sessionmaker(bind=engine)()
+        # print self.session.connection().info
 
     def wire(self):
         for w in self.widg_dict.values():
@@ -101,11 +102,11 @@ class MainWindow(QtGui.QMainWindow):
                 wi = QtGui.QListWidgetItem(p.name)
                 wi.setData(QtCore.Qt.UserRole, p.id)
                 self.participants_lv.addItem(wi)
-            # self.right_panel.Enable()
-        except sqAl.exc.OperationalError:
-            # self.right_panel.Disable()
+            self.rightInnerBox.setEnabled(True)
+        except (sqAl.exc.OperationalError, sqAl.exc.ProgrammingError) as e:
+            self.rightInnerBox.setEnabled(False)
             QtGui.QMessageBox.information(self,
-                "Fehler", "Datenbankserver nicht erreichbar")
+                "Fehler", "<p>Datenbankserver nicht erreichbar</p><p><small>%s</small></p>" % e)
 
     def new_participant(self, event):
         if not self.ask_save('Neuen Teilnehmer anlegen'):
@@ -210,6 +211,7 @@ class MainWindow(QtGui.QMainWindow):
         scrolled.setWidget(self.rightInnerBox)
         self.rightGrid.setColumnStretch(0, 15)
         self.rightGrid.setColumnStretch(1, 10)
+        self.rightInnerBox.setEnabled(False)
         # scrolled.adjustSize()
 
     def createMainPanel(self):
