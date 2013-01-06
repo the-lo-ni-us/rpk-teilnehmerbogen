@@ -41,8 +41,8 @@ packages = [
     "reportlab.pdfbase._fontdata_widths_zapfdingbats"
 ]
 setup(#data_files=data_files,
-      windows=[{'script': 'tabdialog.py', 
-                # 'icon_resources': [(1, 'icons/python.ico')]
+      windows=[{'script': 'teilnehmerbogen.py', 
+                'icon_resources': [(1, 'icons/python.ico')]
                 }],
       options={'py2exe': {'packages': packages}}
       )
