@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, datetime, sys, md5, wx
+import os, datetime, sys, md5
 import sqlalchemy as sqAl
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker, composite as sqAl_composite
