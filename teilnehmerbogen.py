@@ -69,8 +69,8 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMessageBox.information(self,
                 "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
                  <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a> und die Quellen 
-                 sind auf <a href='https://github.com/the-lo-ni-us/bagrpk-summenbogen'>github.com</a> jedermann zugänglich.</p>
-                 <p>&copy; 2012 Thelonius Kort</p>""")
+                 sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
+                 <p>&copy; 2012-2013 Thelonius Kort</p>""")
 
     def initialize_db(self):
         if self.use_sqlite:
