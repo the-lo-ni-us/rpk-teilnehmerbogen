@@ -9,7 +9,13 @@ RequestExecutionLevel user
 
 !include LogicLib.nsh
 
-OutFile teil-inst.exe
+!searchparse /file ARCH `` ARCH ``
+!if ${ARCH} == "AMD64"
+  OutFile teilnehmerbogen_x64.exe
+!else
+  OutFile teilnehmerbogen_x86.exe
+!endif
+
 SetCompressor /SOLID lzma
 
 InstallDir "$LOCALAPPDATA\$app_name\" ; doesn't set $INSTDIR correctly
