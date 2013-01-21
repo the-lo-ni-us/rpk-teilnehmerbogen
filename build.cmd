@@ -1,5 +1,7 @@
 del /S /Q build > NUL
 del /S /Q dist > NUL
+
+@echo %PROCESSOR_ARCHITECTURE% > ARCH
 create_dbase.py
-python setup.py py2exe
+setup.py py2exe
 @PAUSE

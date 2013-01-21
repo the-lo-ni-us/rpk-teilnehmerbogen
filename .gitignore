@@ -13,3 +13,4 @@ old_dbs
 .\#*
 build
 dist
+ARCH
