@@ -88,7 +88,7 @@ class MainWindow(QtGui.QMainWindow):
     def wire(self):
         for w in self.widg_dict.values():
             w.connect_dirty(self.set_dirty)
-        self.newButton.clicked.connect(self._reset)
+        self.newButton.clicked.connect(self.new_participant)
         self.saveButton.clicked.connect(self.save_participant)
         self.deleteButton.clicked.connect(self.delete_participant)
         QtGui.QShortcut(QtGui.QKeySequence(self.tr("Ctrl+S")), self, member=self.save_participant)
@@ -109,7 +109,7 @@ class MainWindow(QtGui.QMainWindow):
                 "Fehler", "<p>Datenbankserver nicht erreichbar</p><p><small>%s</small></p>" % e)
 
     def new_participant(self, event):
-        if not self.ask_save('Neuen Teilnehmer anlegen'):
+        if not self.askSave('Neuen Teilnehmer anlegen'):
             return
         self._reset()
 
