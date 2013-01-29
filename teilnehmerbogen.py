@@ -1,16 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# On Mon, Sep 6, 2010 at 10:15 PM, Hans-Peter Jansen <hpj at urpla.net> wrote:
-# 
-# > Start browsing the Qt documentation. Yes, it's a bit arkward to ignore the
-# > C++ decoration, but after getting used to, you start to enjoy to be able to
-# > ignore all the C++ related complexities and regret all those poor C++
-# > hackers: hack, compile, link, crash, hack, compile, link, just for entering
-# > the event loop two or three hundred microseconds earlier then us (on an
-# > average system) when they finally fixed their self created headaches.
-
-# This is only needed for Python v2 but is harmless for Python v3.
 import sip
 sip.setapi('QVariant', 2)
 
