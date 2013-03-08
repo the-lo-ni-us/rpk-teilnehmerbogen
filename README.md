@@ -1,10 +1,11 @@
 rpk-teilnehmerbogen
 ===================
-Für die Erfassung der Daten zur jährlichen Meldung wie in http://www.bagrpk.de/fileadmin/webseite/Downloads/Formulare/Summenb%F6gen%20BAG-RPK%202011.xls
+Für die Erfassung der Daten zur jährlichen Meldung wie in [Summenbögen BAG-RPK 2011.xls](http://www.bagrpk.de/fileadmin/webseite/Downloads/Formulare/Summenb%F6gen%20BAG-RPK%202011.xls)
 
 Status: Erst in Teilen funktionstüchtig. Struktur der Daten bis auf weiteres ungeklärt.
 
 Voraussetzungen:
+
 * Python 2.7
 * PyQt4 4.9
 * sqlalchemy 0.7.9
