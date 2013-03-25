@@ -45,4 +45,5 @@ setup(#data_files=data_files,
                 'icon_resources': [(1, 'icons/python.ico')]
                 }],
       options={'py2exe': {'packages': packages}}
+      # options={'py2exe': {'packages': packages, 'bundle_files': 1}}
       )
