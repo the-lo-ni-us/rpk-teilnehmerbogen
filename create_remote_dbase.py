@@ -15,12 +15,15 @@ config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
 
 metadata = MetaData()
 
-engine = create_engine('%s://%s:%s@%s:%s/%s' % (config.value(CONFIG_REMOTE_DB_SCHEME),
-                                                config.value(CONFIG_REMOTE_DB_USER),
-                                                config.value(CONFIG_REMOTE_DB_PASSWORD),
-                                                config.value(CONFIG_REMOTE_DB_HOST),
-                                                config.value(CONFIG_REMOTE_DB_PORT),
-                                                config.value(CONFIG_REMOTE_DB_NAME)), pool_timeout=10)
+server_url = '%s://%s:%s@%s:%s/%s' % (config.value(CONFIG_REMOTE_DB_SCHEME),
+                                      config.value(CONFIG_REMOTE_DB_USER),
+                                      config.value(CONFIG_REMOTE_DB_PASSWORD),
+                                      config.value(CONFIG_REMOTE_DB_HOST),
+                                      config.value(CONFIG_REMOTE_DB_PORT),
+                                      config.value(CONFIG_REMOTE_DB_NAME))
+print server_url
+
+engine = create_engine(server_url, pool_timeout=10)
 metadata.bind = engine
 
 mytable = Table(TABLE_NAME, metadata,
