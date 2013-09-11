@@ -5,6 +5,7 @@
 *.exe
 *.pdf
 *.csv
+.directory
 old_dbs
 *_rc.py
 *_ui.py

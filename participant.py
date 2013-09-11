@@ -12,7 +12,7 @@ from structure import structure as STRUCTURE
 
 def generate_class(name): # Don't know if we really need name
 
-    Base = declarative_base()
+    Base = declarative_base(sqAl.MetaData())
 
     mf_specs = { # specifics of the multi-column fields 
         'multi_bool': {
