@@ -22,11 +22,11 @@ from settings import *
 
 class PdfWriter():
 
-  def __init__(self, filename='test.pdf', year=None):
-    if not(year):
-      year = {'': u'Teilnahme noch nicht beendet', None: u'alle (inkl. nicht beendete)'}[year]
-    self.year = year
+  def __init__(self, filename='test.pdf', prevent_exceptions=False):
 
+    self.prv_excps = prevent_exceptions
+    self.datum = strftime("%d.%m.%Y")
+  
     pageFrame = Frame(  12*mm, 10*mm, 18.6*cm, 26.5*cm, showBoundary=0 )
 
     pageT = PageTemplate(	id = 'seite',
@@ -43,7 +43,7 @@ class PdfWriter():
                                 topMargin = cm,
                                 bottomMargin = cm,
                                 allowSplitting = 1,
-                                title = PDF_TITLE % self.year,
+                                title = DOC_TITLE % self.datum,
                                 author = "schweesni",
                                 subject = "Subjekt",
                                 creator = "https://github.com/the-lo-ni-us/bagrpk-summenbogen",
@@ -55,66 +55,87 @@ class PdfWriter():
     #                               canPrint=1, canModify=1, canCopy=1, canAnnotate=1,	
     #                               strength=40) 
 
-    datum = strftime("%d.%m.%Y")
-  
     self.story = []
 
   def write_pdf(self):
 
     fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB}
 
-    self.story.append( Paragraph( PDF_TITLE % self.year, styleH ))
+    self.story.append( Paragraph( DOC_TITLE % self.datum, styleH ))
 
-    col_cap = Table( [['','Medizinisch','','Teilnahme',''],
-                      ['','planm.','vorz.','planm.','vorz.']], spaltenInner, None, styleInnerHeading, 0, 0 )
+    col_cap = Table( [['','','','gesp. Wert','']], spaltenInner, None, styleInnerHeading, 0, 0 )
 
     self.story.append( Table( [ [ '', col_cap ] ], spaltenBreiten, None, styleOuter, 0, 0 ) )
 
-    for field in STRUCTURE.tab_items:
+    for field in STRUCTURE.doc_items:
   
-      if field.has_key('fieldname'):
-        fn = field['fieldname']
+      fn = field.get('fieldname')
 
       if field['typ'] == 'heading':
         self.story.append( Paragraph( field['title'], styleH ))
+        to_append = None
+      elif field['typ'] == 'pagebreak':
+        self.story.append( PageBreak())
+        to_append = None
       elif field['typ'] == 'int':
-        r_fields = ['%0.1f' % n for n in range(4)]
-        self.story.append( Table( [ [ Paragraph( field['title'], styleN ), '', ] + r_fields ], spaltenAllInSix, None, styleAllInSix, 0, 0 ) )
+        to_append = Table( [ [ Paragraph( field['title'], styleN ), 'integer'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] == 'str':
-        self.story.append( Table( [ [Paragraph(field['title'], styleN), 'nix'] ], spaltenBreiten, None, styleOuter, 0, 0 ) )
+        to_append = Table( [ [Paragraph(field['title'], styleN), 'string'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] in ['multi_int','multi_bool']:
         t = Paragraph( field['title'], styleN )
         table = []
         for n, item in enumerate(field['allowance']):
-          table.append( [ '', item ] + [ fmts[field['typ']] % (fn,n)  for m in range(4) ] )
+          table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_int': 'integer','multi_bool': 'bool'}[field['typ']] ] )
           # table.append( [ '', item ] + [ data[fmts[field['typ']] % (fn,n)][m] for m in range(4) ] )
         table[0][0] = t
-        self.story.append( KeepTogether(Table( table, spaltenAllInSix, None, styleAllInSix, splitByRow=1 ) ))
+        to_append = KeepTogether(Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 ) )
       elif field['typ'] == 'dropdown': 
         t = Paragraph( field['title'], styleN )
-        table = [ [ '', item, n , n , n , n ] for n, item in enumerate(field['allowance']) ]
+        table = [ [ '', Paragraph(item + (n==field['default'] and ' *' or ''), styleMult), n  ] for n, item in enumerate(field['allowance']) ]
         table[0][0] = t
         # print repr(table)
-        self.story.append( KeepTogether(Table( table, spaltenAllInSix, None, styleAllInSix, splitByRow=1 ) ))
+        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ) )
+      elif field['typ'] == 'enum': 
+        t = Paragraph( field['title'], styleN )
+        table = [ [ '', Paragraph(item + (n==field['default'] and ' *' or ''), styleMult), n  ] for n, item in field['allowance'] ]
+        table[0][0] = t
+        # print repr(table)
+        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
+      else:
+        to_append = None
+        print('nicht berücksichtigter Typ %s' % field['typ'])
 
-    self.story.append( Spacer(1,0.3*cm) )
+      if to_append:
+        self.story.append( to_append )
+        t = [ [ '"Typ": %s' % field['typ'], fn, '' ], 
+              ['Datentyp: %s' % type(field['default']), field.get('longname')], 
+              ['Vorgabe: %s' % str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig' or ''] ]
+        # t = [ [ '', fn, '' ], [type(field['default']), field.get('longname')], [str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig'] ]
+        if 'remark' in field:
+          t[0][2] = Paragraph(field['remark'])
+        self.story.append( Table(t, commonWidths, None, styleCommon, splitByRow=1) )
+        self.story.append( Spacer(1,0.3*cm) )
+
+    self.story.append( Spacer(1,0.4*cm) )
  
-    # self.doc.build(self.story)
-    try:
+    if self.prv_excps:
+      try:
+        self.doc.build(self.story)
+        r_val = True
+      except:
+        r_val = False
+        return r_val
+    else:
       self.doc.build(self.story)
-      r_val = True
-    except:
-      r_val = False
-    return r_val
 
   def headRoutine (self, c, doc):
     if c.getPageNumber() == 1:
       return
     c.saveState()
     c.setFont( 'Helvetica', 10 )
-    c.drawString( 1.5*cm, 28*cm, PDF_TITLE  % self.year)
+    c.drawString( 1.5*cm, 28*cm, DOC_TITLE  % self.datum)
     c.drawString( 18.4*cm, 28*cm, "Seite %d" % c.getPageNumber() )
     c.restoreState()
   
 if __name__ == '__main__':
-  print PdfWriter(year=u'2012').write_pdf()
+  print PdfWriter().write_pdf()

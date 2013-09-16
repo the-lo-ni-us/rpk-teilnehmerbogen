@@ -10,6 +10,7 @@ class FieldnameList(list):
         self.index = {i['fieldname']: i for i in self if 'fieldname' in i}
         self.tab_items = [i for i in self if 'tabulation' in i['appears']]
         self.cap_items = [i for i in self if 'capture' in i['appears']] 
+        self.doc_items = [i for i in self if 'documentation' in i['appears']] 
         self.db_items = [i for i in self.cap_items if i['typ'] != 'heading']
         self.all_items = [i for i in self if 'capture' in i['appears'] and 'tabulation' in i['appears']]
         for d in self:

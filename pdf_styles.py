@@ -7,23 +7,37 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.lib.colors import Color, white, black, green
 from reportlab.lib.units import cm, mm
 
-styleN = ParagraphStyle(name='Normal',
-            fontName = 'Helvetica',
-            fontSize = 11,
-            leading = 12,
-            leftIndent = 0,
-            rightIndent = 0,
-            firstLineIndent = 0,
-            alignment = TA_LEFT,
-            spaceBefore = 0,
-            spaceAfter = 0,
-            bulletFontName = 'Helvetica',
-            bulletFontSize = 10,
-            bulletIndent = 0,
-            textColor =  black,
-            backColor = None )
+hanging = 18
+fmt_std= {'name': 'Normal',
+          'fontName': 'Helvetica',
+          'fontSize': 9,
+          'leading': 11,
+          'leftIndent': hanging,
+          'rightIndent': 0,
+          'firstLineIndent': -hanging,
+          'alignment': TA_LEFT,
+          'spaceBefore': 0,
+          'spaceAfter': 0,
+          'bulletFontName': 'Helvetica',
+          'bulletFontSize': 10,
+          'bulletIndent': 0,
+          'textColor': black,
+          'backColor': None}
 
-styleH = ParagraphStyle(name='Normal',
+styleN = ParagraphStyle(**fmt_std)
+
+fmt_mult = fmt_std.copy()
+hanging2 = 18
+fmt_mult.update(fontSize = 9,
+                leading = 11,
+                spaceBefore = 2,
+                spaceAfter = 2,
+                leftIndent = hanging2,
+                firstLineIndent = -hanging2)
+
+styleMult = ParagraphStyle(**fmt_mult)
+
+styleH = ParagraphStyle(name='Normal-Heading',
             fontName = 'Helvetica-Bold',
             fontSize = 13,
             leading = 14,
@@ -38,7 +52,7 @@ styleH = ParagraphStyle(name='Normal',
 
 spaltenBreiten = [ 8*cm, 10.4*cm ]
 
-spaltenInner = [ 6*cm, 1*cm, 1*cm, 1*cm, 1*cm ]
+spaltenInner = [ 6*cm, 1*cm, 1*cm, 0.6*cm, 1*cm ]
 
 styleInnerHeading = [  ('SPAN',         (1,0), (2,0)), 
                        ('SPAN',         (3,0), (4,0)),
@@ -82,4 +96,98 @@ styleAllInSix = [  ('SPAN',          (0,0), (0,-1)),
                    ('RIGHTPADDING',  (0,0), (-1,-1), 6),
                    ('TOPPADDING',    (0,0), (-1,-1), 0),
                    ('BOTTOMPADDING', (0,0), (-1,-1), 0) ]
+
+spaltenAllInFour = [ 6*cm, 2.4*cm, 8*cm, 1.6*cm ]
+
+styleAllInFour = [  ('SPAN',          (0,0), (0,-1)), 
+                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                    ('ALIGN',         (1,0), (3,-1), 'CENTER'),
+                    ('VALIGN',        (1,0), (3,-1), 'MIDDLE'),
+                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                    # ('BACKGROUND',    (2,0), (3,-1),  Color(0,0.4,0.4)),
+                    # ('TEXTCOLOR',     (2,0), (3,-1),  white),
+                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                    ('TOPPADDING',    (0,0), (-1,-1), 0),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
+                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+
+styleAllInFour2 = [ ('SPAN',          (0,0), (0,-1)), 
+                    ('SPAN',          (1,0), (1,-1)), 
+                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                    ('ALIGN',         (1,0), (3,-1), 'CENTER'),
+                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                    ('VALIGN',        (1,0), (3,-1), 'MIDDLE'),
+                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                    ('TOPPADDING',    (0,0), (-1,-1), 0),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
+                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+
+spaltenAllInTwo = [ 16.4*cm, 1.6*cm ]
+
+styleAllInTwo = [ ('ALIGN',         (0,0), (0,-1), 'LEFT'), 
+                    ('VALIGN',        (0,0), (0,-1), 'TOP'),
+                    ('ALIGN',         (1,0), (1,-1), 'CENTER'),
+                    ('VALIGN',        (1,0), (1,-1), 'MIDDLE'),
+                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                    ('TOPPADDING',    (0,0), (-1,-1), 0),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
+                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+
+spaltenAllInThree = [ 8.4*cm, 8*cm, 1.6*cm ]
+
+styleAllInThree = [ ('SPAN',          (0,0), (0,-1)), 
+                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                    ('ALIGN',         (1,0), (2,-1), 'CENTER'),
+                    ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
+                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                    ('TOPPADDING',    (0,0), (-1,-1), 0),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
+                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+
+commonWidths = [ 4.2*cm, 4.2*cm, 9.6*cm ]
+
+styleCommon = [ ('SPAN',          (2,0), (2,-1)), 
+                ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+                ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                ('ALIGN',         (1,0), (2,-1), 'CENTER'),
+                ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
+                ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                ('TOPPADDING',    (0,0), (-1,-1), 0),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
+                ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
 

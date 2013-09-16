@@ -12,7 +12,7 @@ structure = FieldnameList([
     'typ': 'str',
     'default': '',
     'disabled': False,
-    'appears': ('capture',)
+    'appears': ('capture', 'documentation')
   },
   {
     'title': u"geboren",
@@ -40,7 +40,7 @@ structure = FieldnameList([
       u"Teilhabe-vorzeitig",
       u""
     ],
-    'appears': ('capture',)
+    'appears': ('capture', 'documentation')
   }, 
   {
     'title': u"Teilnahme abgeschlossen",
@@ -55,7 +55,7 @@ structure = FieldnameList([
     ],
     'typ': 'enum',
     'default': '',
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"Teilnahme abgeschlossen",
@@ -63,21 +63,21 @@ structure = FieldnameList([
     'default': None,
     'typ': 'date',
     'disabled': True,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"2 - Gesamtverweildauer in der RPK-Maßnahme: (Kalendertage medizinische, ggf. plus berufliche Reha)",
     'fieldname': u"f2",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"2a - davon Kalendertage vorausgegangene medizinische Reha",
     'fieldname': u"f2a",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"3 - Anzahl der in diesem Summenbogen erfassten Rehabilitanden",
@@ -91,7 +91,7 @@ structure = FieldnameList([
     'fieldname': u"f4",
     'typ': 'heading',
     'allowance': None,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"5 - Geschlecht ",
@@ -103,14 +103,14 @@ structure = FieldnameList([
       u"01 - männlich",
       u"02 - weiblich"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"6 - Alter bei Aufnahme (in Jahren)",
     'fieldname': u"f6",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"7 - Familienstand",
@@ -125,7 +125,7 @@ structure = FieldnameList([
       u"04 - geschieden",
       u"05 - verwitwet"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"8 - Lebensverhältnisse (in den letzten 4 Wochen vor der Aufnahme)",
@@ -142,7 +142,7 @@ structure = FieldnameList([
       u"06 - Leben innerhalb einer Einrichtung",
       u"07 - alleinerziehend"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"9 - Zahl der Kinder",
@@ -156,7 +156,7 @@ structure = FieldnameList([
       u"03 - zwei Kinder",
       u"04 - drei Kinder und mehr"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"10 - Wohnsituation (z.B.: Betreutes Einzelwohnen = 01) ",
@@ -172,7 +172,7 @@ structure = FieldnameList([
       u"05 - Leben in einer Einrichtung",
       u"06 - ohne festen Wohnsitz"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"11 - Überwiegender Lebensunterhalt (in den letzten 4 Wochen    vor der Aufnahme)",
@@ -192,7 +192,7 @@ structure = FieldnameList([
       u"09 - BU/EU/Unfall-/Erwerbsminderungsrente",
       u"10 - sonstiges Einkommen / Vermögen"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"12 - Höchster Schulabschluss",
@@ -208,7 +208,7 @@ structure = FieldnameList([
       u"05 - (Fach-) Abitur",
       u"06 - noch Schüler"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"13 - Höchster beruflicher Abschluss (z.B. noch Schüler=1)",
@@ -224,7 +224,7 @@ structure = FieldnameList([
       u"05 - zurzeit noch Student",
       u"06 - zurzeit noch in beruflicher Ausbildung"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"15 - Dauer der letzten sozialversicherungspflichtigen beruflichen Tätigkeit",
@@ -242,14 +242,14 @@ structure = FieldnameList([
       u"07 - noch nie berufstätig gewesen",
       u"08 - noch Schüler/Student/Auszubildender"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"15.1 - Gesamtdauer aller sozialversicherungspflichtigen beruflichen Tätigkeiten (in Jahren): (auch Ausbildungszeiten; Versicherungsverlauf eventuell beim Rentenvers. klären)", 
     'fieldname': u"f15_1",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"16 - Zeitraum zwischen letzter beruflicher Tätigkeit und    Aufnahme  ",
@@ -267,7 +267,7 @@ structure = FieldnameList([
       u"07 - noch nie gearbeitet",
       u"08 - noch Schüler/Student/Auszubildender"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"17 - Erwerbs- und Ausbildungssituation   (Status zum Zeitpunkt der   Aufnahme) ",
@@ -294,7 +294,7 @@ structure = FieldnameList([
       u"17 - Teilhabebeeinträchtigung und ohne Beschäftigung",
       u"18 - Hausfrau/Hausmann"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"19 - Rente / Rentenantrag",
@@ -309,7 +309,7 @@ structure = FieldnameList([
       u"04 - Rentenantrag gestellt / Teilerwerbsminderungsrente",
       u"05 - Rentenbezug Teilerwerbsminderungsrente"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"20 - Schwerbehindertenausweis",
@@ -322,7 +322,7 @@ structure = FieldnameList([
       u"02 - beantragt",
       u"03 - nein"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"21 - Gesetzliche Betreuung",
@@ -335,7 +335,7 @@ structure = FieldnameList([
       u"02 - beantragt",
       u"03 - nein"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"22 - Entfernung vom Wohnort zur RPK (zu Beginn der Reha-Maßnahme,      laut Routenplaner)           ",
@@ -349,13 +349,18 @@ structure = FieldnameList([
       u"03 - bis 100 km Umkreis",
       u"04 - über 100 km Umkreis"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
+  {
+    'typ': 'pagebreak',
+    'allowance': None,
+    'appears': ('documentation')
+  },                                                       
   {
     'title': u"Krankheitsmerkmale der Rehabilitanden",
     'typ': 'heading',
     'allowance': None,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"23.1 - 1. Diagnose (nach ICD 10 GM)",
@@ -376,7 +381,7 @@ structure = FieldnameList([
       u"F90",
       u"F99"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"23.2 - 2. Diagnose",
@@ -397,28 +402,28 @@ structure = FieldnameList([
       u"F90",
       u"F99"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"24 - Alter beim ersten professionellen Kontakt (in Jahren):",
     'fieldname': u"f24",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"25 - Alter bei der ersten Klinikaufnahme (in Jahren):",
     'fieldname': u"f25",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"26 - Anzahl der psychiatrischen Klinikaufenthalte:",
     'fieldname': u"f26",
     'typ': 'int',
     'default': -1,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"27 - Dauer der Klinikaufenthalte insgesamt (Stationär / Teilstationär)      ",
@@ -435,7 +440,7 @@ structure = FieldnameList([
       u"06 - bis zu 5 Jahren",
       u"07 - länger als 5 Jahre"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"28 - Zeitraum zwischen letzter Klinikentlassung und RPK-Aufnahme ",
@@ -453,7 +458,7 @@ structure = FieldnameList([
       u"07 - länger als 3 Jahre",
       u"08 - vorher nicht stationär/teilstationär behandelt"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"29 - Behandlung/Betreuung vor der Aufnahme (Mehrfachnennungen möglich) (in den letzten 4 Wochen vor der Aufnahme)",
@@ -475,13 +480,19 @@ structure = FieldnameList([
       u"12 - keine",
       u"13 - Sonstiges"
     ],
-    'appears': ('capture', 'tabulation')
+    'default': False,
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
+  # {
+  #   'typ': 'pagebreak',
+  #   'allowance': None,
+  #   'appears': ('documentation')
+  # },                                                       
   {
     'title': u"Rehabilitationsverlauf und Behandlungsergebnis",
     'typ': 'heading',
     'allowance': None,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },                                                       
   {
     'title': u"30 - Durch wen wurde vorrangig der Kontakt zur RPK vermittelt?  ",
@@ -504,7 +515,7 @@ structure = FieldnameList([
       u"12 - Psychiatrische Institutsambulanz",
       u"13 - Tagesstrukturierende Maßnahmen"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"31 - Leistungsträger der medizinischen Reha-Phase   (Abgerechnete Tage auf der Basis einer 7 Tage Woche,  ohne Unterbrechungen)",
@@ -525,7 +536,8 @@ structure = FieldnameList([
       u"12 - Jugendhilfe",
       u"13 - Sonstiges"
     ],
-    'appears': ('capture', 'tabulation')
+    'default': 0,
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"32 - Leistungsträger der beruflichen Reha-Phase  (Abgerechnete Tage auf der Basis einer 7 Tage Woche,  ohne Unterbrechungen)",
@@ -541,7 +553,8 @@ structure = FieldnameList([
       u"08 - Privatversicherung, Beihilfe, Selbstzahler", 
       u"11 - Sonstiges"
     ],
-    'appears': ('capture', 'tabulation')
+    'default': 0,
+    'appears': ('capture', 'tabulation', 'documentation')
   },      
   {
     'title': u"32.1 - Art der beruflichen Reha-Maßnahme ",
@@ -554,7 +567,7 @@ structure = FieldnameList([
       u"04 - berufliche Reha extern / WfbM",
       u"05 - berufliche Reha extern / Sonstiges"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"33 - Durchführung der Reha-Maßnahme  ",
@@ -568,7 +581,7 @@ structure = FieldnameList([
       u"03 - Wechsel: stationär nach ganztägig Ambulant",
       u"04 - Wechsel: ganztägig ambulant nach stationär"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"34 - Beendigung der RPK- Maßnahme gemäß fortgeschriebenen Reha-Plan    (Nicht gemäß Kostenzusage!)  ",
@@ -579,7 +592,7 @@ structure = FieldnameList([
       u"00 - keine Angabe / nicht bekannt",
       u"01 - planmäßig gemäß Reha-Plan beendet"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"35 - Erreichtes Reha-Ziel gemäß Reha-Plan   (qualitative Einschätzung am Ende  der Maßnahme im Abgleich zum fortgeschriebenen Reha-Plan)   ",
@@ -592,7 +605,7 @@ structure = FieldnameList([
       u"02 - Reha-Ziel bedingt erreicht",
       u"03 - Reha-Ziel nicht erreicht"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"36 - Schwerbehindertenausweis (zum Zeitpunkt der Entlassung) ",
@@ -605,7 +618,7 @@ structure = FieldnameList([
       u"02 - beantragt",
       u"03 - nein"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"37 - Rente / Rentenantrag (zum Zeitpunkt der Entlassung) ",
@@ -623,7 +636,7 @@ structure = FieldnameList([
       u"04 - Rentenantrag gest./Empf. Teilerwerbsminderungsrente",
       u"05 - Rentenbezug Teilerwerbsminderungsrente"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"38 - Gesetzliche Betreuung (zum Zeitpunkt der Entlassung) ",
@@ -636,7 +649,7 @@ structure = FieldnameList([
       u"02 - beantragt",
       u"03 - nein"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"39 - Entfernung vom Wohnort zur RPK (zum Zeitpunkt der Entlassung) (laut Routenplaner) ",
@@ -650,13 +663,18 @@ structure = FieldnameList([
       u"03 - bis 100 km Umkreis",
       u"04 - über 100 km Umkreis"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
+  {
+    'typ': 'pagebreak',
+    'allowance': None,
+    'appears': ('documentation')
+  },                                                       
   {
     'title': u"Einschätzung /Empfehlung nach Beendigung der RPK-Maßnahme",
     'typ': 'heading',
     'allowance': None,
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"40 - Behandlung/Betreuung nach der RPK-Maßnahme   (Mehrfachnennungen möglich)  ",
@@ -678,7 +696,8 @@ structure = FieldnameList([
       u"12 - keine",
       u"13 - Sonstiges"
     ],
-    'appears': ('capture', 'tabulation')
+    'default': False,
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"41 - Erwerbs- und Ausbildungssituation   (Situation nach Beendigung  der RPK-Maßnahme)      ",
@@ -705,7 +724,7 @@ structure = FieldnameList([
       u"17 - Erwerbsgemindert und ohne Beschäftigung",
       u"18 - Hausfrau/Hausmann"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"41.1 - Erwerbsfähigkeit nach Rentenrecht   (Situation nach Beendigung der RPK-Maßnahme)     ",
@@ -719,7 +738,7 @@ structure = FieldnameList([
       u"03 - vollschichtig",
       u"04 - vollschichtig 2. Arbeitsmarkt (z.B. WfbM)"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"43 - Lebensverhältnisse (Einschätzung nach Beendigung der RPK-Maßnahme) ",
@@ -736,7 +755,7 @@ structure = FieldnameList([
       u"06 - Leben innerhalb einer Einrichtung",
       u"07 - alleinerziehend"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"44 - Wohnsituation (Einschätzung nach Beendigung   der RPK-Maßnahme) ",
@@ -752,7 +771,7 @@ structure = FieldnameList([
       u"05 - Leben in einer Einrichtung",
       u"06 - ohne festen Wohnsitz"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   }, 
   {
     'title': u"45 - Überwiegender Lebensunterhalt (Einschätzung nach Beendigung der RPK-Maßnahme) ",
@@ -772,7 +791,7 @@ structure = FieldnameList([
       u"09 - BU/EU/Unfall/Erwerbsminderungsrente",
       u"10 - sonstiges Einkommen / Vermögen"
     ],
-    'appears': ('capture', 'tabulation')
+    'appears': ('capture', 'tabulation', 'documentation')
   },
   {
     'title': u"Datum und Name für die Endkontrolle:",

@@ -30,3 +30,4 @@ DB_FMT_MB = '%s_mb_%d'
 
 
 PDF_TITLE = u"BAG der RPKs Summenbogen - Auswertung für %s"
+DOC_TITLE = u"Technische Dokumentation RPK Teilnehmerbogen (Stand %s)"
