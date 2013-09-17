@@ -351,11 +351,11 @@ structure = FieldnameList([
     ],
     'appears': ('capture', 'tabulation', 'documentation')
   },
-  {
-    'typ': 'pagebreak',
-    'allowance': None,
-    'appears': ('documentation')
-  },                                                       
+  # {
+  #   'typ': 'pagebreak',
+  #   'allowance': None,
+  #   'appears': ('documentation')
+  # },                                                       
   {
     'title': u"Krankheitsmerkmale der Rehabilitanden",
     'typ': 'heading',
@@ -665,11 +665,11 @@ structure = FieldnameList([
     ],
     'appears': ('capture', 'tabulation', 'documentation')
   },
-  {
-    'typ': 'pagebreak',
-    'allowance': None,
-    'appears': ('documentation')
-  },                                                       
+  # {
+  #   'typ': 'pagebreak',
+  #   'allowance': None,
+  #   'appears': ('documentation')
+  # },                                                       
   {
     'title': u"Einschätzung /Empfehlung nach Beendigung der RPK-Maßnahme",
     'typ': 'heading',
@@ -800,6 +800,49 @@ structure = FieldnameList([
     'typ': 'str',
     'default': '',
     'appears': ('tabulation',)
+  },
+  # {
+  #   'typ': 'pagebreak',
+  #   'allowance': None,
+  #   'appears': ('documentation')
+  # },                                                       
+  {
+    'title': u"Einleitung",
+    'content': """
+    Diese Dokumentation ist  - für sich genommen - ziemlich sinnnlos. Sie bezieht sich auf eine Beipielanwendung, die (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden kann: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a> 
+    """,
+    'typ': 'doc_paragraph',
+    'default': '',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"Erklärung der Angaben in der Dokumentation",
+    'content': """
+    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAGRPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache Zahlen (Integer, int...). Als Vorgabewert für die numerischen <i>Felder</i> wird hier -1 verwendet, der in Auswertungen einheitlich als "nicht erfasst" interpretiert werden kann. 
+    """,
+    'typ': 'doc_paragraph',
+    'default': '',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"Über Typen",
+    'content': """
+    Die <i>Auswahl-Felder</i> haben hier (bis auf eine Ausnahme) den "Typ" <font face="courier">dropdown</font>. Das steht vereinfacht gesagt, für die oben erwähnte Zuordnung von Ausprägung zu numerischen Werten ("keine Angabe" = 0, "männlich" = 1, usw...). Dieser "Typ" liesse sich in einzelnen oder allen Fällen durch den "Typ" <font face="courier">enum</font> ersetzen (siehe bspw. Feld <a color="blue" href="#jahr">jahr</a>). Bei diesem "Typ" wird für jede Ausprägung ein festgelegtes Kürzel gespeichert. So könnte man z.B. "keine Angabe" = "", "männlich" = "m", "weiblich" = "w" zuordnen. Das könnte in vielen Fällen leichter auszuwerten sein, bedürfte aber natürlich einer Festlegung.
+    """,
+    'typ': 'doc_paragraph',
+    'default': '',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"Über Typen",
+    'content': """
+    Dieses Dokument ist abgeleitet von einer Strukturdefinition wie hier zu finden:
+     <a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen/blob/develop/structure.py" color="blue">Github</a>.
+    Von dieser einen Datei wird auch die Anwendungsoberfläche und die von dieser gespeiste Datenbanktabelle abgeleitet. Das liesse sich leicht erweitern, z.B. um Erklärungen zur Erfassung der einzelnen Angaben, die dann als Pdf-Dokumentation für die Anwender ausgegeben werden könnten, oder als beim Überfahren mit der Maus in der Anwendung engeblendete Erläuterungen...
+    """,
+    'typ': 'doc_paragraph',
+    'default': '',
+    'appears': ('documentation',)
   }
 ])
 
