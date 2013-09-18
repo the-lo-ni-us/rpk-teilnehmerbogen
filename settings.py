@@ -23,7 +23,7 @@ CONFIG_ZIP_NAME = 'ZipCode'
 CONFIG_LAST_SAVE_DIR = 'LastSaveDir'
 CONFIG_LAST_TAB_YEAR = 'LastTabYear'
 
-DB_NAME = 'data.db'
+DB_NAME = 'data.sqlite'
 TABLE_NAME = 'participants'
 DB_FMT_MI = '%s_mi_%d'
 DB_FMT_MB = '%s_mb_%d'

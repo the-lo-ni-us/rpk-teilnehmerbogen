@@ -34,14 +34,14 @@ Section
   ReadRegStr $1 HKCU "Software\$app_name" "DbStructureFingerprint"
   ${Unless} $0 == $1
     SetOutPath $data_dir_path
-    ${If} ${FileExists} "$data_dir_path\data.db"
+    ${If} ${FileExists} "$data_dir_path\data.sqlite"
       MessageBox MB_YESNO "Die vorhandene Datenbank passt nicht zu dieser Programmversion. \
           Vorhandene Datenbank ersetzen? (Alle Daten gehen verloren - betrifft nur die lokale SQLite-Datenbank.)" IDYES NottaAborta
         Abort
       NottaAborta:
     ${EndIf}
     WriteRegStr HKCU "Software\$app_reg_path" "DbStructureFingerprint" $0
-    File data.db
+    File data.sqlite
   ${Else}
     DetailPrint "Die vorhandene Datenbank wird beibehalten"
   ${EndUnless}
@@ -51,7 +51,7 @@ Section
   CreateShortCut "$STARTMENU\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
   CreateShortCut "$DESKTOP\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
 
-  WriteRegStr HKCU "Software\$app_reg_path" "DatabaseFilePath" "$data_dir_path\data.db"
+  WriteRegStr HKCU "Software\$app_reg_path" "DatabaseFilePath" "$data_dir_path\data.sqlite"
   WriteRegStr HKCU "Software\$app_reg_path" "UseSQLiteDB" "True"
   WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBKind" "postgresql"
   WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBHost" "localhost"
