@@ -5,16 +5,14 @@ from glob import glob
 DLL_PATH = r'%s\\MS_DLLs' % os.environ['USERPROFILE']
 PYTHON_PATH = 'C:\\Programme\\Python27\\Lib\\site-packages'
 sys.path.append(DLL_PATH)
-data_files = [("icons", glob(r'icons\\*.png')+[('icons\\python.ico')]),
-              ("xls", glob(r'xls\\*.xls')),
-              # ('', [('versions.ini')]),
-              ("Microsoft.VC90.CRT", glob(r'%s\\*.*'%DLL_PATH))]
+data_files = [('imageformats', [r'C:\Programme\Python27\Lib\site-packages\PyQt4\plugins\imageformats\qico4.dll'])]
+
 packages = [
     "sqlalchemy.dialects.sqlite",
     "sqlalchemy.dialects.postgresql",
     "psycopg2",
     "sip",
-    # "PyQt4._qt",
+    # "PyQt4.plugins.imageformats.qico4",
     "reportlab.pdfbase._can_cmap_data",
     "reportlab.pdfbase._cidfontdata",
     "reportlab.pdfbase._fontdata",
@@ -40,7 +38,7 @@ packages = [
     "reportlab.pdfbase._fontdata_widths_timesroman",
     "reportlab.pdfbase._fontdata_widths_zapfdingbats"
 ]
-setup(#data_files=data_files,
+setup(data_files=data_files,
       windows=[{'script': 'teilnehmerbogen.py', 
                 'icon_resources': [(1, 'icons/python.ico')]
                 }],

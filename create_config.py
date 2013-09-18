@@ -11,10 +11,10 @@ from settings import *
 config =  QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
 
 if os.name == 'nt':
-    config.setValue(CONFIG_DB_PATH_NAME, '%s\\%s\\data.db' % (os.environ['APPDATA'], CONFIG_MAIN_NAME))
+    config.setValue(CONFIG_DB_PATH_NAME, '%s\\%s\\data.sqlite' % (os.environ['APPDATA'], CONFIG_MAIN_NAME))
     config.setValue(CONFIG_LAST_SAVE_DIR, os.environ['USERPROFILE'])
 elif os.name == 'posix':
-    config.setValue(CONFIG_DB_PATH_NAME, '%s/.%s.d/data.db' % (os.environ['HOME'], CONFIG_MAIN_NAME))
+    config.setValue(CONFIG_DB_PATH_NAME, '%s/.%s.d/data.sqlite' % (os.environ['HOME'], CONFIG_MAIN_NAME))
     config.setValue(CONFIG_LAST_SAVE_DIR, os.environ['HOME'])
 
 data_dir = os.path.dirname(str(config.value(CONFIG_DB_PATH_NAME)))
