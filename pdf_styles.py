@@ -210,3 +210,18 @@ styleCommon = ( ('SPAN',          (2,0), (2,-1)),
                 ('TOPPADDING',    (0,0), ( 0, 0), 3),
                 ('BOTTOMPADDING', (0,0), ( 0, 0), 3) )
 
+typSpecWidths = [ 3*cm, 15*cm ]
+
+styleTypSpec = ( ('SPAN',          (1,0), (1,-1)), 
+                ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+                ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                # ('ALIGN',         (1,0), (2,-1), 'CENTER'),
+                # ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
+                # ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
+                # ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                ('LEFTPADDING',   (0,0), ( 0, 0), 6),
+                ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
+                ('TOPPADDING',    (0,0), ( 0, 0), 3),
+                ('BOTTOMPADDING', (0,0), ( 0, 0), 3) )
+

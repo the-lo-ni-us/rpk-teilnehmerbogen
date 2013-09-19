@@ -24,15 +24,23 @@ class FieldnameList(list):
             return self.index[key]
         else:
             return None
-            
+    
+    @property
+    def frequency(self):
+        if not hasattr(self, '_freq'):
+            self._freq = {}
+            for i in self:
+                self._freq[i['typ']] = self._freq.get(i['typ'], 0) + 1
+        return self._freq
+                
 
 if __name__ == '__main__':
     from structure import structure
     import pprint
     pp = pprint.PrettyPrinter(indent=4).pprint
     l = FieldnameList(structure)
-    for schrott in ('tab_items','cap_items','db_items','all_items'):
-        print '%s: %d' % (schrott, len(getattr(l, schrott)))
-    # print l['f5']
+    # for schrott in ('tab_items','cap_items','db_items','all_items'):
+    #     print '%s: %d' % (schrott, len(getattr(l, schrott)))
+    print l.frequency['multi_int']
     # print [i['fieldname'] for i in l.db_items]
     # pp(l)

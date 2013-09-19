@@ -65,10 +65,6 @@ class PdfWriter():
 
     self.story.append( Paragraph( DOC_TITLE % self.datum, styleH ))
 
-    col_cap = Table( [['','','','gesp. Wert','']], spaltenInner, None, styleInnerHeading, 0, 0 )
-
-    self.story.append( Table( [ [ '', col_cap ] ], spaltenBreiten, None, styleOuter, 0, 0 ) )
-
     for field in STRUCTURE.doc_items:
   
       fn = field.get('fieldname')
@@ -83,11 +79,11 @@ class PdfWriter():
         self.story.append( PageBreak())
         to_append = None
       elif field['typ'] == 'int':
-        to_append = Table( [ [ Paragraph( field['title'], styleN ), 'integer'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
+        to_append = Table( [ [ Paragraph( self.indexed(field['title'], fn), styleN ), 'integer'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] == 'str':
-        to_append = Table( [ [Paragraph(field['title'], styleN), 'string'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
+        to_append = Table( [ [Paragraph(self.indexed(field['title'], fn), styleN), 'string'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] in ['multi_int','multi_bool']:
-        p = Paragraph( field['title'], styleN )
+        p = Paragraph( self.indexed(field['title'], fn), styleN )
         table = []
         for n, item in enumerate(field['allowance']):
           table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_int': 'integer','multi_bool': 'bool'}[field['typ']] ] )
@@ -106,14 +102,20 @@ class PdfWriter():
         table[0][0] = p
         # print repr(table)
         to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
+      elif field['typ'] == 'typ_specification': 
+        t = [ [ Paragraph(u'"%s"<br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
+                    STRUCTURE.frequency.get(field['title'])), styleText), 
+                Paragraph(u'<a name="typ_%s" />%s' % (field['title'], field['purpose']), styleText) ] ] 
+        self.story.append( Table(t, typSpecWidths, None, styleTypSpec, splitByRow=1) )
+        self.story.append( Spacer(1,0.3*cm) )
       else:
         to_append = None
         print('nicht berücksichtigter Typ %s' % field['typ'])
 
       if to_append:
         self.story.append( to_append )
-        t = [ [ '"Typ": %s' % field['typ'], fn, '' ], 
-              ['Datentyp: %s' % type(field['default']), field.get('longname')], 
+        t = [ [ Paragraph(u'Typ: <a color="blue" href="#typ_%s">%s</a>' % (field['typ'], field['typ']), styleMult), 'Feldname: %s' % fn, '' ], 
+              ['Datentyp: %s' % field['default'].__class__.__name__, field.get('longname')], 
               ['Vorgabe: %s' % str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig' or ''] ]
         # t = [ [ '', fn, '' ], [type(field['default']), field.get('longname')], [str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig'] ]
         if 'remark' in field:
