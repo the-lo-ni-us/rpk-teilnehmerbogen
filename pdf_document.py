@@ -64,6 +64,7 @@ class PdfWriter():
     fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB}
 
     self.story.append( Paragraph( DOC_TITLE % self.datum, styleH ))
+    self.story.append( Spacer(1,0.4*cm) )
 
     for field in STRUCTURE.doc_items:
   
@@ -103,7 +104,7 @@ class PdfWriter():
         # print repr(table)
         to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
       elif field['typ'] == 'typ_specification': 
-        t = [ [ Paragraph(u'"%s"<br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
+        t = [ [ Paragraph(u'<font face="courier"><b>%s</b></font><br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
                     STRUCTURE.frequency.get(field['title'])), styleText), 
                 Paragraph(u'<a name="typ_%s" />%s' % (field['title'], field['purpose']), styleText) ] ] 
         self.story.append( Table(t, typSpecWidths, None, styleTypSpec, splitByRow=1) )

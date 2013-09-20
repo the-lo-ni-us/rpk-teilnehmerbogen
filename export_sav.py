@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import csv
+import savReaderWriter
 import sqlalchemy as sqAl
 from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
 from settings import *
 from participant import Participant
+from structure import structure
 
 import sip
 sip.setapi('QVariant', 2)
@@ -35,16 +36,45 @@ result = db_connection.execute(select)
 
 # result = session.query(Participant).all()
 
-outcsv = csv.writer(open('mydump.csv', 'wb'))
+mf_specs = { # specifics of the multi-column fields 
+    'multi_bool': {
+        'format': DB_FMT_MB,
+        'db_col_type': sqAl.Boolean,
+        'default': False
+    },
+    'multi_int': {
+        'format': DB_FMT_MI,
+        'db_col_type': sqAl.Integer,
+        'default': 0
+    }
+}
 
-# print dir(Participant)
+var_types = {'id': 1}
+formats = {}
+for f in structure.db_items:
+    if f['typ'] in mf_specs:
+        for n in range(len(f['allowance'])):
+            fn = mf_specs[f['typ']]['format'] % (f['fieldname'], n)
+            var_types[fn]  = f['sav_opts']['var_type']
+            if 'format' in f['sav_opts']:
+                formats[fn] = f['sav_opts']['format']
+    else:
+        var_types[f['fieldname']] = f['sav_opts']['var_type']
+        if 'format' in f['sav_opts']:
+            formats[f['fieldname']] = f['sav_opts']['format']
+    # if f['typ'] in ('int','dropdown'):
+    #     formats[f['fieldname']] = 'F2.0'
 
+with savReaderWriter.SavWriter('teil.sav', result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
+    for record in result:
+        writer.writerow(list(record))
 
-outcsv.writerow(result.keys())
-outcsv.writerows(result)
 
 # print result
 if __name__ == '__main__':
     import pprint
     pp = pprint.PrettyPrinter(indent=4).pprint
-    pp(result)
+    # pp(result.first())
+    # pp(result.keys())
+    # pp(var_types)
+    # pp(formats)

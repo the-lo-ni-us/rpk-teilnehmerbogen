@@ -8,7 +8,7 @@ structure = FieldnameList([
   {
     'title': u"Einleitung",
     'content': """
-    Diese Dokumentation bezieht sich auf eine Beipielanwendung, die (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden kann: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a> 
+    Diese Dokumentation bezieht sich auf eine Beipielanwendung, die (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden kann: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a>. Um mit der Zeit zu gehen: <i><a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen" color="blue">Fork me on Github</a></i>.
     """,
     'typ': 'doc_paragraph',
     'default': '',
@@ -16,8 +16,8 @@ structure = FieldnameList([
   },
   {
     'title': u"Erklärung der Angaben in der Dokumentation",
-    'content': """
-    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAGRPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache Zahlen (Integer, int...). Als Vorgabewert für die numerischen <i>Felder</i> wird hier -1 verwendet, der in Auswertungen einheitlich als "nicht erfasst" interpretiert werden kann. 
+    'content': u"""
+    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAGRPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache Zahlen (Integer, int...). Als Vorgabewert für die numerischen <i>Felder</i> wird hier der Wert -1 verwendet, der in Auswertungen einheitlich als "nicht erfasst" interpretiert werden kann. 
     """,
     'typ': 'doc_paragraph',
     'default': '',
@@ -26,7 +26,7 @@ structure = FieldnameList([
   {
     'title': u"Über Typen",
     'content': u"""
-    Die <i>Auswahl-Felder</i> haben hier soweit (bis auf eine Ausnahme) den "Typ" <font face="courier"><a color="blue" href="#typ_dropdown">dropdown</a></font>. Das steht vereinfacht gesagt, für die oben erwähnte Zuordnung von Ausprägung zu numerischen Werten ("keine Angabe" = 0, "männlich" = 1, usw...). Dieser "Typ" liesse sich in einzelnen oder allen Fällen durch den "Typ" <font face="courier"><a color="blue" href="#typ_enum">enum</a></font> ersetzen (siehe bspw. Feld <a color="blue" href="#jahr">jahr</a>). Bei diesem "Typ" wird für jede Ausprägung ein festgelegtes Kürzel gespeichert. So könnte man z.B. "keine Angabe" = "", "männlich" = "m", "weiblich" = "w" zuordnen. Das könnte in vielen Fällen leichter auszuwerten sein, bedürfte aber natürlich der Festlegung für jede einzelne Ausprägung (aktuell finden sich hier 252 Ausprägungen in 34 <i>dropdown</i>-Feldern, d.h. würde man alle durch <i>enum</i> ersetzen und "keine Angabe / nicht bekannt" mit "" repräsentieren, wären 218 Kürzel festzulegen.).
+    Die <i>Auswahl-Felder</i> haben hier soweit (bis auf eine Ausnahme) den "Typ" <font face="courier"><a color="blue" href="#typ_dropdown">dropdown</a></font>. Das steht vereinfacht gesagt, für die oben erwähnte Zuordnung von Ausprägung zu numerischen Werten ("keine Angabe" = 0, "männlich" = 1, usw...). Dieser <i>Typ</i> liesse sich in einzelnen oder allen Fällen durch den <i>Typ</i> <font face="courier"><a color="blue" href="#typ_enum">enum</a></font> ersetzen (siehe bspw. Feld <a color="blue" href="#jahr">jahr</a>). Bei diesem <i>Typ</i> wird für jede Ausprägung ein festgelegtes Kürzel gespeichert. So könnte man z.B. "keine Angabe" = "", "männlich" = "m", "weiblich" = "w" zuordnen. Das könnte in vielen Fällen leichter auszuwerten sein, bedürfte aber natürlich der Festlegung für jede einzelne Ausprägung (aktuell finden sich hier 252 Ausprägungen in 34 <i>dropdown</i>-Feldern, d.h. würde man alle durch <i>enum</i> ersetzen und "keine Angabe / nicht bekannt" mit "" repräsentieren, wären 218 Kürzel festzulegen.).
     """,
     'typ': 'doc_paragraph',
     'default': '',
@@ -82,7 +82,7 @@ structure = FieldnameList([
   {
     'title': u"multi_bool",
     'purpose': u"""
-    Mehrfach-Auswahlfeld. In der Oberfläche eine Mehrfach-Auswahlliste. In der Datenbank mehrere BOOL Spalten (auch 'boolean', <i>wahr</i> oder <i>falsch</i>) - eine Spalte pro Element (Auswahlmöglichkeit). Im Gegensatz zu den einfachen <i>Typen</i>, bei denen der Name der Datenbank-Tabellenspalte identisch ist mit dem Namen des <i>Feldes</i>, werden hier die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel und einer Zahl, die die Position des Elementes repräsentiert. Wählt man beispielsweise unter "<a color="blue" href="#f29">29 - Behandlung/Betreuung vor...</a>" "01 Stationäre psychiatrische Behandlung" und "05 Hausarzt" wird in den Spalten f29_mb_1 und f29_mb_5 der Wert <i>wahr</i> und in den restlichen Spalten der Wert <i>falsch</i> gespeichert.
+    Mehrfach-Auswahlfeld. In der Oberfläche eine Mehrfach-Auswahlliste. In der Datenbank mehrere BOOL Spalten (auch 'boolean', <i>wahr</i> oder <i>falsch</i>) - eine Spalte pro Element (Auswahlmöglichkeit). Im Gegensatz zu den einfachen <i>Typen</i>, bei denen der Name der Datenbank-Tabellenspalte identisch ist mit dem Namen des <i>Feldes</i>, werden hier die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem feststehenden Kürzel ("mb") und einer Zahl, die die Position des Elementes repräsentiert. Wählt man beispielsweise unter "<a color="blue" href="#f29">29 - Behandlung/Betreuung vor...</a>" "01 Stationäre psychiatrische Behandlung" und "05 Hausarzt" wird in den Spalten f29_mb_1 und f29_mb_5 der Wert <i>wahr</i> und in den restlichen Spalten der Wert <i>falsch</i> gespeichert.
     """,
     'typ': 'typ_specification',
     'default': 'int',
@@ -92,7 +92,7 @@ structure = FieldnameList([
   {
     'title': u"multi_int",
     'purpose': u"""
-    Mehrfacher Numerischer Wert. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. In der Datenbank mehrere INTEGER Spalten - wie bei multi_bool, eine Spalte pro Element. Auch hier weden die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel und einer Zahl, die die Position des Elementes repräsentiert. Gibt man beispielsweise unter "<a color="blue" href="#f31">31 - Leistungsträger...</a>" bei "AOK" einen Wert von 21, und bei "IKK" 14 ein, wird in der Spalte f31_mi_0 der Wert <i>21</i>, in Spalte f31_mi_2 der Wert <i>14</i> und in den restlichen Spalten der Wert <i>0</i> gespeichert.
+    Mehrfacher Numerischer Wert. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. In der Datenbank mehrere INTEGER Spalten - wie bei multi_bool, eine Spalte pro Element. Auch hier werden die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel (hier "mi") und einer Zahl, die die Position des Elementes repräsentiert. Gibt man beispielsweise unter "<a color="blue" href="#f31">31 - Leistungsträger...</a>" bei "AOK" einen Wert von 21, und bei "IKK" 14 ein, wird in der Spalte f31_mi_0 der Wert <i>21</i>, in Spalte f31_mi_2 der Wert <i>14</i> und in den restlichen Spalten der Wert <i>0</i> gespeichert.
     """,
     'typ': 'typ_specification',
     'default': 'int',
@@ -103,7 +103,7 @@ structure = FieldnameList([
     'title': u"Über Typen",
     'content': u"""
     Dieses Dokument ist abgeleitet von der Strukturdefinition in 
-     <a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen/blob/develop/structure.py" color="blue">dieser Datei</a> auf Github.
+     <a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen/blob/develop/structure.py" color="blue">dieser Datei</a>.
     Von dieser einen Datei wird auch die Anwendungsoberfläche und die von dieser gespeiste Datenbanktabelle abgeleitet. Das liesse sich leicht erweitern, z.B. um Erklärungen zur Erfassung der einzelnen Angaben, die dann als Pdf-Dokumentation für die Anwender ausgegeben werden könnten, oder als beim Überfahren mit der Maus in der Anwendung engeblendete Erläuterungen...
     """,
     'typ': 'doc_paragraph',
@@ -116,6 +116,9 @@ structure = FieldnameList([
     'fieldname': u"name",
     'allowance': '',
     'typ': 'str',
+    'sav_opts': {
+      'var_type': 15
+    },
     'default': '',
     'disabled': False,
     'appears': ('capture', 'documentation')
@@ -131,6 +134,9 @@ structure = FieldnameList([
     'fieldname': CONFIG_ZIP_NAME,
     'allowance': '',
     'typ': 'str',
+    'sav_opts': {
+      'var_type': 15
+    },
     'default': '',
     'appears': ('tabulation',)
   },
@@ -138,6 +144,10 @@ structure = FieldnameList([
     'title': u"Medizinisch/Teilhabe planmässig/vorzeitig",
     'fieldname': u"mtpv",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 4,
     'allowance': [
       u"Medizinisch-planmässig",
@@ -160,6 +170,9 @@ structure = FieldnameList([
       ('2010','2010')
     ],
     'typ': 'enum',
+    'sav_opts': {
+      'var_type': 4
+    },
     'default': '',
     'appears': ('capture', 'tabulation', 'documentation')
   },
@@ -175,6 +188,10 @@ structure = FieldnameList([
     'title': u"2 - Gesamtverweildauer in der RPK-Maßnahme: (Kalendertage medizinische, ggf. plus berufliche Reha)",
     'fieldname': u"f2",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   },
@@ -182,6 +199,10 @@ structure = FieldnameList([
     'title': u"2a - davon Kalendertage vorausgegangene medizinische Reha",
     'fieldname': u"f2a",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   }, 
@@ -189,6 +210,10 @@ structure = FieldnameList([
     'title': u"3 - Anzahl der in diesem Summenbogen erfassten Rehabilitanden",
     'fieldname': u"count_participants",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('tabulation',),
   }, 
@@ -203,6 +228,10 @@ structure = FieldnameList([
     'title': u"5 - Geschlecht ",
     'fieldname': u"f5",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [
       u"00 - keine Angabe / nicht bekannt",
@@ -215,6 +244,10 @@ structure = FieldnameList([
     'title': u"6 - Alter bei Aufnahme (in Jahren)",
     'fieldname': u"f6",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   },
@@ -222,6 +255,10 @@ structure = FieldnameList([
     'title': u"7 - Familienstand",
     'fieldname': u"f7",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -237,6 +274,10 @@ structure = FieldnameList([
     'title': u"8 - Lebensverhältnisse (in den letzten 4 Wochen vor der Aufnahme)",
     'fieldname': u"f8",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -254,6 +295,10 @@ structure = FieldnameList([
     'title': u"9 - Zahl der Kinder",
     'fieldname': u"f9",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -268,6 +313,10 @@ structure = FieldnameList([
     'title': u"10 - Wohnsituation (z.B.: Betreutes Einzelwohnen = 01) ",
     'fieldname': u"f10",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -284,6 +333,10 @@ structure = FieldnameList([
     'title': u"11 - Überwiegender Lebensunterhalt (in den letzten 4 Wochen    vor der Aufnahme)",
     'fieldname': u"f11",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -304,6 +357,10 @@ structure = FieldnameList([
     'title': u"12 - Höchster Schulabschluss",
     'fieldname': u"f12",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -320,6 +377,10 @@ structure = FieldnameList([
     'title': u"13 - Höchster beruflicher Abschluss (z.B. noch Schüler=1)",
     'fieldname': u"f13",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -336,6 +397,10 @@ structure = FieldnameList([
     'title': u"15 - Dauer der letzten sozialversicherungspflichtigen beruflichen Tätigkeit",
     'fieldname': u"f15",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -354,6 +419,10 @@ structure = FieldnameList([
     'title': u"15.1 - Gesamtdauer aller sozialversicherungspflichtigen beruflichen Tätigkeiten (in Jahren): (auch Ausbildungszeiten; Versicherungsverlauf eventuell beim Rentenvers. klären)", 
     'fieldname': u"f15_1",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   },
@@ -361,6 +430,10 @@ structure = FieldnameList([
     'title': u"16 - Zeitraum zwischen letzter beruflicher Tätigkeit und    Aufnahme  ",
     'fieldname': u"f16",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -379,6 +452,10 @@ structure = FieldnameList([
     'title': u"17 - Erwerbs- und Ausbildungssituation   (Status zum Zeitpunkt der   Aufnahme) ",
     'fieldname': u"f17",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -406,6 +483,10 @@ structure = FieldnameList([
     'title': u"19 - Rente / Rentenantrag",
     'fieldname': u"f19",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -421,6 +502,10 @@ structure = FieldnameList([
     'title': u"20 - Schwerbehindertenausweis",
     'fieldname': u"f20",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -434,6 +519,10 @@ structure = FieldnameList([
     'title': u"21 - Gesetzliche Betreuung",
     'fieldname': u"f21",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -447,6 +536,10 @@ structure = FieldnameList([
     'title': u"22 - Entfernung vom Wohnort zur RPK (zu Beginn der Reha-Maßnahme,      laut Routenplaner)           ",
     'fieldname': u"f22",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -472,6 +565,10 @@ structure = FieldnameList([
     'title': u"23.1 - 1. Diagnose (nach ICD 10 GM)",
     'fieldname': u"f23_1",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / keine Diagnose",
@@ -493,6 +590,10 @@ structure = FieldnameList([
     'title': u"23.2 - 2. Diagnose",
     'fieldname': u"f23_2",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / keine Diagnose",
@@ -514,6 +615,10 @@ structure = FieldnameList([
     'title': u"24 - Alter beim ersten professionellen Kontakt (in Jahren):",
     'fieldname': u"f24",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   }, 
@@ -521,6 +626,10 @@ structure = FieldnameList([
     'title': u"25 - Alter bei der ersten Klinikaufnahme (in Jahren):",
     'fieldname': u"f25",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   }, 
@@ -528,6 +637,10 @@ structure = FieldnameList([
     'title': u"26 - Anzahl der psychiatrischen Klinikaufenthalte:",
     'fieldname': u"f26",
     'typ': 'int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': -1,
     'appears': ('capture', 'tabulation', 'documentation')
   }, 
@@ -535,6 +648,10 @@ structure = FieldnameList([
     'title': u"27 - Dauer der Klinikaufenthalte insgesamt (Stationär / Teilstationär)      ",
     'fieldname': u"f27",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -552,6 +669,10 @@ structure = FieldnameList([
     'title': u"28 - Zeitraum zwischen letzter Klinikentlassung und RPK-Aufnahme ",
     'fieldname': u"f28",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -570,6 +691,9 @@ structure = FieldnameList([
     'title': u"29 - Behandlung/Betreuung vor der Aufnahme (Mehrfachnennungen möglich) (in den letzten 4 Wochen vor der Aufnahme)",
     'fieldname': u"f29",
     'typ': 'multi_bool',
+    'sav_opts': {
+      'var_type': 5
+    },
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
       u"01 - stationäre psychiatrische Behandlung",
@@ -604,6 +728,10 @@ structure = FieldnameList([
     'title': u"30 - Durch wen wurde vorrangig der Kontakt zur RPK vermittelt?  ",
     'fieldname': u"f30",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -627,6 +755,10 @@ structure = FieldnameList([
     'title': u"31 - Leistungsträger der medizinischen Reha-Phase   (Abgerechnete Tage auf der Basis einer 7 Tage Woche,  ohne Unterbrechungen)",
     'fieldname': u"f31",
     'typ': 'multi_int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'allowance': [
       u"01 - AOK",
       u"02 - BKK",
@@ -649,6 +781,10 @@ structure = FieldnameList([
     'title': u"32 - Leistungsträger der beruflichen Reha-Phase  (Abgerechnete Tage auf der Basis einer 7 Tage Woche,  ohne Unterbrechungen)",
     'fieldname': u"f32",
     'typ': 'multi_int',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'allowance': [
       u"01 - DRV Regional",
       u"02 - DRV Bund",
@@ -666,6 +802,10 @@ structure = FieldnameList([
     'title': u"32.1 - Art der beruflichen Reha-Maßnahme ",
     'fieldname': u"f32_1",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -679,6 +819,10 @@ structure = FieldnameList([
     'title': u"33 - Durchführung der Reha-Maßnahme  ",
     'fieldname': u"f33",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -693,6 +837,10 @@ structure = FieldnameList([
     'title': u"34 - Beendigung der RPK- Maßnahme gemäß fortgeschriebenen Reha-Plan    (Nicht gemäß Kostenzusage!)  ",
     'fieldname': u"f34",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -704,6 +852,10 @@ structure = FieldnameList([
     'title': u"35 - Erreichtes Reha-Ziel gemäß Reha-Plan   (qualitative Einschätzung am Ende  der Maßnahme im Abgleich zum fortgeschriebenen Reha-Plan)   ",
     'fieldname': u"f35",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -717,6 +869,10 @@ structure = FieldnameList([
     'title': u"36 - Schwerbehindertenausweis (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f36",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -730,6 +886,10 @@ structure = FieldnameList([
     'title': u"37 - Rente / Rentenantrag (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f37",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -748,6 +908,10 @@ structure = FieldnameList([
     'title': u"38 - Gesetzliche Betreuung (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f38",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -761,6 +925,10 @@ structure = FieldnameList([
     'title': u"39 - Entfernung vom Wohnort zur RPK (zum Zeitpunkt der Entlassung) (laut Routenplaner) ",
     'fieldname': u"f39",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -786,6 +954,9 @@ structure = FieldnameList([
     'title': u"40 - Behandlung/Betreuung nach der RPK-Maßnahme   (Mehrfachnennungen möglich)  ",
     'fieldname': u"f40",
     'typ': 'multi_bool',
+    'sav_opts': {
+      'var_type': 5
+    },
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
       u"01 - stationäre psychiatrische Behandlung",
@@ -809,6 +980,10 @@ structure = FieldnameList([
     'title': u"41 - Erwerbs- und Ausbildungssituation   (Situation nach Beendigung  der RPK-Maßnahme)      ",
     'fieldname': u"f41",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -836,6 +1011,10 @@ structure = FieldnameList([
     'title': u"41.1 - Erwerbsfähigkeit nach Rentenrecht   (Situation nach Beendigung der RPK-Maßnahme)     ",
     'fieldname': u"f41_1",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -850,6 +1029,10 @@ structure = FieldnameList([
     'title': u"43 - Lebensverhältnisse (Einschätzung nach Beendigung der RPK-Maßnahme) ",
     'fieldname': u"f43",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -867,6 +1050,10 @@ structure = FieldnameList([
     'title': u"44 - Wohnsituation (Einschätzung nach Beendigung   der RPK-Maßnahme) ",
     'fieldname': u"f44",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -883,6 +1070,10 @@ structure = FieldnameList([
     'title': u"45 - Überwiegender Lebensunterhalt (Einschätzung nach Beendigung der RPK-Maßnahme) ",
     'fieldname': u"f45",
     'typ': 'dropdown',
+    'sav_opts': {
+      'var_type': 0,
+      'format': 'F3.0'
+    },
     'default': 0,
     'allowance': [ 
       u"00 - keine Angabe / nicht bekannt",
@@ -904,6 +1095,9 @@ structure = FieldnameList([
     'fieldname': CONFIG_SIGNER_NAME,
     'allowance': '',
     'typ': 'str',
+    'sav_opts': {
+      'var_type': 15
+    },
     'default': '',
     'appears': ('tabulation',)
   }
@@ -921,8 +1115,8 @@ if __name__ == '__main__':
         if not field['typ'] in types:
             types[field['typ']] = 0
         types[field['typ']] += 1
-        if not 'typ' in field:
-            print repr(field)
+        if not 'sav_opts' in field:
+            print field['typ']
         if field['typ'] == 'dropdown':
             auspr_count += len(field['allowance'])
     print repr(types)
