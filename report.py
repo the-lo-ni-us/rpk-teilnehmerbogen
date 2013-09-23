@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sip
+sip.setapi('QVariant', 2)
+
 from PyQt4 import QtCore
 import sqlalchemy as sqAl
 
@@ -15,10 +18,10 @@ class Report():
     def __init__(self, year=None):
         self.year = year
         self.config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
-        metadata = sqAl.MetaData()
         engine = sqAl.create_engine('sqlite:///%s' % self.config.value(CONFIG_DB_PATH_NAME))
+        metadata = sqAl.MetaData()
         metadata.bind = engine
-        self.participants = sqAl.Table('participants', metadata, autoload=True)
+        self.participants = sqAl.Table(TABLE_NAME, metadata, autoload=True)
         # self.participants = sqAl.Table(self.config.value(QtCore.QString(CONFIG_DB_TABLE_NAME)), metadata, autoload=True)
         self.db_connection = engine.connect()
         self.result = {}
@@ -36,7 +39,8 @@ class Report():
         average_fields = []
         multi_bool_fields = []
         choice_fields = []
-        for field in STRUCTURE.all_items:
+        for field in STRUCTURE.db_items:
+            print(field['fieldname'])
             if field['typ'] == 'multi_int':
                 for n, name in enumerate(field['allowance']):
                     fieldname = DB_FMT_MI % (field['fieldname'], n)
@@ -47,12 +51,12 @@ class Report():
                     fieldname = DB_FMT_MB % (field['fieldname'], n)
                     multi_bool_fields.append(fieldname)
                     self.result[fieldname] = [0] * 4
-            elif type(field['allowance']) == int:
+            elif field['typ'] == 'int':
                 self.result[field['fieldname']] = [0] * 4
                 average_fields.append(field['fieldname'])
             elif field['typ'] == 'enum':
                 pass # nicht der Weisheit letzter Schluss
-            elif type(field['allowance']) == list: 
+            elif field['typ'] == 'dropdown': 
                 self.result[field['fieldname']] = []
                 for n in range(4):
                     self.result[field['fieldname']].append([0 for x in field['allowance']])
@@ -61,7 +65,7 @@ class Report():
                 self.result[field['fieldname']] = [None] * 4
 
         for n in [CONFIG_SIGNER_NAME, CONFIG_ZIP_NAME]:
-            self.result[n] = [self.config.Read(n)] * 4
+            self.result[n] = [self.config.value(n)] * 4
 
         mtpv = self.participants.c.mtpv
 
@@ -153,5 +157,5 @@ class Report():
 
 
 if __name__ == '__main__':
-    r = Report('2012')
+    r = Report('2013')
     pprint(r.result)

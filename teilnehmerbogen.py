@@ -5,7 +5,7 @@ import sip
 sip.setapi('QVariant', 2)
 
 from PyQt4 import QtCore, QtGui
-import os, collections
+import os, collections, shutil, csv, savReaderWriter
 
 import sqlalchemy as sqAl
 from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
@@ -17,6 +17,7 @@ from dialog_prefs import PrefsDialog
 from structure import structure as STRUCTURE
 from participant import Participant
 from settings import *
+import pdf_output
 
 class MainWindow(QtGui.QMainWindow):
 
@@ -56,11 +57,11 @@ class MainWindow(QtGui.QMainWindow):
         self._reset()
         if self.config.value('geometry'):
             self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
-        QtGui.QMessageBox.information(self,
-                "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
-                 <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen 
-                 sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
-                 <p>&copy; 2013 Thelonius Kort</p>""")
+        # QtGui.QMessageBox.information(self,
+        #         "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
+        #          <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen 
+        #          sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
+        #          <p>&copy; 2013 Thelonius Kort</p>""")
 
     def initialize_db(self):
         if self.use_sqlite:
@@ -288,6 +289,86 @@ class MainWindow(QtGui.QMainWindow):
         # print '%s - %s' % (path, os.path.dirname(str(path)))
         if path:
             self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(str(path)))
+            pdf_output.PdfWriter(path, year=jahr).write_pdf()
+
+    def save_sav(self, event):
+        if not self.askSave():
+            return 1
+
+        path = QtGui.QFileDialog.getSaveFileName(self,
+                                          "SPSS-Export speichern unter...",
+                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.sav'),
+                                                 "SPSS-Dateien(*.sav);; Alle Dateien (*)")
+        if not(path):
+            return False
+
+        select = sqAl.sql.select(Participant.__table__.columns)
+        result = self.session.execute(select)
+
+        mf_specs = { # specifics of the multi-column fields 
+            'multi_bool': {
+                'format': DB_FMT_MB,
+                'db_col_type': sqAl.Boolean,
+                'default': False
+            },
+            'multi_int': {
+                'format': DB_FMT_MI,
+                'db_col_type': sqAl.Integer,
+                'default': 0
+            }
+        }
+
+        var_types = {'id': 1}
+        formats = {}
+        for f in STRUCTURE.db_items:
+            if f['typ'] in mf_specs:
+                for n in range(len(f['allowance'])):
+                    fn = mf_specs[f['typ']]['format'] % (f['fieldname'], n)
+                    var_types[fn]  = f['sav_opts']['var_type']
+                    if 'format' in f['sav_opts']:
+                        formats[fn] = f['sav_opts']['format']
+            else:
+                var_types[f['fieldname']] = f['sav_opts']['var_type']
+                if 'format' in f['sav_opts']:
+                    formats[f['fieldname']] = f['sav_opts']['format']
+                # if f['typ'] in ('int','dropdown'):
+                #     formats[f['fieldname']] = 'F2.0'
+
+        with savReaderWriter.SavWriter(str(path), result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
+            for record in result:
+                writer.writerow(list(record))
+
+    def save_sqlite(self, event):
+        if not self.askSave():
+            return 1
+
+        path = QtGui.QFileDialog.getSaveFileName(self,
+                                          "Kopie der internen SQLite Datenbank speichern unter...",
+                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.sqlite'),
+                                                 "SQLite-Dateien(*.sqlite);; Alle Dateien (*)")
+        if path:
+            shutil.copyfile(self.config.value(CONFIG_DB_PATH_NAME), path)
+
+    def save_csv(self, event):
+        if not(self.askSave(u'Daten als CSV exportieren...')):
+            return False
+        path = QtGui.QFileDialog.getSaveFileName(self,
+                                          "CSV-Export speichern unter...",
+                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Teilnehmerbogen.csv'),
+                                                 "CSV-Dateien(*.csv);; Alle Dateien (*)")
+        if not(path):
+            return False
+
+        fh = open(path, 'wb')
+        outcsv = csv.writer(fh)
+        
+        select = sqAl.sql.select(Participant.__table__.columns)
+        result = self.session.execute(select)
+
+        outcsv.writerow(result.keys())
+        outcsv.writerows(result)
+
+        fh.close
 
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'), 
@@ -298,11 +379,14 @@ class MainWindow(QtGui.QMainWindow):
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
-                                        statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.test)
+                                        statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.save_csv)
+        self.saveSavAct = QtGui.QAction(QtGui.QIcon(':icons/spss.png'), 
+                                        u"S&PSS exportieren", self, 
+                                        statusTip=u"Die Daten im SAV-Format exportieren", triggered=self.save_sav)
         if self.use_sqlite:
             self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/database.png'), 
                                                u"S&QLite Datei speichern", self, 
-                                               statusTip=u"Eine Kopie der internen SQLite Datenbank speichern")
+                                               statusTip=u"Eine Kopie der internen SQLite Datenbank speichern", triggered=self.save_sqlite)
         self.exitAct = QtGui.QAction(QtGui.QIcon(':icons/exit.png'),u"&Beenden", 
                                      self, shortcut="Ctrl+Q",
                                      statusTip=u"Beendet das Programm", triggered=self.close)
@@ -328,6 +412,7 @@ class MainWindow(QtGui.QMainWindow):
         if self.use_sqlite:
             self.mainToolBar.addAction(self.saveSqliteAct)
         # self.mainToolBar.addWidget(space)
+        self.mainToolBar.addAction(self.saveSavAct)
         self.mainToolBar.addAction(self.savePdfAct)
         self.mainToolBar.addWidget(self.space_widget())
         self.mainToolBar.addAction(self.exitAct)
