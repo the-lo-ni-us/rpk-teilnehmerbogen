@@ -21,6 +21,7 @@ CONFIG_REMOTE_DB_NAME = 'RemoteDBName'
 CONFIG_SIGNER_NAME = 'Signer'
 CONFIG_ZIP_NAME = 'ZipCode'
 CONFIG_LAST_SAVE_DIR = 'LastSaveDir'
+CONFIG_LAST_SAVE_NAME = 'LastSaveName'
 CONFIG_LAST_TAB_YEAR = 'LastTabYear'
 
 DB_NAME = 'data.sqlite'

@@ -40,7 +40,7 @@ class Report():
         multi_bool_fields = []
         choice_fields = []
         for field in STRUCTURE.db_items:
-            print(field['fieldname'])
+            # print(field['fieldname'])
             if field['typ'] == 'multi_int':
                 for n, name in enumerate(field['allowance']):
                     fieldname = DB_FMT_MI % (field['fieldname'], n)

@@ -5,7 +5,7 @@ import sip
 sip.setapi('QVariant', 2)
 
 from PyQt4 import QtCore, QtGui
-import os, collections, shutil, csv, savReaderWriter
+import os, subprocess, collections, shutil, csv, savReaderWriter
 
 import sqlalchemy as sqAl
 from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
@@ -253,6 +253,18 @@ class MainWindow(QtGui.QMainWindow):
             self._save_participant()
         return True
 
+    def check_modie(self, which):
+        curr = QtGui.QApplication.keyboardModifiers()
+        return curr & which == which
+
+    def open_file_externally(self, path):
+        if sys.platform.startswith('darwin'):
+            subprocess.call(('open', path))
+        elif os.name == 'nt':
+            os.startfile(path)
+        elif os.name == 'posix':
+            subprocess.call(('xdg-open', path))
+
     def writeSettings(self):
         self.config.setValue('geometry', self.saveGeometry())
 
@@ -273,32 +285,44 @@ class MainWindow(QtGui.QMainWindow):
         jahre += [(str(i), str(i)) for i in reversed(range(this_year-3, this_year+1))]
         return collections.OrderedDict([(QtCore.QString(i[0]),i[1]) for i in jahre]), 2, 2 + (this_year - half_year_back.year)
 
+    def get_save_path(self, **creds):
+        default = os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 
+                               '%s.%s' % (self.config.value(CONFIG_LAST_SAVE_NAME, 'Summenbogen', type=str), creds['ext']))
+        if creds['dont_ask']:
+            return default
+        gsfn = QtGui.QFileDialog.getSaveFileName
+        path = gsfn(self,creds.get('title', "Speichern unter..."), default,
+                    "%s-Dateien(*.%s);; Alle Dateien (*)" % (creds['ext'].capitalize(), creds['ext']))
+        if path:
+            path = unicode(path)
+            self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(unicode(path)))
+            self.config.setValue(CONFIG_LAST_SAVE_NAME, os.path.basename(unicode(path)).replace('.%s' % creds['ext'], ''))
+        return path
+
     def save_pdf(self):
+        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
         if not self.askSave():
             return 1
         items, nyi, byi = self.years_dict()
-        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", u"Auswertung beschränken auf:", items.keys(), byi, False)
+        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", 
+                                              u"Auswertung beschränken auf:", items.keys(), byi, False)
         jahr = items[item]
         if not ok:
             return 1
 
-        path = QtGui.QFileDialog.getSaveFileName(self,
-                                          "Pdf Auswertung/Zusammenfassung speichern unter...",
-                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.pdf'),
-                                          "Pdf-Dateien(*.pdf);; Alle Dateien (*)")
+        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', dont_ask=dont_ask)
         # print '%s - %s' % (path, os.path.dirname(str(path)))
         if path:
-            self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(str(path)))
             pdf_output.PdfWriter(path, year=jahr).write_pdf()
+            if open_ext:
+                self.open_file_externally(path)
 
     def save_sav(self, event):
+        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
         if not self.askSave():
             return 1
 
-        path = QtGui.QFileDialog.getSaveFileName(self,
-                                          "SPSS-Export speichern unter...",
-                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.sav'),
-                                                 "SPSS-Dateien(*.sav);; Alle Dateien (*)")
+        path = self.get_save_path(title="SPSS-Export speichern unter...", ext='sav', dont_ask=dont_ask)
         if not(path):
             return False
 
@@ -334,28 +358,32 @@ class MainWindow(QtGui.QMainWindow):
                 # if f['typ'] in ('int','dropdown'):
                 #     formats[f['fieldname']] = 'F2.0'
 
-        with savReaderWriter.SavWriter(str(path), result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
+        with savReaderWriter.SavWriter(path, result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
             for record in result:
                 writer.writerow(list(record))
+        if open_ext:
+            self.open_file_externally(path)
+
 
     def save_sqlite(self, event):
+        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
         if not self.askSave():
             return 1
 
-        path = QtGui.QFileDialog.getSaveFileName(self,
-                                          "Kopie der internen SQLite Datenbank speichern unter...",
-                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Summenbogen.sqlite'),
-                                                 "SQLite-Dateien(*.sqlite);; Alle Dateien (*)")
+        path = self.get_save_path(title="Kopie der internen SQLite Datenbank speichern unter...", ext='sqlite', dont_ask=dont_ask)
+
         if path:
             shutil.copyfile(self.config.value(CONFIG_DB_PATH_NAME), path)
+            if open_ext:
+                self.open_file_externally(path)
 
     def save_csv(self, event):
+        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
         if not(self.askSave(u'Daten als CSV exportieren...')):
             return False
-        path = QtGui.QFileDialog.getSaveFileName(self,
-                                          "CSV-Export speichern unter...",
-                                          os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 'Teilnehmerbogen.csv'),
-                                                 "CSV-Dateien(*.csv);; Alle Dateien (*)")
+
+        path = self.get_save_path(title="CSV-Export speichern unter...", ext='csv', dont_ask=dont_ask)
+
         if not(path):
             return False
 
@@ -369,6 +397,8 @@ class MainWindow(QtGui.QMainWindow):
         outcsv.writerows(result)
 
         fh.close
+        if open_ext:
+            self.open_file_externally(path)
 
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'), 

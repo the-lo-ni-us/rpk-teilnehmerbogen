@@ -1,5 +1,0 @@
-GET FILE="/home/thelonius/git/qtsummenbogen/teil.sav".
-
-warning: `/home/thelonius/git/qtsummenbogen/teil.sav' near offset 0xcd0: Unrecognized record type 7, subtype 10.  Please send a copy of this file, and the syntax which created it to bug-gnu-pspp@gnu.org.
-warning: `/home/thelonius/git/qtsummenbogen/teil.sav' near offset 0xca8: File specifies unexpected value -1.79769e+308 as LOWEST.
-warning: `/home/thelonius/git/qtsummenbogen/teil.sav' near offset 0xd37: Invalid variable display parameters for variable 2 (MTPV).  Default parameters substituted.
