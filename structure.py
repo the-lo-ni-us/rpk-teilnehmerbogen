@@ -67,7 +67,6 @@ structure = FieldnameList([
     Einfaches Auswahlfeld. In der Oberfläche eine "Dropdown Liste". In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert die Position des Ausgewählten Elementes (oder Eintrags).
     """,
     'typ': 'typ_specification',
-    'default': 'int',
     'appears': ('documentation',)
   },
   {
@@ -76,7 +75,14 @@ structure = FieldnameList([
     Einfaches Auswahlfeld. In der Oberfläche eine Dropdown Liste. In der Datenbank eine VARCHAR Spalte. Der gespeicherte Wert repräsentiert in die Bedeutung des Ausgewählten Elementes in Form eines <i>Strings</i>. (Im Prinzip könnte man z.B. "Person weiblichen Geschlechts" als Wert speichern; praktischerweise wird man wohl eher etwas handlicheres und fehlerresistenteres wie "w" nehmen.)
     """,
     'typ': 'typ_specification',
-    'default': 'int',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"enumber",
+    'purpose': u"""
+    Einfaches Auswahlfeld. In der Oberfläche eine Dropdown Liste. In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert in die Bedeutung des Ausgewählten Elementes in Form eines <i>Integers</i>. Beispielsweise -1 für "keine Angabe / nicht bekannt", 1 für "männlich", 2 für "weiblich".
+    """,
+    'typ': 'typ_specification',
     'appears': ('documentation',)
   },
   {
@@ -85,7 +91,6 @@ structure = FieldnameList([
     Mehrfach-Auswahlfeld. In der Oberfläche eine Mehrfach-Auswahlliste. In der Datenbank mehrere BOOL Spalten (auch 'boolean', <i>wahr</i> oder <i>falsch</i>) - eine Spalte pro Element (Auswahlmöglichkeit). Im Gegensatz zu den einfachen <i>Typen</i>, bei denen der Name der Datenbank-Tabellenspalte identisch ist mit dem Namen des <i>Feldes</i>, werden hier die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem feststehenden Kürzel ("mb") und einer Zahl, die die Position des Elementes repräsentiert. Wählt man beispielsweise unter "<a color="blue" href="#f29">29 - Behandlung/Betreuung vor...</a>" "01 Stationäre psychiatrische Behandlung" und "05 Hausarzt" wird in den Spalten f29_mb_1 und f29_mb_5 der Wert <i>wahr</i> und in den restlichen Spalten der Wert <i>falsch</i> gespeichert.
     """,
     'typ': 'typ_specification',
-    'default': 'int',
     'disabled': False,
     'appears': ('documentation',)
   },
@@ -95,7 +100,6 @@ structure = FieldnameList([
     Mehrfacher Numerischer Wert. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. In der Datenbank mehrere INTEGER Spalten - wie bei multi_bool, eine Spalte pro Element. Auch hier werden die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel (hier "mi") und einer Zahl, die die Position des Elementes repräsentiert. Gibt man beispielsweise unter "<a color="blue" href="#f31">31 - Leistungsträger...</a>" bei "AOK" einen Wert von 21, und bei "IKK" 14 ein, wird in der Spalte f31_mi_0 der Wert <i>21</i>, in Spalte f31_mi_2 der Wert <i>14</i> und in den restlichen Spalten der Wert <i>0</i> gespeichert.
     """,
     'typ': 'typ_specification',
-    'default': 'int',
     'disabled': False,
     'appears': ('documentation',)
   },
@@ -107,7 +111,6 @@ structure = FieldnameList([
     Von dieser einen Datei wird auch die Anwendungsoberfläche und die von dieser gespeiste Datenbanktabelle abgeleitet. Das liesse sich leicht erweitern, z.B. um Erklärungen zur Erfassung der einzelnen Angaben, die dann als Pdf-Dokumentation für die Anwender ausgegeben werden könnten, oder als beim Überfahren mit der Maus in der Anwendung engeblendete Erläuterungen...
     """,
     'typ': 'doc_paragraph',
-    'default': '',
     'disabled': False,
     'appears': ('documentation',)
   },

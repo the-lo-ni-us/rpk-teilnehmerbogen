@@ -105,7 +105,7 @@ class PdfWriter():
         to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
       elif field['typ'] == 'typ_specification': 
         t = [ [ Paragraph(u'<font face="courier"><b>%s</b></font><br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
-                    STRUCTURE.frequency.get(field['title'])), styleText), 
+                STRUCTURE.frequency.get(field['title'], 0)), styleText), 
                 Paragraph(u'<a name="typ_%s" />%s' % (field['title'], field['purpose']), styleText) ] ] 
         self.story.append( Table(t, typSpecWidths, None, styleTypSpec, splitByRow=1) )
         self.story.append( Spacer(1,0.3*cm) )
