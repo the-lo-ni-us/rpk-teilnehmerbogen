@@ -7,6 +7,7 @@
 *.csv
 *.sav
 .directory
+pspp.jnl
 old_dbs
 *_rc.py
 *_ui.py
