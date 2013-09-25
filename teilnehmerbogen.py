@@ -23,6 +23,7 @@ from deko import check_modifiers
 class MainWindow(QtGui.QMainWindow):
 
     typ2class = {'enum': EnumChooser,      # maps 'typ'-property of STRUCTURE-items to widget-classes
+                 'enumber': EnumChooser,
                  'multi_bool': MultiChooser,
                  'multi_int': MultiSpinner,
                  'str': Text,

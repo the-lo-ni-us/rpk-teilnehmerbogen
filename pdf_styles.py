@@ -210,7 +210,7 @@ styleCommon = ( ('SPAN',          (2,0), (2,-1)),
                 ('TOPPADDING',    (0,0), ( 0, 0), 3),
                 ('BOTTOMPADDING', (0,0), ( 0, 0), 3) )
 
-typSpecWidths = [ 3*cm, 15*cm ]
+typSpecWidths = [ 3.5*cm, 14.5*cm ]
 
 styleTypSpec = ( ('SPAN',          (1,0), (1,-1)), 
                 ('ALIGN',         (0,0), (1,-1), 'LEFT'), 

@@ -43,7 +43,7 @@ def generate_class(name): # Don't know if we really need name
                 dynclass_dict[fn] = cf
                 sub_fields.append(cf)
             dynclass_dict[field['fieldname']] = sqAl_composite(CompositeCol, *sub_fields)
-        elif field['typ'] == 'int' or field['typ'] == 'dropdown': 
+        elif field['typ'] in ('int', 'dropdown', 'enumber'): 
             dynclass_dict[field['fieldname']] =  sqAl.Column(field['fieldname'], sqAl.Integer, default=-1)
 
     return type(name, (Base,), dynclass_dict)

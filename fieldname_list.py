@@ -15,7 +15,7 @@ class FieldnameList(list):
         self.all_items = [i for i in self if 'capture' in i['appears'] and 'tabulation' in i['appears']]
         for d in self:
             if 'default' not in d:
-                d['default'] = d['allowance']
+                d['default'] = d.get('allowance', 0)
 
     def __getitem__(self, key):
         if type(key) == int:

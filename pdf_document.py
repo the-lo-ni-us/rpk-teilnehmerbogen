@@ -97,15 +97,21 @@ class PdfWriter():
         table[0][0] = p
         # print repr(table)
         to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ) )
+      elif field['typ'] == 'enumber': 
+        p = Paragraph( self.indexed(field['title'], fn), styleN )
+        table = [ [ '', Paragraph(item + (value==field['default'] and ' *' or ''), styleMult), value  ] for value, item in field['allowance'] ]
+        table[0][0] = p
+        # print repr(table)
+        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ) )
       elif field['typ'] == 'enum': 
         p = Paragraph( self.indexed(field['title'], fn), styleN )
-        table = [ [ '', Paragraph(item + (n==field['default'] and ' *' or ''), styleMult), n  ] for n, item in field['allowance'] ]
+        table = [ [ '', Paragraph(item + (value==field['default'] and ' *' or ''), styleMult), value  ] for value, item in field['allowance'] ]
         table[0][0] = p
         # print repr(table)
         to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
       elif field['typ'] == 'typ_specification': 
         t = [ [ Paragraph(u'<font face="courier"><b>%s</b></font><br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
-                    STRUCTURE.frequency.get(field['title'])), styleText), 
+                STRUCTURE.frequency.get(field['title'], 0)), styleText), 
                 Paragraph(u'<a name="typ_%s" />%s' % (field['title'], field['purpose']), styleText) ] ] 
         self.story.append( Table(t, typSpecWidths, None, styleTypSpec, splitByRow=1) )
         self.story.append( Spacer(1,0.3*cm) )
@@ -115,7 +121,7 @@ class PdfWriter():
 
       if to_append:
         self.story.append( to_append )
-        t = [ [ Paragraph(u'Typ: <a color="blue" href="#typ_%s">%s</a>' % (field['typ'], field['typ']), styleMult), 'Feldname: %s' % fn, '' ], 
+        t = [ [ Paragraph(u'Typ: <font name="courier-bold"><a color="blue" href="#typ_%s">%s</a></font>' % (field['typ'], field['typ']), styleMult), 'Feldname: %s' % fn, '' ], 
               ['Datentyp: %s' % field['default'].__class__.__name__, field.get('longname')], 
               ['Vorgabe: %s' % str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig' or ''] ]
         # t = [ [ '', fn, '' ], [type(field['default']), field.get('longname')], [str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig'] ]
