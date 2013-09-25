@@ -18,6 +18,7 @@ from structure import structure as STRUCTURE
 from participant import Participant
 from settings import *
 import pdf_output
+from deko import check_modifiers
 
 class MainWindow(QtGui.QMainWindow):
 
@@ -235,8 +236,8 @@ class MainWindow(QtGui.QMainWindow):
             return True
         record_descr = (u"'%s'" % self.participant.name) if self.participant else u'der neue Datensatz'
         msgBox = QtGui.QMessageBox(QtGui.QMessageBox.Question,
-                message_title, u'Soll %s gespeichert werden?' % record_descr,
-                QtGui.QMessageBox.NoButton, self)
+                                   message_title, u'Soll %s gespeichert werden?' % record_descr,
+                                   QtGui.QMessageBox.NoButton, self)
         # sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.AcceptRole)
         # dsb = msgBox.addButton("&Nicht speichern", QtGui.QMessageBox.DestructiveRole)
         sb = msgBox.addButton("&Speichern", QtGui.QMessageBox.NoRole)
@@ -252,10 +253,6 @@ class MainWindow(QtGui.QMainWindow):
         elif reply == sb:
             self._save_participant()
         return True
-
-    def check_modie(self, which):
-        curr = QtGui.QApplication.keyboardModifiers()
-        return curr & which == which
 
     def open_file_externally(self, path):
         if sys.platform.startswith('darwin'):
@@ -299,8 +296,8 @@ class MainWindow(QtGui.QMainWindow):
             self.config.setValue(CONFIG_LAST_SAVE_NAME, os.path.basename(unicode(path)).replace('.%s' % creds['ext'], ''))
         return path
 
-    def save_pdf(self):
-        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
+    @check_modifiers
+    def save_pdf(self, event, modifiers):
         if not self.askSave():
             return 1
         items, nyi, byi = self.years_dict()
@@ -310,19 +307,19 @@ class MainWindow(QtGui.QMainWindow):
         if not ok:
             return 1
 
-        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', dont_ask=dont_ask)
+        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', dont_ask='shift' in modifiers)
         # print '%s - %s' % (path, os.path.dirname(str(path)))
         if path:
             pdf_output.PdfWriter(path, year=jahr).write_pdf()
-            if open_ext:
+        if 'control' in modifiers:
                 self.open_file_externally(path)
 
-    def save_sav(self, event):
-        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
+    @check_modifiers
+    def save_sav(self, event, modifiers):
         if not self.askSave():
             return 1
 
-        path = self.get_save_path(title="SPSS-Export speichern unter...", ext='sav', dont_ask=dont_ask)
+        path = self.get_save_path(title="SPSS-Export speichern unter...", ext='sav', dont_ask='shift' in modifiers)
         if not(path):
             return False
 
@@ -361,28 +358,28 @@ class MainWindow(QtGui.QMainWindow):
         with savReaderWriter.SavWriter(path, result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
             for record in result:
                 writer.writerow(list(record))
-        if open_ext:
+        if 'control' in modifiers:
             self.open_file_externally(path)
 
 
-    def save_sqlite(self, event):
-        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
+    @check_modifiers
+    def save_sqlite(self, event, modifiers):
         if not self.askSave():
             return 1
 
-        path = self.get_save_path(title="Kopie der internen SQLite Datenbank speichern unter...", ext='sqlite', dont_ask=dont_ask)
+        path = self.get_save_path(title="Kopie der internen SQLite Datenbank speichern unter...", ext='sqlite', dont_ask='shift' in modifiers)
 
         if path:
             shutil.copyfile(self.config.value(CONFIG_DB_PATH_NAME), path)
-            if open_ext:
+        if 'control' in modifiers:
                 self.open_file_externally(path)
 
-    def save_csv(self, event):
-        open_ext, dont_ask = self.check_modie(QtCore.Qt.ControlModifier), self.check_modie(QtCore.Qt.AltModifier)
+    @check_modifiers
+    def save_csv(self, event, modifiers):
         if not(self.askSave(u'Daten als CSV exportieren...')):
             return False
 
-        path = self.get_save_path(title="CSV-Export speichern unter...", ext='csv', dont_ask=dont_ask)
+        path = self.get_save_path(title="CSV-Export speichern unter...", ext='csv', dont_ask='shift' in modifiers)
 
         if not(path):
             return False
@@ -397,7 +394,7 @@ class MainWindow(QtGui.QMainWindow):
         outcsv.writerows(result)
 
         fh.close
-        if open_ext:
+        if 'control' in modifiers:
             self.open_file_externally(path)
 
     def createActions(self):
