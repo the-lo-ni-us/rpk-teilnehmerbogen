@@ -2,7 +2,7 @@ rpk-teilnehmerbogen
 ===================
 Für die Erfassung der Daten zur jährlichen Meldung wie in [Summenbögen BAG-RPK 2011.xls](http://www.bagrpk.de/fileadmin/webseite/Downloads/Formulare/Summenb%F6gen%20BAG-RPK%202011.xls)
 
-Status: Erst in Teilen funktionstüchtig. Struktur der Daten bis auf weiteres ungeklärt.
+Status: Erst in Teilen funktionstüchtig. Struktur der Daten bis auf weiteres ungeklärt. Generierte Dokumentation zur Struktur und diesbezüglicher Möglichkeiten in [Tech-Dok.pdf](https://raw.github.com/the-lo-ni-us/rpk-teilnehmerbogen/develop/Tech-Dok.pdf)
 
 Voraussetzungen:
 
