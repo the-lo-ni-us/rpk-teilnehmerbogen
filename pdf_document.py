@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from reportlab.lib.styles import ParagraphStyle
@@ -23,7 +23,7 @@ from settings import *
 
 class PdfWriter():
 
-  def __init__(self, filename='Teil-Dok.pdf', prevent_exceptions=False):
+  def __init__(self, filename='Tech-Dok.pdf', prevent_exceptions=False):
 
     self.prv_excps = prevent_exceptions
     self.datum = strftime("%d.%m.%Y")
