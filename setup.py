@@ -5,14 +5,15 @@ from glob import glob
 DLL_PATH = r'%s\\MS_DLLs' % os.environ['USERPROFILE']
 PYTHON_PATH = 'C:\\Programme\\Python27\\Lib\\site-packages'
 sys.path.append(DLL_PATH)
-data_files = [('imageformats', [r'C:\Programme\Python27\Lib\site-packages\PyQt4\plugins\imageformats\qico4.dll'])]
+data_files = [('imageformats', [r'C:\Programme\Python27\Lib\site-packages\PyQt4\plugins\imageformats\qico4.dll']),
+              ('savReaderWriter', [r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\VERSION'])]
 
 packages = [
     "sqlalchemy.dialects.sqlite",
     "sqlalchemy.dialects.postgresql",
     "psycopg2",
     "sip",
-    # "PyQt4.plugins.imageformats.qico4",
+    "savReaderWriter",
     "reportlab.pdfbase._can_cmap_data",
     "reportlab.pdfbase._cidfontdata",
     "reportlab.pdfbase._fontdata",

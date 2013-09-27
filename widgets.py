@@ -102,7 +102,7 @@ class Text(LabeledWidget):
     def add_widget(self, parent, **kwargs):
         self.widget = QtGui.QLineEdit(parent)
     def get_value(self):
-        return str(self.widget.text())
+        return unicode(self.widget.text())
     def set_value(self, value):
         self.widget.setText(value)
     def connect_dirty(self, slot):

@@ -5,7 +5,7 @@ import sip
 sip.setapi('QVariant', 2)
 
 from PyQt4 import QtCore, QtGui
-import os, subprocess, collections, shutil, csv, savReaderWriter
+import os, sys, subprocess, collections, shutil, csv, savReaderWriter, logging
 
 import sqlalchemy as sqAl
 from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
@@ -36,6 +36,9 @@ class MainWindow(QtGui.QMainWindow):
 
         self.config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
         self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB, True, type=bool)
+
+        logging.basicConfig(filename='log.log',level=logging.DEBUG)
+        # self.log = logging.getLogger('log.log')
 
         centralWidget = QtGui.QWidget(self)
         self.setCentralWidget(centralWidget)
@@ -359,9 +362,14 @@ class MainWindow(QtGui.QMainWindow):
                 # if f['typ'] in ('int','dropdown'):
                 #     formats[f['fieldname']] = 'F2.0'
 
-        with savReaderWriter.SavWriter(path, result.keys(), var_types, ioUtf8=True, formats=formats) as writer:
-            for record in result:
-                writer.writerow(list(record))
+        try:
+            logging.info('versuche SPSS-Datei zu speichern')
+            with savReaderWriter.SavWriter(path, result.keys(), var_types, ioUtf8=True, formats=formats, ioLocale='english') as writer:
+                for record in result:
+                    writer.writerow(list(record))
+        except Exception as inst:
+            logging.error(inst)
+
         if open_ext:
             self.open_file_externally(path)
 
