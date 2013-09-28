@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys, os
 
@@ -40,25 +42,16 @@ include_files = []
 base = None
 if sys.platform == "win32":
     base = "Win32GUI"
-    plugins_path = 'Lib/site-packages/PyQt4/plugins'
-    savRW_path = r'C:\Programme\Python27\Lib\site-packages\savReaderWriter'
+    sp_path = os.path.join(os.path.dirname(sys.executable), 'Lib/site-packages')
+    plugins_path = os.path.join(sp_path, 'PyQt4/plugins')
     # following line only for PyQt with Qt5
-    # include_files.append((os.path.join(os.path.dirname(sys.executable), plugins_path, 'platforms/qwindows.dll'), 'platforms/qwindows.dll'))
-    include_files.append((os.path.join(os.path.dirname(sys.executable), plugins_path, 'imageformats/qico4.dll'), 'imageformats/qico4.dll'))
-    include_files.append((os.path.join(savRW_path, r'VERSION'), r'savReaderWriter\VERSION'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\icudt48.dll'),'savReaderWriter\spssio\win32\icudt48.dll'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\icuin48.dll'),'savReaderWriter\spssio\win32\icuin48.dll'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\icuuc48.dll'),'savReaderWriter\spssio\win32\icuuc48.dll'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\spssio32.dll'),'savReaderWriter\spssio\win32\spssio32.dll'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\spssjdio.dll'),'savReaderWriter\spssio\win32\spssjdio.dll'))
-    include_files.append((os.path.join(savRW_path, r'spssio\win32\zlib123spss.dll'),'savReaderWriter\spssio\win32\zlib123spss.dll'))
-    # zip_includes = [(r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\VERSION', r'savReaderWriter\VERSION')]
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\icudt48.dll','savReaderWriter\spssio\win32\icudt48.dll'))
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\icuin48.dll','savReaderWriter\spssio\win32\icuin48.dll'))
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\icuuc48.dll','savReaderWriter\spssio\win32\icuuc48.dll'))
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\spssio32.dll','savReaderWriter\spssio\win32\spssio32.dll'))
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\spssjdio.dll','savReaderWriter\spssio\win32\spssjdio.dll'))
-    # zip_includes.append((r'C:\Programme\Python27\Lib\site-packages\savReaderWriter\spssio\win32\zlib123spss.dll','savReaderWriter\spssio\win32\zlib123spss.dll'))
+    # include_files.append((os.path.join(plugins_path, 'platforms/qwindows.dll'), 'platforms/qwindows.dll'))
+    include_files.append((os.path.join(plugins_path, 'imageformats/qico4.dll'), 'imageformats/qico4.dll'))
+    savRW_path = os.path.join(sp_path, 'savReaderWriter')
+    savRW_lib_dir = r'spssio/win32'
+    savRW_lib_files = [os.path.join(savRW_lib_dir, libfile) for libfile in os.listdir(os.path.join(savRW_path, savRW_lib_dir))]
+    savRW_lib_files.append('VERSION')
+    include_files += [(os.path.join(savRW_path, f), os.path.join('savReaderWriter', f)) for f in savRW_lib_files]
 
 setup(
         name = "RPK-Teilnehmerdatenerfassung",
