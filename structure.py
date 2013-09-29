@@ -1148,7 +1148,7 @@ structure = FieldnameList([
   {
     'title': u"40 - Behandlung/Betreuung nach der RPK-Maßnahme   (Mehrfachnennungen möglich)  ",
     'fieldname': u"f40",
-    'typ': 'multi_bool',
+    'typ': 'multi_select',
     'sav_opts': {
       'measure_level': 'nominal',
       'column_width': 5,
@@ -1156,24 +1156,53 @@ structure = FieldnameList([
       'var_type': 5
     },
     'allowance': [ 
-      u"00 - keine Angabe / nicht bekannt",
-      u"01 - stationäre psychiatrische Behandlung",
-      u"02 - teilstationäre Behandlung (Tagesklinik)",
-      u"03 - Psychiatrische Ambulanz/Poliklinik",
-      u"04 - niedergelassener Facharzt für Psychiatrie",
-      u"05 - Hausarzt",
-      u"06 - niedergelassener Psychotherapeut",
-      u"07 - Sozialpsychiatrischer Dienst",
-      u"08 - Psychosozialer Dienst / Berufsbegleitender Dienst / IFD",
-      u"09 - Tagesstätte / ambulante Ergotherapie",
-      u"10 - Beratungsstelle",
-      u"11 - Selbsthilfegruppe",
-      u"12 - keine",
-      u"13 - Sonstiges"
-    ],
-    'default': False,
+      ( 'unbek',    u"00 - keine Angabe / nicht bekannt" ),
+      ( 'staPsy',   u"01 - stationäre psychiatrische Behandlung" ),
+      ( 'tStaPsy',  u"02 - teilstationäre Behandlung (Tagesklinik)" ),
+      ( 'ambPsy',   u"03 - Psychiatrische Ambulanz/Poliklinik" ),
+      ( 'psychiat', u"04 - niedergelassener Facharzt für Psychiatrie" ),
+      ( 'hausarzt', u"05 - Hausarzt" ),
+      ( 'psyTher',  u"06 - niedergelassener Psychotherapeut" ),
+      ( 'sozPsyD',  u"07 - Sozialpsychiatrischer Dienst" ),
+      ( 'psyBbegI', u"08 - Psychosozialer Dienst / Berufsbegleitender Dienst / IFD" ),
+      ( 'tagErg',   u"09 - Tagesstätte / ambulante Ergotherapie" ),
+      ( 'berat',    u"10 - Beratungsstelle" ),
+      ( 'selbsth',  u"11 - Selbsthilfegruppe" ),
+      ( 'keine',    u"12 - keine" ),
+      ( 'sonstig',  u"13 - Sonstiges"
+ )    ],
+    'default': 0,
     'appears': ('capture', 'tabulation', 'documentation')
   }, 
+  # {
+  #   'title': u"40 - Behandlung/Betreuung nach der RPK-Maßnahme   (Mehrfachnennungen möglich)  ",
+  #   'fieldname': u"f40",
+  #   'typ': 'multi_bool',
+  #   'sav_opts': {
+  #     'measure_level': 'nominal',
+  #     'column_width': 5,
+  #     'alignment': 'right',
+  #     'var_type': 5
+  #   },
+  #   'allowance': [ 
+  #     u"00 - keine Angabe / nicht bekannt",
+  #     u"01 - stationäre psychiatrische Behandlung",
+  #     u"02 - teilstationäre Behandlung (Tagesklinik)",
+  #     u"03 - Psychiatrische Ambulanz/Poliklinik",
+  #     u"04 - niedergelassener Facharzt für Psychiatrie",
+  #     u"05 - Hausarzt",
+  #     u"06 - niedergelassener Psychotherapeut",
+  #     u"07 - Sozialpsychiatrischer Dienst",
+  #     u"08 - Psychosozialer Dienst / Berufsbegleitender Dienst / IFD",
+  #     u"09 - Tagesstätte / ambulante Ergotherapie",
+  #     u"10 - Beratungsstelle",
+  #     u"11 - Selbsthilfegruppe",
+  #     u"12 - keine",
+  #     u"13 - Sonstiges"
+  #   ],
+  #   'default': False,
+  #   'appears': ('capture', 'tabulation', 'documentation')
+  # }, 
   {
     'title': u"41 - Erwerbs- und Ausbildungssituation   (Situation nach Beendigung  der RPK-Maßnahme)      ",
     'fieldname': u"f41",

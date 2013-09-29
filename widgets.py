@@ -148,3 +148,35 @@ class MultiChooser(LabeledWidget):
     def connect_dirty(self, slot):
         self.widget.itemSelectionChanged.connect(slot)
 
+class MultiSelect(LabeledWidget):
+    def add_widget(self, parent, **kwargs):
+        self.widget = QtGui.QListWidget(parent)
+        self.widget.addItems([l for n,l in kwargs['allowance']])
+        self.widget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
+        self.widget.itemSelectionChanged.connect(self.check_unknown)
+    def get_value(self):
+        if self._reset:
+            vals = [ 1 ] + [-1 for i in range(1, self.widget.count())]
+        else:
+            vals = [self.widget.item(i).isSelected() for i in range(self.widget.count())]
+        return CompositeCol(*vals)
+    def set_value(self, values):
+        old_state = self.widget.blockSignals(True)
+        for i,v in enumerate(values):
+            self.widget.item(i).setSelected(v==1)
+        self.widget.blockSignals(old_state)
+    def reset(self):
+        self._reset = True
+        old_state = self.widget.blockSignals(True)
+        self.widget.item(0).setSelected(True)
+        for i in range(1, self.widget.count()):
+            self.widget.item(i).setSelected(False)
+        self.widget.blockSignals(old_state)
+    def connect_dirty(self, slot):
+        self.widget.itemSelectionChanged.connect(slot)
+    def check_unknown(self):
+        if self._reset:
+            self._reset = False
+            self.widget.item(0).setSelected(False)
+        elif self.widget.item(0).isSelected():
+            self.reset()

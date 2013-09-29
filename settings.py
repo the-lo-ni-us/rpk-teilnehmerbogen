@@ -28,6 +28,7 @@ DB_NAME = 'data.sqlite'
 TABLE_NAME = 'participants'
 DB_FMT_MI = '%s_mi_%d'
 DB_FMT_MB = '%s_mb_%d'
+DB_FMT_MS = '%s_%s'
 
 
 PDF_TITLE = u"BAG der RPKs Summenbogen - Auswertung für %s"

@@ -26,6 +26,7 @@ class MainWindow(QtGui.QMainWindow):
                  'enumber': EnumChooser,
                  'multi_bool': MultiChooser,
                  'multi_int': MultiSpinner,
+                 'multi_select': MultiSelect,
                  'str': Text,
                  'heading': Heading,
                  'int': Spinner,
@@ -340,15 +341,30 @@ class MainWindow(QtGui.QMainWindow):
                 'format': DB_FMT_MI,
                 'db_col_type': sqAl.Integer,
                 'default': 0
+            },
+            'multi_select': {
+                'format': DB_FMT_MS,
+                'db_col_type': sqAl.Integer,
+                'default': 0
             }
         }
 
         var_types, measure_levels, column_widths, alignments = {'id': 1}, {'id': 'nominal'}, {'id': 5}, {'id': 'right'}
         formats = {}
         for f in STRUCTURE.db_items:
-            if f['typ'] in mf_specs:
+            if f['typ'] in ('multi_bool', 'multi_int'):
                 for n in range(len(f['allowance'])):
                     fn = mf_specs[f['typ']]['format'] % (f['fieldname'], n)
+                    so = f['sav_opts']
+                    var_types[fn]  = so['var_type']
+                    measure_levels[fn]  = so.get('measure_level', 'unknown')
+                    column_widths[fn]  = so.get('column_width', 10)
+                    alignments[fn]  = so.get('alignment', 'right')
+                    if 'format' in f['sav_opts']:
+                        formats[fn] = f['sav_opts']['format']
+            elif f['typ'] in ('multi_select'):
+                for name, label in f['allowance']:
+                    fn = mf_specs[f['typ']]['format'] % (f['fieldname'], name)
                     so = f['sav_opts']
                     var_types[fn]  = so['var_type']
                     measure_levels[fn]  = so.get('measure_level', 'unknown')
