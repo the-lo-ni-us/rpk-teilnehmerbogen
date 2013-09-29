@@ -134,6 +134,15 @@ structure = FieldnameList([
     'appears': ('documentation',)
   },
   {
+    'title': u"multi_select",
+    'purpose': u"""
+    Mehrfach-Auswahlfeld mit benannten Spalten. In der Oberfläche eine Mehrfach-Auswahlliste. Numerisches Feld - eine Spalte pro Element. Ist das erste Element ("Nicht bekannt / keine Angabe") aktiviert (Vorgabe), werden alle weiteren Elemente abgewählt; in diesem Fall wird in der ersten Spalte 1 und in allen anderen der wert -1 gespeichert. Ist das erste Element nicht aktiviert, wird für dieses 0, für alle deaktivierten 0 und für alle aktivierten 1 gespeichert.
+    """,
+    'typ': 'typ_specification',
+    'disabled': False,
+    'appears': ('documentation',)
+  },
+  {
     'title': u"Über Typen",
     'content': u"""
     Dieses Dokument ist abgeleitet von der Strukturdefinition in 
@@ -150,6 +159,9 @@ structure = FieldnameList([
     'allowance': '',
     'typ': 'str',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 15
     },
     'default': '',
@@ -168,6 +180,9 @@ structure = FieldnameList([
     'allowance': '',
     'typ': 'str',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 15
     },
     'default': '',
@@ -178,6 +193,9 @@ structure = FieldnameList([
     'fieldname': u"mtpv",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -205,6 +223,9 @@ structure = FieldnameList([
     ],
     'typ': 'enum',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 4
     },
     'default': '',
@@ -223,6 +244,9 @@ structure = FieldnameList([
     'fieldname': u"f2",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -234,6 +258,9 @@ structure = FieldnameList([
     'fieldname': u"f2a",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -245,6 +272,9 @@ structure = FieldnameList([
     'fieldname': u"count_participants",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -263,6 +293,10 @@ structure = FieldnameList([
     'fieldname': u"f5",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -279,6 +313,9 @@ structure = FieldnameList([
     'fieldname': u"f6",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -290,7 +327,10 @@ structure = FieldnameList([
   #   'fieldname': u"f7",
   #   'typ': 'dropdown',
   #   'sav_opts': {
-  #     'var_type': 0,
+  #     'measure_level': 'unknown',
+      # 'column_width': 5,
+      # 'alignment': 'right',
+      # 'var_type': 0,
   #     'format': 'F3.0'
   #   },
   #   'default': 0,
@@ -309,6 +349,9 @@ structure = FieldnameList([
     'fieldname': u"f7",
     'typ': 'enumber',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -328,6 +371,9 @@ structure = FieldnameList([
     'fieldname': u"f8",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -349,6 +395,9 @@ structure = FieldnameList([
     'fieldname': u"f9",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -367,6 +416,9 @@ structure = FieldnameList([
     'fieldname': u"f10",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -387,6 +439,9 @@ structure = FieldnameList([
     'fieldname': u"f11",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -411,6 +466,9 @@ structure = FieldnameList([
     'fieldname': u"f12",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -431,6 +489,9 @@ structure = FieldnameList([
     'fieldname': u"f13",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -451,6 +512,9 @@ structure = FieldnameList([
     'fieldname': u"f15",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -473,6 +537,9 @@ structure = FieldnameList([
     'fieldname': u"f15_1",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -484,6 +551,9 @@ structure = FieldnameList([
     'fieldname': u"f16",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -506,6 +576,9 @@ structure = FieldnameList([
     'fieldname': u"f17",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -537,6 +610,9 @@ structure = FieldnameList([
     'fieldname': u"f19",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -556,6 +632,9 @@ structure = FieldnameList([
     'fieldname': u"f20",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -573,6 +652,9 @@ structure = FieldnameList([
     'fieldname': u"f21",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -590,6 +672,9 @@ structure = FieldnameList([
     'fieldname': u"f22",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -619,6 +704,9 @@ structure = FieldnameList([
     'fieldname': u"f23_1",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -644,6 +732,9 @@ structure = FieldnameList([
     'fieldname': u"f23_2",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -669,6 +760,9 @@ structure = FieldnameList([
     'fieldname': u"f24",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -680,6 +774,9 @@ structure = FieldnameList([
     'fieldname': u"f25",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -691,6 +788,9 @@ structure = FieldnameList([
     'fieldname': u"f26",
     'typ': 'int',
     'sav_opts': {
+      'measure_level': 'unknown',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -702,6 +802,9 @@ structure = FieldnameList([
     'fieldname': u"f27",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -723,6 +826,9 @@ structure = FieldnameList([
     'fieldname': u"f28",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -745,6 +851,9 @@ structure = FieldnameList([
     'fieldname': u"f29",
     'typ': 'multi_bool',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 5
     },
     'allowance': [ 
@@ -782,6 +891,9 @@ structure = FieldnameList([
     'fieldname': u"f30",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -809,6 +921,9 @@ structure = FieldnameList([
     'fieldname': u"f31",
     'typ': 'multi_int',
     'sav_opts': {
+      'measure_level': 'scale',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -835,6 +950,9 @@ structure = FieldnameList([
     'fieldname': u"f32",
     'typ': 'multi_int',
     'sav_opts': {
+      'measure_level': 'scale',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -856,6 +974,9 @@ structure = FieldnameList([
     'fieldname': u"f32_1",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -873,6 +994,9 @@ structure = FieldnameList([
     'fieldname': u"f33",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -891,6 +1015,9 @@ structure = FieldnameList([
     'fieldname': u"f34",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -906,6 +1033,9 @@ structure = FieldnameList([
     'fieldname': u"f35",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -923,6 +1053,9 @@ structure = FieldnameList([
     'fieldname': u"f36",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -940,6 +1073,9 @@ structure = FieldnameList([
     'fieldname': u"f37",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -962,6 +1098,9 @@ structure = FieldnameList([
     'fieldname': u"f38",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -979,6 +1118,9 @@ structure = FieldnameList([
     'fieldname': u"f39",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1008,6 +1150,9 @@ structure = FieldnameList([
     'fieldname': u"f40",
     'typ': 'multi_bool',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 5
     },
     'allowance': [ 
@@ -1034,6 +1179,9 @@ structure = FieldnameList([
     'fieldname': u"f41",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1065,6 +1213,9 @@ structure = FieldnameList([
     'fieldname': u"f41_1",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1083,6 +1234,9 @@ structure = FieldnameList([
     'fieldname': u"f43",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1104,6 +1258,9 @@ structure = FieldnameList([
     'fieldname': u"f44",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1124,6 +1281,9 @@ structure = FieldnameList([
     'fieldname': u"f45",
     'typ': 'dropdown',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
@@ -1149,6 +1309,9 @@ structure = FieldnameList([
     'allowance': '',
     'typ': 'str',
     'sav_opts': {
+      'measure_level': 'nominal',
+      'column_width': 5,
+      'alignment': 'right',
       'var_type': 15
     },
     'default': '',

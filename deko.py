@@ -3,6 +3,7 @@
 
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
+import functools
 
 modies = { 'shift': Qt.ShiftModifier,
            'control': Qt.ControlModifier,
@@ -10,21 +11,22 @@ modies = { 'shift': Qt.ShiftModifier,
            'meta': Qt.MetaModifier }
 
 def check_modifiers(org_meth):
-    """Add modifiers kwarg to a method that contains a tuple of currently pressed modifiers."""
+    """Add modifiers kwarg to a method that contains a tuple of names of currently pressed modifiers."""
 
-    def check_modifiers(*args, **kwargs):
+    @functools.wraps(org_meth)
+    def wrapper(*args, **kwargs):
         curr = QApplication.keyboardModifiers()
         kwargs['modifiers'] = tuple( name for name, which in modies.items() if curr & which == which )
 
-        org_meth.__call__(*args, **kwargs)
+        org_meth(*args, **kwargs)
 
-    return check_modifiers
+    return wrapper
 
 
 if __name__ == '__main__':
 
     import sip
-    sip.setapi('QVariant', 2)
+    # sip.setapi('QVariant', 2)
     from PyQt4 import QtGui, QtCore
 
     class MainWindow(QtGui.QMainWindow):
@@ -40,10 +42,13 @@ if __name__ == '__main__':
             self.clickButton.clicked.connect(self.klick)
             layout.addWidget(self.clickButton)
             self.statusBar()
+            self.setMinimumWidth(600)
 
         @check_modifiers
         def klick(self, event, modifiers):
-            self.statusBar().showMessage( repr(modifiers) + " has been pressed")
+            ms = QtGui.QApplication.keyboardModifiers()
+            m = "keyboardModifiers: {1:0=32b} {0} has been pressed"
+            self.statusBar().showMessage(m.format(repr(modifiers), int(ms)))
             
     import sys
     app = QtGui.QApplication(sys.argv)

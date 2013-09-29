@@ -343,17 +343,25 @@ class MainWindow(QtGui.QMainWindow):
             }
         }
 
-        var_types = {'id': 1}
+        var_types, measure_levels, column_widths, alignments = {'id': 1}, {'id': 'nominal'}, {'id': 5}, {'id': 'right'}
         formats = {}
         for f in STRUCTURE.db_items:
             if f['typ'] in mf_specs:
                 for n in range(len(f['allowance'])):
                     fn = mf_specs[f['typ']]['format'] % (f['fieldname'], n)
-                    var_types[fn]  = f['sav_opts']['var_type']
+                    so = f['sav_opts']
+                    var_types[fn]  = so['var_type']
+                    measure_levels[fn]  = so.get('measure_level', 'unknown')
+                    column_widths[fn]  = so.get('column_width', 10)
+                    alignments[fn]  = so.get('alignment', 'right')
                     if 'format' in f['sav_opts']:
                         formats[fn] = f['sav_opts']['format']
             else:
+                so = f['sav_opts']
                 var_types[f['fieldname']] = f['sav_opts']['var_type']
+                measure_levels[f['fieldname']]  = so.get('measure_level', 'unknown')
+                column_widths[f['fieldname']]  = so.get('column_width', 10)
+                alignments[f['fieldname']]  = so.get('alignment', 'right')
                 if 'format' in f['sav_opts']:
                     formats[f['fieldname']] = f['sav_opts']['format']
                 # if f['typ'] in ('int','dropdown'):
@@ -361,7 +369,8 @@ class MainWindow(QtGui.QMainWindow):
 
         try:
             logging.info('versuche SPSS-Datei zu speichern')
-            with savReaderWriter.SavWriter(path, result.keys(), var_types, ioUtf8=True, formats=formats, ioLocale='english') as writer:
+            with savReaderWriter.SavWriter(path, result.keys(), var_types, measureLevels=measure_levels, columnWidths=column_widths, alignments=alignments, 
+                                        ioUtf8=True, formats=formats, ioLocale= 'english' if os.name == 'nt' else None) as writer:
                 for record in result:
                     writer.writerow(list(record))
         except Exception as inst:
