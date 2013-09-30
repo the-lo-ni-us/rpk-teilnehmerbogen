@@ -23,7 +23,7 @@ from settings import *
 
 class PdfWriter():
 
-  def __init__(self, filename='Tech-Dok.pdf', prevent_exceptions=False):
+  def __init__(self, filename='Doku/Tech-Dok.pdf', prevent_exceptions=False):
 
     self.prv_excps = prevent_exceptions
     self.datum = strftime("%d.%m.%Y")
@@ -61,7 +61,7 @@ class PdfWriter():
 
   def write_pdf(self):
 
-    fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB}
+    fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB, 'multi_select': DB_FMT_MS, 'multi_numeric': DB_FMT_MN}
 
     self.story.append( Paragraph( DOC_TITLE % self.datum, styleH ))
     self.story.append( Spacer(1,0.4*cm) )
@@ -83,11 +83,19 @@ class PdfWriter():
         to_append = Table( [ [ Paragraph( self.indexed(field['title'], fn), styleN ), 'integer'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] == 'str':
         to_append = Table( [ [Paragraph(self.indexed(field['title'], fn), styleN), 'string'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
-      elif field['typ'] in ['multi_int','multi_bool']:
+      elif field['typ'] in ('multi_int','multi_bool'):
         p = Paragraph( self.indexed(field['title'], fn), styleN )
         table = []
         for n, item in enumerate(field['allowance']):
           table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_int': 'integer','multi_bool': 'bool'}[field['typ']] ] )
+          # table.append( [ '', item ] + [ data[fmts[field['typ']] % (fn,n)][m] for m in range(4) ] )
+        table[0][0] = p
+        to_append = KeepTogether(Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 ) )
+      elif field['typ'] in ('multi_select','multi_numeric'):
+        p = Paragraph( self.indexed(field['title'], fn), styleN )
+        table = []
+        for n, item in field['allowance']:
+          table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_select': '-1, 0 oder 1','multi_numeric': '-1 bis ∞'}[field['typ']] ] )
           # table.append( [ '', item ] + [ data[fmts[field['typ']] % (fn,n)][m] for m in range(4) ] )
         table[0][0] = p
         to_append = KeepTogether(Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 ) )
@@ -121,7 +129,7 @@ class PdfWriter():
 
       if to_append:
         self.story.append( to_append )
-        t = [ [ Paragraph(u'Typ: <font name="courier-bold"><a color="blue" href="#typ_%s">%s</a></font>' % (field['typ'], field['typ']), styleMult), 'Feldname: %s' % fn, '' ], 
+        t = [ [ Paragraph(u'Typ: <font name="courier-bold"><a color="blue" href="#typ_%s">%s</a></font>' % (field['typ'], field['typ']), styleMult), 'Variablenname: %s' % fn, '' ], 
               ['Datentyp: %s' % field['default'].__class__.__name__, field.get('longname')], 
               ['Vorgabe: %s' % str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig' or ''] ]
         # t = [ [ '', fn, '' ], [type(field['default']), field.get('longname')], [str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig'] ]

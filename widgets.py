@@ -180,3 +180,35 @@ class MultiSelect(LabeledWidget):
             self.widget.item(0).setSelected(False)
         elif self.widget.item(0).isSelected():
             self.reset()
+
+class MultiNumeric(MultiSpinner):
+    def __init__(self, parent, parent_grid, **kwargs):
+        self.row = GridRow.row
+        self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
+        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
+        grid = QtGui.QGridLayout()
+        parent_grid.addLayout(grid, self.row, 1)
+        font = self.label.font()
+        font.setPointSize(font.pointSize()-1)
+        self.spinners = []
+        for i, name in enumerate(kwargs['allowance']):
+            label = QtGui.QLabel(name)
+            label.setFont(font)
+            grid.addWidget(label, i, 0)
+            spinner = QtGui.QSpinBox(parent)
+            spinner.setMinimum(-1)
+            spinner.setMaximum(1000)
+            grid.addWidget(spinner, i, 1)
+            self.spinners.append(spinner)
+        GridRow.row += 1
+
+    def get_value(self):
+        return CompositeCol(*[sp.value() for sp in self.spinners])
+    def set_value(self, values):
+        [sp.setValue(values[i]) for i,sp in enumerate(self.spinners)]
+    def reset(self):
+        self._missing = True
+        [sp.setValue(-1) for sp in self.spinners]
+    def connect_dirty(self, slot):
+        [sp.valueChanged.connect(slot) for sp in self.spinners]
+

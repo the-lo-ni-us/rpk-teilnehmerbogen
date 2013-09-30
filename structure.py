@@ -16,7 +16,7 @@ structure = FieldnameList([
   {
     'title': u"Begriffskärung",
     'content': """
-    Im Folgenden ist z.T. die Rede von <i>Feld-</i> oder <i>Spaltennamen</i>, was quasi synonym mit <i>Variablenname</i> in SPSS ist. Mit <i>Typ</i> (eines <i>Feldes</i>) ist eine Festlegung gemeint, die sowohl die Repräsentation eines <i>Feldes</i> in der Benutzeroberfläche der Anwendung, als auch in der Datenbank betrifft. Darüber hinaus können für jedes <i>Feld</i> detailierte Optionen für den Export nach SPSS festgelegt werden, die z.B. <i>Variablenlabel</i>, </i>Wertelabel</i>, <i>Fehlende Werte</i>, <i>Spaltenbreite</i>, <i>Dezimalstellen</i> und <i>Messniveau</i> bestimmen.
+    Im Folgenden ist z.T. die Rede von <i>Feld-</i> oder <i>Spaltennamen</i>, was quasi synonym mit <i>Variablenname</i> in SPSS ist. Mit <i>Typ</i> (eines <i>Feldes</i>) ist eine Festlegung gemeint, die sowohl die Repräsentation einer <i>Variable</i> in der Benutzeroberfläche der Anwendung, als auch in der Datenbank betrifft. Darüber hinaus können für jede <i>Variable</i> detailierte Optionen für den Export nach SPSS festgelegt werden, die z.B. <i>Variablenlabel</i>, <i>Wertelabel</i>, <i>Fehlende Werte</i>, <i>Spaltenbreite</i>, <i>Dezimalstellen</i> und <i>Messniveau</i> (<i>Skalierung</i>) bestimmen.
     """,
     'typ': 'doc_paragraph',
     'appears': ('documentation',)
@@ -24,7 +24,7 @@ structure = FieldnameList([
   {
     'title': u"Beschreibung",
     'content': """
-    Die Anwendung kann (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a>. Um mit der Zeit zu gehen: <i><a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen" color="blue">Fork me on Github</a></i>.
+    Die Anwendung kann (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a>. Es läuft auch unter Linux und eine Mac Os X Version wäre bei Bedarf ebenfalls machbar. Um mit der Mode zu gehen: <i><a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen" color="blue">Fork me on Github</a></i>.
     """,
     'typ': 'doc_paragraph',
     'appears': ('documentation',)
@@ -32,7 +32,7 @@ structure = FieldnameList([
   {
     'title': u"Erklärung der Angaben in der Dokumentation",
     'content': u"""
-    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAG-RPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache Zahlen (Integer, int...). Als Vorgabewert für die numerischen <i>Felder</i> wird hier der Wert -1 verwendet, der in Auswertungen einheitlich als "nicht erfasst" (fehlender Wert) interpretiert werden kann. 
+    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAG-RPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache Zahlen (Integer, int...). Als Vorgabewert für die numerischen <i>Felder</i> wird hier der Wert <i>-1</i> verwendet, der in Auswertungen einheitlich als "nicht erfasst" (fehlender Wert) interpretiert werden kann. 
     """,
     'typ': 'doc_paragraph',
     'appears': ('documentation',)
@@ -40,7 +40,7 @@ structure = FieldnameList([
   {
     'title': u"Über Typen",
     'content': u"""
-    Die <i>Auswahl-Felder</i> haben hier soweit (bis auf zwei als Beispiele dienende Ausnahmen) den "Typ" <font face="courier-bold"><a color="blue" href="#typ_dropdown">dropdown</a></font>. Das steht vereinfacht gesagt, für die oben erwähnte Zuordnung von Ausprägung zu numerischen Werten ("keine Angabe" = 0, "männlich" = 1, usw...). Dieser <i>Typ</i> liesse sich in einzelnen oder allen Fällen durch den <i>Typ</i> <font face="courier-bold"><a color="blue" href="#typ_enum">enum</a></font> (siehe Feld <a color="blue" href="#jahr">jahr</a>) bzw. <font face="courier-bold"><a color="blue" href="#typ_enumber">enumber</a></font> ersetzen (siehe Feld <a color="blue" href="#f7">f7</a>). Bei ersterem <i>Typ</i> wird für jede Ausprägung ein festgelegtes Kürzel gespeichert. So könnte man z.B. "keine Angabe" = "", "männlich" = "m", "weiblich" = "w" zuordnen. Das könnte in vielen Fällen leichter auszuwerten sein, bedürfte aber natürlich der Festlegung für jede einzelne Ausprägung. Außerdem könnte man stattdessen einfach Wertelabels für SPSS festlegen (und beim <font face="courier-bold">dropdown</font> bleiben). (Aktuell finden sich hier 246 Ausprägungen in 33 <font face="courier-bold">dropdown</font>-Feldern, d.h. würde man z.B. alle durch <font face="courier-bold">enum</font> ersetzen und "keine Angabe / nicht bekannt" mit "" repräsentieren, wären 213 Kürzel festzulegen.).
+    Die <i>Auswahl-Felder</i> haben hier soweit (bis auf zwei als Beispiele dienende Ausnahmen) den "Typ" <font face="courier-bold"><a color="blue" href="#typ_dropdown">dropdown</a></font>. Das steht vereinfacht gesagt, für die oben erwähnte Zuordnung von Ausprägung zu numerischen Werten ("keine Angabe" = <i>0</i>, "männlich" = <i>1</i>, usw...). Dieser <i>Typ</i> liesse sich in einzelnen oder allen Fällen durch den <i>Typ</i> <font face="courier-bold"><a color="blue" href="#typ_enum">enum</a></font> (siehe Feld <a color="blue" href="#jahr">jahr</a>) bzw. <font face="courier-bold"><a color="blue" href="#typ_enumber">enumber</a></font> ersetzen (siehe Feld <a color="blue" href="#f7">f7</a>). Bei ersterem <i>Typ</i> wird für jede Ausprägung ein festgelegtes Kürzel gespeichert. So könnte man z.B. "keine Angabe" = "", "männlich" = "m", "weiblich" = "w" zuordnen. Das könnte in vielen Fällen leichter auszuwerten sein, bedürfte aber natürlich der Festlegung für jede einzelne Ausprägung. Außerdem könnte man stattdessen einfach Wertelabels für SPSS festlegen (und beim <font face="courier-bold">dropdown</font> bleiben). (Aktuell finden sich hier 246 Ausprägungen in 33 <font face="courier-bold">dropdown</font>-Feldern, d.h. würde man z.B. alle durch <font face="courier-bold">enum</font> ersetzen und "keine Angabe / nicht bekannt" mit "" repräsentieren, wären 213 Kürzel festzulegen.).
     """,
     'typ': 'doc_paragraph',
     # 'disabled': True,
@@ -92,7 +92,7 @@ structure = FieldnameList([
   {
     'title': u"enumber",
     'purpose': u"""
-    Einfaches Auswahlfeld. In der Oberfläche eine Dropdown Liste. In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert in die Bedeutung des Ausgewählten Elementes in Form eines <i>Integers</i>. Beispielsweise -1 für "keine Angabe / nicht bekannt", 1 für "männlich", 2 für "weiblich".
+    Einfaches Auswahlfeld. In der Oberfläche eine Dropdown Liste. In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert in die Bedeutung des Ausgewählten Elementes in Form eines <i>Integers</i>. Beispielsweise <i>-1</i> für "keine Angabe / nicht bekannt", <i>1</i> für "männlich", <i>2</i> für "weiblich".
     """,
     'typ': 'typ_specification',
     'appears': ('documentation',)
@@ -109,7 +109,7 @@ structure = FieldnameList([
   {
     'title': u"multi_int",
     'purpose': u"""
-    Mehrfacher Numerischer Wert. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. In der Datenbank mehrere INTEGER Spalten - wie bei <font face="courier-bold">multi_bool</font>, eine Spalte pro Element. Auch hier werden die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel (hier "mi") und einer Zahl, die die Position des Elementes repräsentiert. Gibt man beispielsweise unter "<a color="blue" href="#f31">31 - Leistungsträger...</a>" bei "AOK" einen Wert von 21, und bei "IKK" 14 ein, wird in der Spalte f31_mi_0 der Wert <i>21</i>, in Spalte f31_mi_2 der Wert <i>14</i> und in den restlichen Spalten der Wert <i>0</i> gespeichert.
+    Mehrfacher Numerischer Wert. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. In der Datenbank mehrere INTEGER Spalten - wie bei <font face="courier-bold">multi_bool</font>, eine Spalte pro Element. Auch hier werden die Spaltennamen zusammen gesetzt aus dem Feldnamen, einem Kürzel (hier "mi") und einer Zahl, die die Position des Elementes repräsentiert. Gibt man beispielsweise unter "<a color="blue" href="#f31">31 - Leistungsträger...</a>" bei "AOK" einen Wert von <i>21</i>, und bei "IKK" <i>14</i> ein, wird in der Spalte f31_mi_0 der Wert <i>21</i>, in Spalte f31_mi_2 der Wert <i>14</i> und in den restlichen Spalten der Wert <i>0</i> gespeichert.
     """,
     'typ': 'typ_specification',
     'disabled': False,
@@ -136,7 +136,16 @@ structure = FieldnameList([
   {
     'title': u"multi_select",
     'purpose': u"""
-    Mehrfach-Auswahlfeld mit benannten Spalten. In der Oberfläche eine Mehrfach-Auswahlliste. Numerisches Feld - eine Spalte pro Element. Ist das erste Element ("Nicht bekannt / keine Angabe") aktiviert (Vorgabe), werden alle weiteren Elemente abgewählt; in diesem Fall wird in der ersten Spalte 1 und in allen anderen der wert -1 gespeichert. Ist das erste Element nicht aktiviert, wird für dieses 0, für alle deaktivierten 0 und für alle aktivierten 1 gespeichert.
+    Mehrfach-Auswahlfeld mit benannten Variablen (im Gegensatz zu numerierten). In der Oberfläche eine Mehrfach-Auswahlliste. Numerische Variable - eine Spalte pro Element. Ist das erste Element ("Nicht bekannt / keine Angabe") aktiviert (Vorgabe), werden alle weiteren Elemente abgewählt; in diesem Fall wird in der ersten Spalte <i>1</i> und in allen anderen der wert <i>-1</i> gespeichert. Ist das erste Element nicht aktiviert, wird für dieses <i>0</i>, für alle deaktivierten <i>0</i> und für alle aktivierten <i>1</i> gespeichert.
+    """,
+    'typ': 'typ_specification',
+    'disabled': False,
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"multi_numeric",
+    'purpose': u"""
+    Mehrfache numerische Variable mit benannten Variablennamen. In der Oberfläche eine zusammengefasste Anordnung mehrerer numerischer Engabefelder. Die Vorgabe ist <i>-1</i> für alle Variablen. Wird ein Wert in der Oberfläche auf <i>0</i> oder mehr gesetzt werden alle anderen (bis dahin auf <i>-1</i> gesetzten) auf <i>0</i> gesetzt. Sind alle auf <i>0</i> und es wird einer auf <i>-1</i> gesetzt werden alle auf <i>-1</i> gesetzt (die Kombination von <i>-1</i> und positiven Werten wird verhindert). Anders gesagt: Es haben entweder alle Teil-Variablen den Status <i>fehlender Wert</i> (<i>-1</i>) oder keine.
     """,
     'typ': 'typ_specification',
     'disabled': False,
