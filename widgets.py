@@ -31,22 +31,23 @@ class GridRow():
 class Heading():
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
-        self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
+        self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
         font = self.label.font()
         font.setPointSize(font.pointSize()+3)
         self.label.setFont(font)
         self.label.setMargin(10)
-        # self.label.SetDimensions(0,0,PANEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        parent_grid.addWidget(self.label, self.row, 0, 1, 2)
+        parent_grid.addWidget(self.label, self.row, 0, 1, 3)
         GridRow.row += 1
 
-class MultiSpinner():
+class MultiSpinner(object):
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
-        self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
-        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
+        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=True)
+        parent_grid.addWidget(self.n_label, self.row, 0, QtCore.Qt.AlignTop)
+        self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
+        parent_grid.addWidget(self.label, self.row, 1, QtCore.Qt.AlignTop)
         grid = QtGui.QGridLayout()
-        parent_grid.addLayout(grid, self.row, 1)
+        parent_grid.addLayout(grid, self.row, 2)
         font = self.label.font()
         font.setPointSize(font.pointSize()-1)
         self.spinners = []
@@ -64,7 +65,10 @@ class MultiSpinner():
     def get_value(self):
         return CompositeCol(*[sp.value() for sp in self.spinners])
     def set_value(self, values):
-        [sp.setValue(values[i]) for i,sp in enumerate(self.spinners)]
+        for i,sp in enumerate(self.spinners):
+            old_state = sp.blockSignals(True)
+            sp.setValue(values[i])
+            sp.blockSignals(old_state)
     def reset(self):
         [sp.setValue(0) for sp in self.spinners]
     def connect_dirty(self, slot):
@@ -74,13 +78,13 @@ class LabeledWidget():
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
         self.default = kwargs['default']
-        self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
-        # self.label.SetDimensions(0,0,LABEL_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
-        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
+        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=True)
+        parent_grid.addWidget(self.n_label, self.row, 0, QtCore.Qt.AlignTop)
+        self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
+        parent_grid.addWidget(self.label, self.row, 1, QtCore.Qt.AlignTop)
         self.add_widget(parent, **kwargs)
-        parent_grid.addWidget(self.widget, self.row, 1, QtCore.Qt.AlignTop)
+        parent_grid.addWidget(self.widget, self.row, 2, QtCore.Qt.AlignTop)
         GridRow.row += 1
-        # self.widget.SetDimensions(0,0,WIDGET_WIDTH,0, wx.SIZE_AUTO_HEIGHT)
     def add_widget(self, parent, **kwargs):
         pass
     def get_value(self):
@@ -113,9 +117,9 @@ class Chooser(LabeledWidget):
         self.widget = QtGui.QComboBox(parent)
         self.widget.addItems(kwargs['allowance'])
     def get_value(self):
-        return self.widget.currentIndex()
+        return self.widget.currentIndex() - 1
     def set_value(self, value):
-        self.widget.setCurrentIndex(value)
+        self.widget.setCurrentIndex(value + 1)
     def connect_dirty(self, slot):
         self.widget.currentIndexChanged.connect(slot)
 
@@ -153,62 +157,103 @@ class MultiSelect(LabeledWidget):
         self.widget = QtGui.QListWidget(parent)
         self.widget.addItems([l for n,l in kwargs['allowance']])
         self.widget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
-        self.widget.itemSelectionChanged.connect(self.check_unknown)
+        self.widget.itemSelectionChanged.connect(self.check_missing)
+        self._missing_state = (1,) + tuple(-1 for i in range(1, len(kwargs['allowance'])))
+        self.allow_all_zero = kwargs.get('allow_all_zero', False)
+        # print(kwargs)
     def get_value(self):
-        if self._reset:
-            vals = [ 1 ] + [-1 for i in range(1, self.widget.count())]
+        if self._missing:
+            vals = self._missing_state
         else:
-            vals = [self.widget.item(i).isSelected() for i in range(self.widget.count())]
+            vals = [self.widget.item(i).isSelected() and 1 or 0 for i in range(self.widget.count())]
         return CompositeCol(*vals)
     def set_value(self, values):
         old_state = self.widget.blockSignals(True)
         for i,v in enumerate(values):
             self.widget.item(i).setSelected(v==1)
         self.widget.blockSignals(old_state)
+        self._missing = True if tuple(values) == self._missing_state else False
     def reset(self):
-        self._reset = True
+        self._missing = True
         old_state = self.widget.blockSignals(True)
-        self.widget.item(0).setSelected(True)
-        for i in range(1, self.widget.count()):
-            self.widget.item(i).setSelected(False)
+        for i,v in enumerate(self._missing_state):
+            self.widget.item(i).setSelected(v==1)
         self.widget.blockSignals(old_state)
     def connect_dirty(self, slot):
         self.widget.itemSelectionChanged.connect(slot)
-    def check_unknown(self):
-        if self._reset:
-            self._reset = False
-            self.widget.item(0).setSelected(False)
+    def check_missing(self):
+        if self._missing:
+            keep_missing = len(self.widget.selectedItems()) == 0 and not self.allow_all_zero
+            self._missing = keep_missing
+            old_state = self.widget.blockSignals(True)
+            self.widget.item(0).setSelected(keep_missing)
+            self.widget.blockSignals(old_state)
         elif self.widget.item(0).isSelected():
             self.reset()
 
 class MultiNumeric(MultiSpinner):
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
-        self.label = QtGui.QLabel(kwargs['label'], parent, wordWrap=True)
-        parent_grid.addWidget(self.label, self.row, 0, QtCore.Qt.AlignTop)
+        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=True)
+        parent_grid.addWidget(self.n_label, self.row, 0, QtCore.Qt.AlignTop)
+        self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
+        self.allow_all_zero = kwargs.get('allow_all_zero', False)
+        parent_grid.addWidget(self.label, self.row, 1, QtCore.Qt.AlignTop)
         grid = QtGui.QGridLayout()
-        parent_grid.addLayout(grid, self.row, 1)
+        parent_grid.addLayout(grid, self.row, 2)
         font = self.label.font()
         font.setPointSize(font.pointSize()-1)
         self.spinners = []
-        for i, name in enumerate(kwargs['allowance']):
-            label = QtGui.QLabel(name)
+        for i, tup in enumerate(kwargs['allowance']):
+            label = QtGui.QLabel(tup[1])
             label.setFont(font)
             grid.addWidget(label, i, 0)
             spinner = QtGui.QSpinBox(parent)
             spinner.setMinimum(-1)
             spinner.setMaximum(1000)
             grid.addWidget(spinner, i, 1)
+            spinner.valueChanged.connect(self.check_missing)
             self.spinners.append(spinner)
         GridRow.row += 1
 
-    def get_value(self):
-        return CompositeCol(*[sp.value() for sp in self.spinners])
     def set_value(self, values):
-        [sp.setValue(values[i]) for i,sp in enumerate(self.spinners)]
+        for i,sp in enumerate(self.spinners):
+            old_state = sp.blockSignals(True)
+            sp.setValue(values[i])
+            sp.blockSignals(old_state)
+        if set(values) == {-1}:
+            self._missing = True
     def reset(self):
         self._missing = True
-        [sp.setValue(-1) for sp in self.spinners]
+        for sp in self.spinners:
+            old_state = sp.blockSignals(True)
+            sp.setValue(-1)
+            sp.blockSignals(old_state)
     def connect_dirty(self, slot):
-        [sp.valueChanged.connect(slot) for sp in self.spinners]
-
+        for sp in self.spinners:
+            sp.valueChanged.connect(slot)
+    def _zeroify(self):
+        for sp in self.spinners:
+            if sp.value() == -1:
+                old_state = sp.blockSignals(True)
+                sp.setValue(0)
+                sp.blockSignals(old_state)
+    def check_missing(self, value):
+        if self._missing:
+            zero = None
+            if not(self.allow_all_zero):
+                vals = self.get_value()
+                if vals.count(0):
+                  zero = vals.index(0)
+            self._zeroify()
+            if zero != None:
+                old_state = self.spinners[zero].blockSignals(True)
+                self.spinners[zero].setValue(1)
+                self.spinners[zero].blockSignals(old_state)
+            self._missing = False
+        else:
+            uniq = set(sp.value() for sp in self.spinners)
+            if uniq == {-1, 0} or (uniq == {0} and not self.allow_all_zero):
+                self.reset()
+            elif len(uniq) > 2 and -1 in uniq:
+                self._zeroify()

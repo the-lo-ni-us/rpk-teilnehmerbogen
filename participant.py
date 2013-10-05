@@ -18,17 +18,18 @@ def generate_class(name): # Don't know if we really need name
         'multi_bool': {
             'format': DB_FMT_MB,
             'db_col_type': sqAl.Boolean,
-            'default': False
             },
         'multi_int': {
             'format': DB_FMT_MI,
             'db_col_type': sqAl.Integer,
-            'default': 0
             },
         'multi_select': {
             'format': DB_FMT_MS,
             'db_col_type': sqAl.Integer,
-            'default': 0
+            },
+        'multi_numeric': {
+            'format': DB_FMT_MN,
+            'db_col_type': sqAl.Integer,
             }
         }
 
@@ -44,16 +45,16 @@ def generate_class(name): # Don't know if we really need name
             sub_fields = []
             for i, item in enumerate(field['allowance']):
                 fn = specs['format'] % (field['fieldname'], i)
-                cf =  sqAl.Column(fn, specs['db_col_type'], default=specs['default'])
+                cf =  sqAl.Column(fn, specs['db_col_type'], default=field['default'])
                 dynclass_dict[fn] = cf
                 sub_fields.append(cf)
             dynclass_dict[field['fieldname']] = sqAl_composite(CompositeCol, *sub_fields)
-        elif field['typ'] in ('multi_select'):
+        elif field['typ'] in ('multi_select', 'multi_numeric'):
             specs = mf_specs[field['typ']]
             sub_fields = []
             for name, label in field['allowance']:
                 fn = specs['format'] % (field['fieldname'], name)
-                cf =  sqAl.Column(fn, specs['db_col_type'], default=specs['default'])
+                cf =  sqAl.Column(fn, specs['db_col_type'], default=field['default'])
                 dynclass_dict[fn] = cf
                 sub_fields.append(cf)
             dynclass_dict[field['fieldname']] = sqAl_composite(CompositeCol, *sub_fields)

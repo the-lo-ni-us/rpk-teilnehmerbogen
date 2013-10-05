@@ -7,6 +7,10 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.lib.colors import Color, white, black, green
 from reportlab.lib.units import cm, mm
 
+line_width = 0.3
+rightcol_color = Color(0.83,0.88,0.73)
+rightcol_text_color = black
+
 fmt_std= {'name': 'Normal',
           'fontName': 'Helvetica',
           'fontSize': 10,
@@ -61,7 +65,7 @@ styleH = ParagraphStyle(name='Normal-Heading',
             firstLineIndent = 0,
             alignment = TA_LEFT,
             spaceBefore = 8 * mm,
-            spaceAfter = 2 * mm,
+            spaceAfter = 6 * mm,
             textColor =  black,
             backColor = None )
 
@@ -225,3 +229,57 @@ styleTypSpec = ( ('SPAN',          (1,0), (1,-1)),
                 ('TOPPADDING',    (0,0), ( 0, 0), 3),
                 ('BOTTOMPADDING', (0,0), ( 0, 0), 3) )
 
+###################   RAISING   ######################
+
+grid_borders = ( ('INNERGRID', (0,0), (-1,-1), line_width, black), 
+                 ('BOX',       (0,0), (-1,-1), line_width, black) )
+
+paddings = (('LEFTPADDING',   (0,0), (-1,-1), 3),
+            ('RIGHTPADDING',  (0,0), (-1,-1), 6),
+            ('TOPPADDING',    (0,0), (-1,-1), 0),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 0))
+
+vspan_first2 = ( ('SPAN', (0,0), (0,-1)), 
+                 ('SPAN', (1,0), (1,-1)) )
+
+vspan_3 = ( ('SPAN', (2,0), (2,-1)) ,)
+
+span_3_4 = ( ('SPAN', (2,0), (3,-1)) ,)
+
+span_4_5 = ( ('SPAN', (3,0), (4,-1)) ,)
+
+align_right_5 = ( ('ALIGN',  (4,0), (4,-1), 'RIGHT') ,)
+
+align_center_5 = ( ('ALIGN',  (4,0), (4,-1), 'CENTER') ,)
+
+valign_top_c1 = (  ('VALIGN', (0,0), (0,-1), 'TOP') ,)
+
+valign_top_c1_2_3 = (  ('VALIGN', (0,0), (2,-1), 'TOP') ,)
+
+valign_middle_c1 = (  ('VALIGN', (0,0), (0,-1), 'MIDDLE') ,)
+
+
+colorize_4 = ( ('BACKGROUND', (3,0), (3,-1),  rightcol_color),
+               ('TEXTCOLOR',  (3,0), (3,-1),  rightcol_text_color) )
+
+colorize_5 = ( ('BACKGROUND', (4,0), (4,-1),  rightcol_color),
+               ('TEXTCOLOR',  (4,0), (4,-1),  rightcol_text_color) )
+
+raiseFirst3 = ( 1*cm, 2*cm, 6*cm )
+
+spaltenRaise4 = raiseFirst3 + ( 10*cm, )
+
+styleRaise4 = vspan_first2 + colorize_4 + grid_borders + paddings
+
+spaltenRaise = raiseFirst3 + ( 7.5*cm, 1.5*cm )
+
+styleRaise_str = vspan_first2 + vspan_3 + valign_top_c1_2_3 + span_4_5 + colorize_4 + grid_borders + paddings + align_center_5
+
+styleRaise_int = vspan_first2 + vspan_3 + valign_top_c1_2_3 + span_3_4 + colorize_5 + grid_borders + paddings + align_center_5
+
+styleRaise = vspan_first2 + vspan_3 + valign_top_c1_2_3 + colorize_5 + grid_borders + paddings + align_center_5
+
+if __name__ == '__main__':
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4).pprint
+    pp(styleRaise_str)

@@ -17,7 +17,7 @@ from dialog_prefs import PrefsDialog
 from structure import structure as STRUCTURE
 from participant import Participant
 from settings import *
-import pdf_output
+import pdf_output, pdf_raise_sheet
 from deko import check_modifiers
 
 class MainWindow(QtGui.QMainWindow):
@@ -27,6 +27,7 @@ class MainWindow(QtGui.QMainWindow):
                  'multi_bool': MultiChooser,
                  'multi_int': MultiSpinner,
                  'multi_select': MultiSelect,
+                 'multi_numeric': MultiNumeric,
                  'str': Text,
                  'heading': Heading,
                  'int': Spinner,
@@ -199,9 +200,10 @@ class MainWindow(QtGui.QMainWindow):
         self.widg_dict = {}
 
         for field in STRUCTURE.cap_items:
-            wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, 
-                                               label=field['title'], allowance=field.get('allowance', None), 
-                                               default=field.get('default', None))
+            # wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, 
+            #                                    label=field['title'], allowance=field.get('allowance', None), 
+            #                                    default=field.get('default', None))
+            wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, **field)
             if field['typ'] != 'heading':
                 self.widg_dict[field['fieldname']] = wid
 
@@ -288,13 +290,15 @@ class MainWindow(QtGui.QMainWindow):
         return collections.OrderedDict([(QtCore.QString(i[0]),i[1]) for i in jahre]), 2, 2 + (this_year - half_year_back.year)
 
     def get_save_path(self, **creds):
+        filename = creds['filename'] if 'filename' in creds else self.config.value(CONFIG_LAST_SAVE_NAME, 'Summenbogen', type=str)
         default = os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 
-                               '%s.%s' % (self.config.value(CONFIG_LAST_SAVE_NAME, 'Summenbogen', type=str), creds['ext']))
+                               '{0}.{1}'.format(filename, creds['ext']))
         if creds['dont_ask']:
             return default
         gsfn = QtGui.QFileDialog.getSaveFileName
+        ftype_name = creds['ftype_name'] if 'ftype_name' in creds else creds['ext'].capitalize()
         path = gsfn(self,creds.get('title', "Speichern unter..."), default,
-                    "%s-Dateien(*.%s);; Alle Dateien (*)" % (creds['ext'].capitalize(), creds['ext']))
+                    "%s-Dateien(*.%s);; Alle Dateien (*)" % (ftype_name, creds['ext']))
         if path:
             path = unicode(path)
             self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(unicode(path)))
@@ -320,11 +324,24 @@ class MainWindow(QtGui.QMainWindow):
                 self.open_file_externally(path)
 
     @check_modifiers
-    def save_sav(self, event, modifiers):
+    def save_raise_sheet(self, event, modifiers):
         if not self.askSave():
             return 1
 
-        path = self.get_save_path(title="SPSS-Export speichern unter...", ext='sav', dont_ask='shift' in modifiers)
+        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', 
+                                  filename='Erfassungsbogen', dont_ask='shift' in modifiers)
+        # print '%s - %s' % (path, os.path.dirname(str(path)))
+        if path:
+            pdf_raise_sheet.PdfRaising(path, participant=self.participant).write_pdf()
+        if 'control' in modifiers:
+                self.open_file_externally(path)
+
+    @check_modifiers
+    def save_sav(self, event, modifiers=()):
+        if not self.askSave():
+            return 1
+
+        path = self.get_save_path(title="SPSS-Export speichern unter...", ext='sav', ftype_name='SPSS', dont_ask='shift' in modifiers)
         if not(path):
             return False
 
@@ -334,18 +351,19 @@ class MainWindow(QtGui.QMainWindow):
         mf_specs = { # specifics of the multi-column fields 
             'multi_bool': {
                 'format': DB_FMT_MB,
-                'db_col_type': sqAl.Boolean,
-                'default': False
+                'db_col_type': sqAl.Boolean
             },
             'multi_int': {
                 'format': DB_FMT_MI,
-                'db_col_type': sqAl.Integer,
-                'default': 0
+                'db_col_type': sqAl.Integer
             },
             'multi_select': {
                 'format': DB_FMT_MS,
-                'db_col_type': sqAl.Integer,
-                'default': 0
+                'db_col_type': sqAl.Integer
+            },
+            'multi_numeric': {
+                'format': DB_FMT_MN,
+                'db_col_type': sqAl.Integer
             }
         }
 
@@ -362,7 +380,7 @@ class MainWindow(QtGui.QMainWindow):
                     alignments[fn]  = so.get('alignment', 'right')
                     if 'format' in f['sav_opts']:
                         formats[fn] = f['sav_opts']['format']
-            elif f['typ'] in ('multi_select'):
+            elif f['typ'] in ('multi_select', 'multi_numeric'):
                 for name, label in f['allowance']:
                     fn = mf_specs[f['typ']]['format'] % (f['fieldname'], name)
                     so = f['sav_opts']
@@ -438,6 +456,9 @@ class MainWindow(QtGui.QMainWindow):
         self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
                                         u"Auswertung als &Pdf", self, 
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
+        self.saveRaisingSheetAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
+                                                 u"Erfassungsbogen", self, 
+                                                 statusTip=u"Erfassungsbogen für aktuellen Teilnehmer im PDF-Format speichern", triggered=self.save_raise_sheet)
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
                                         statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.save_csv)
@@ -475,6 +496,7 @@ class MainWindow(QtGui.QMainWindow):
         # self.mainToolBar.addWidget(space)
         self.mainToolBar.addAction(self.saveSavAct)
         self.mainToolBar.addAction(self.savePdfAct)
+        self.mainToolBar.addAction(self.saveRaisingSheetAct)
         self.mainToolBar.addWidget(self.space_widget())
         self.mainToolBar.addAction(self.exitAct)
 

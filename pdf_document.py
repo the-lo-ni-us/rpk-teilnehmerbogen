@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.colors import white, black
@@ -11,10 +11,14 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus.doctemplate import ActionFlowable, NextPageTemplate
 from reportlab.lib.units import cm, inch, mm
 from reportlab.lib import pdfencrypt
+
+import inspect
+
 import locale
-import re, os
+import re, os, random
 from time import gmtime, strftime
 
+from pdf_doku_template import DokuTemplate
 from structure import structure as STRUCTURE 
 from pdf_styles import *
 import report
@@ -36,7 +40,7 @@ class PdfWriter():
                                 onPage = self.headRoutine,
                                 pagesize=A4)
 
-    self.doc = BaseDocTemplate( filename,
+    self.doc = DokuTemplate( filename,
                                 pagesize = A4,
                                 pageTemplates = [ pageT ],
                                 showBoundary = 0,
@@ -50,37 +54,51 @@ class PdfWriter():
                                 subject = "Subjekt",
                                 creator = "https://github.com/the-lo-ni-us/bagrpk-summenbogen",
                                 producer = "Produzent",
-                                keywords = "Schl[sselw;rter",
+                                keywords = u"Schlüsselwörter",
                                 _pageBreakQuick = 0 )
 
     # pdfencrypt.encryptDocTemplate(self.doc,userPassword='u',ownerPassword='o', 
     #                               canPrint=1, canModify=1, canCopy=1, canAnnotate=1,	
     #                               strength=40) 
-
+    # self.bm_ables = {1: [], 2: []}
+    self.bm_ables = ([],[],[])
+    self.doc.bm_ables = self.bm_ables
     self.story = []
 
   def write_pdf(self):
 
     fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB, 'multi_select': DB_FMT_MS, 'multi_numeric': DB_FMT_MN}
 
-    self.story.append( Paragraph( DOC_TITLE % self.datum, styleH ))
+    n = 'DOC_TITLE'
+    p =  Paragraph( self.indexed(DOC_TITLE % self.datum, n), styleH )
+    p.bm_title = DOC_TITLE % self.datum
+    p.bm_name = n
+    self.bm_ables[0].append( n )
+    self.story.append( p )
     self.story.append( Spacer(1,0.4*cm) )
+
+    together_with_next = None
 
     for field in STRUCTURE.doc_items:
   
-      fn = field.get('fieldname')
+      fn = str(field.get('fieldname'))
+
+      to_append  = None
 
       if field['typ'] == 'heading':
-        self.story.append( Paragraph( field['title'], styleH ))
-        to_append = None
+        n = str(random.randint(1000, 1000000))
+        p = Paragraph( self.indexed(field['title'], n), styleH )
+        p.bm_title = field['title']
+        p.bm_name = n
+        together_with_next =  p
+        # self.story.append( p )
+        self.bm_ables[1].append( n )
       elif field['typ'] == 'doc_paragraph':
         self.story.append( Paragraph( field['content'], styleText ))
-        to_append = None
       elif field['typ'] == 'pagebreak':
         self.story.append( PageBreak())
-        to_append = None
       elif field['typ'] == 'int':
-        to_append = Table( [ [ Paragraph( self.indexed(field['title'], fn), styleN ), 'integer'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
+        to_append = Table( [ [ Paragraph( self.indexed(field['title'], fn), styleN ), 'numerisch'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] == 'str':
         to_append = Table( [ [Paragraph(self.indexed(field['title'], fn), styleN), 'string'] ], spaltenAllInTwo, None, styleAllInTwo, 0, 0 )
       elif field['typ'] in ('multi_int','multi_bool'):
@@ -90,33 +108,30 @@ class PdfWriter():
           table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_int': 'integer','multi_bool': 'bool'}[field['typ']] ] )
           # table.append( [ '', item ] + [ data[fmts[field['typ']] % (fn,n)][m] for m in range(4) ] )
         table[0][0] = p
-        to_append = KeepTogether(Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 ) )
+        to_append = Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 )
       elif field['typ'] in ('multi_select','multi_numeric'):
         p = Paragraph( self.indexed(field['title'], fn), styleN )
         table = []
         for n, item in field['allowance']:
           table.append( [ '',  fmts[field['typ']] % (fn,n), Paragraph(item, styleMult), {'multi_select': '-1, 0 oder 1','multi_numeric': '-1 bis ∞'}[field['typ']] ] )
-          # table.append( [ '', item ] + [ data[fmts[field['typ']] % (fn,n)][m] for m in range(4) ] )
         table[0][0] = p
-        to_append = KeepTogether(Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 ) )
+        to_append = Table( table, spaltenAllInFour, None, styleAllInFour, splitByRow=1 )
       elif field['typ'] == 'dropdown': 
         p = Paragraph( self.indexed(field['title'], fn), styleN )
-        table = [ [ '', Paragraph(item + (n==field['default'] and ' *' or ''), styleMult), n  ] for n, item in enumerate(field['allowance']) ]
+        table = [ [ '', Paragraph(item + (n==field['default'] and ' *' or ''), styleMult), n - 1  ] for n, item in enumerate(field['allowance']) ]
         table[0][0] = p
-        # print repr(table)
-        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ) )
+        to_append = Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 )
       elif field['typ'] == 'enumber': 
-        p = Paragraph( self.indexed(field['title'], fn), styleN )
+        p = Paragraph( self.indexed(field['title'], str(fn)), styleN )
         table = [ [ '', Paragraph(item + (value==field['default'] and ' *' or ''), styleMult), value  ] for value, item in field['allowance'] ]
         table[0][0] = p
-        # print repr(table)
-        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ) )
+        to_append = Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 )
       elif field['typ'] == 'enum': 
         p = Paragraph( self.indexed(field['title'], fn), styleN )
         table = [ [ '', Paragraph(item + (value==field['default'] and ' *' or ''), styleMult), value  ] for value, item in field['allowance'] ]
         table[0][0] = p
-        # print repr(table)
-        to_append = KeepTogether(Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 ))
+        to_append = Table( table, spaltenAllInThree, None, styleAllInThree, splitByRow=1 )
+        # print repr(to_append._content)
       elif field['typ'] == 'typ_specification': 
         t = [ [ Paragraph(u'<font face="courier"><b>%s</b></font><br/><font size="-2">(Häufigkeit: %d)</font>' % (field['title'],
                 STRUCTURE.frequency.get(field['title'], 0)), styleText), 
@@ -124,19 +139,27 @@ class PdfWriter():
         self.story.append( Table(t, typSpecWidths, None, styleTypSpec, splitByRow=1) )
         self.story.append( Spacer(1,0.3*cm) )
       else:
-        to_append = None
         print('nicht berücksichtigter Typ %s' % field['typ'])
 
       if to_append:
-        self.story.append( to_append )
+        # fl = self._get_child_of_keeptogether(to_append)
+        fl = to_append
+        # if field['typ'] == 'dropdown': 
+        #   print('dropdown: {0}'.format(inspect.getmro(fl.__class__)))
+        fl.bm_title = str('%s - %s' % (field.get('number',''), fn))
+        fl.bm_name = str(fn)
+        self.bm_ables[2].append( fn )
         t = [ [ Paragraph(u'Typ: <font name="courier-bold"><a color="blue" href="#typ_%s">%s</a></font>' % (field['typ'], field['typ']), styleMult), 'Variablenname: %s' % fn, '' ], 
               ['Datentyp: %s' % field['default'].__class__.__name__, field.get('longname')], 
               ['Vorgabe: %s' % str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig' or ''] ]
         # t = [ [ '', fn, '' ], [type(field['default']), field.get('longname')], [str(field['default']), field['typ'] in ('multi_int','multi_bool') and 'mehrspaltig'] ]
         if 'remark' in field:
           t[0][2] = Paragraph(field['remark'], styleN)
-        self.story.append( Table(t, commonWidths, None, styleCommon, splitByRow=1) )
+        table = Table(t, commonWidths, None, styleCommon, splitByRow=1)
+        pre = [ together_with_next ] if together_with_next else []
+        self.story.append( KeepTogether( pre + [ to_append, table ] ) )
         self.story.append( Spacer(1,0.3*cm) )
+        together_with_next = None
 
     self.story.append( Spacer(1,0.4*cm) )
 
@@ -155,8 +178,14 @@ class PdfWriter():
         r_val = False
         return r_val
     else:
-      self.doc.build(self.story) #, canvasmaker=index.getCanvasMaker())
+      # self.doc.build(self.story, canvasmaker=canvas.Canvas) #, canvasmaker=index.getCanvasMaker())
+      self.doc.multiBuild(self.story) #, canvasmaker=index.getCanvasMaker())
 
+  def _get_child_of_keeptogether(self, fl):
+    while fl.__class__ == KeepTogether:
+      fl = fl._content[0]
+    return fl
+    
   def indexed(self, words, index_text):
     # return index_text
     self.anchors.append(index_text)
