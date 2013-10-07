@@ -42,7 +42,7 @@ class Heading():
 class MultiSpinner(object):
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
-        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=True)
+        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=False)
         parent_grid.addWidget(self.n_label, self.row, 0, QtCore.Qt.AlignTop)
         self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
         parent_grid.addWidget(self.label, self.row, 1, QtCore.Qt.AlignTop)
@@ -78,7 +78,7 @@ class LabeledWidget():
     def __init__(self, parent, parent_grid, **kwargs):
         self.row = GridRow.row
         self.default = kwargs['default']
-        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=True)
+        self.n_label = QtGui.QLabel(kwargs.get('number', ''), parent, wordWrap=False)
         parent_grid.addWidget(self.n_label, self.row, 0, QtCore.Qt.AlignTop)
         self.label = QtGui.QLabel(kwargs['title'], parent, wordWrap=True)
         parent_grid.addWidget(self.label, self.row, 1, QtCore.Qt.AlignTop)

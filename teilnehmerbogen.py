@@ -208,8 +208,8 @@ class MainWindow(QtGui.QMainWindow):
                 self.widg_dict[field['fieldname']] = wid
 
         scrolled.setWidget(self.rightInnerBox)
-        self.rightGrid.setColumnStretch(0, 15)
-        self.rightGrid.setColumnStretch(1, 10)
+        self.rightGrid.setColumnStretch(1, 15)
+        self.rightGrid.setColumnStretch(2, 10)
         self.rightInnerBox.setEnabled(False)
         # scrolled.adjustSize()
 
