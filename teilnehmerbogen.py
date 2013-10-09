@@ -17,7 +17,7 @@ from dialog_prefs import PrefsDialog
 from structure import structure as STRUCTURE
 from participant import Participant
 from settings import *
-import pdf_output, pdf_raise_sheet
+import pdf_output, pdf_raising_sheet
 from deko import check_modifiers
 
 class MainWindow(QtGui.QMainWindow):
@@ -302,7 +302,9 @@ class MainWindow(QtGui.QMainWindow):
         if path:
             path = unicode(path)
             self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(unicode(path)))
-            self.config.setValue(CONFIG_LAST_SAVE_NAME, os.path.basename(unicode(path)).replace('.%s' % creds['ext'], ''))
+            if not 'filename' in creds:
+                self.config.setValue(CONFIG_LAST_SAVE_NAME, 
+                                     os.path.basename(unicode(path)).replace('.%s' % creds['ext'], ''))
         return path
 
     @check_modifiers
@@ -329,10 +331,10 @@ class MainWindow(QtGui.QMainWindow):
             return 1
 
         path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', 
-                                  filename='Erfassungsbogen', dont_ask='shift' in modifiers)
+                                  filename='Erhebungsbogen', dont_ask='shift' in modifiers)
         # print '%s - %s' % (path, os.path.dirname(str(path)))
         if path:
-            pdf_raise_sheet.PdfRaising(path, participant=self.participant).write_pdf()
+            pdf_raising_sheet.PdfRaising(path, participant=self.participant).write_pdf()
         if 'control' in modifiers:
                 self.open_file_externally(path)
 
@@ -457,8 +459,8 @@ class MainWindow(QtGui.QMainWindow):
                                         u"Auswertung als &Pdf", self, 
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
         self.saveRaisingSheetAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
-                                                 u"Erfassungsbogen", self, 
-                                                 statusTip=u"Erfassungsbogen für aktuellen Teilnehmer im PDF-Format speichern", triggered=self.save_raise_sheet)
+                                                 u"Erhebungsbogen", self, 
+                                                 statusTip=u"Erhebungsbogen für aktuellen Teilnehmer im PDF-Format speichern", triggered=self.save_raise_sheet)
         self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
                                         u"&CSV exportieren", self, 
                                         statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.save_csv)

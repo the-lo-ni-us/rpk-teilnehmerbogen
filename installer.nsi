@@ -3,6 +3,7 @@ Var app_reg_path
 Var install_dir_path
 Var data_dir_path
 Var app_exe_path
+Var app_menu_path
 
 Name $app_name
 RequestExecutionLevel user
@@ -31,9 +32,11 @@ Section
   File versions.ini
   ReadINIStr $0 "$TEMP\versions.ini" versions db_structure_fingerprint
   ReadINIStr $2 "$TEMP\versions.ini" versions app_version
-  ReadRegStr $1 HKCU "Software\$app_name" "DbStructureFingerprint"
+  ReadRegStr $1 HKCU "Software\$app_reg_path" "DbStructureFingerprint"
+  SetOutPath $data_dir_path
+  File Doku\Erhebungsbogen.pdf
+  File Doku\Tech-Dok.pdf
   ${Unless} $0 == $1
-    SetOutPath $data_dir_path
     ${If} ${FileExists} "$data_dir_path\data.sqlite"
       MessageBox MB_YESNO "Die vorhandene Datenbank passt nicht zu dieser Programmversion. \
           Vorhandene Datenbank ersetzen? (Alle Daten gehen verloren - betrifft nur die lokale SQLite-Datenbank.)" IDYES NottaAborta
@@ -47,8 +50,13 @@ Section
   ${EndUnless}
 
   SetOutPath $install_dir_path
-  File /r dist\*.*
-  CreateShortCut "$STARTMENU\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
+;  File /r dist\*.*   
+  File /r build\exe.win32-2.7\*.*  
+;  CreateShortCut "$STARTMENU\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
+  CreateDirectory $app_menu_path
+  CreateShortCut "$app_menu_path\$app_name.lnk" "$app_exe_path"
+  CreateShortCut "$app_menu_path\Erhebungsbogen.pdf.lnk" "$data_dir_path\Erhebungsbogen.pdf"
+  CreateShortCut "$app_menu_path\Tech-Dok.pdf.lnk" "$data_dir_path\Tech-Dok.pdf"
   CreateShortCut "$DESKTOP\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
 
   WriteRegStr HKCU "Software\$app_reg_path" "DatabaseFilePath" "$data_dir_path\data.sqlite"
@@ -75,6 +83,7 @@ Function .onInit
   StrCpy $install_dir_path "$LOCALAPPDATA\$app_name"
   StrCpy $data_dir_path "$APPDATA\$app_name"
   StrCpy $app_exe_path "$install_dir_path\teilnehmerbogen.exe"
+  StrCpy $app_menu_path "$STARTMENU\$app_name"
 
   MessageBox MB_YESNO "Installation von '$app_name'. Fortfahren?" IDYES NoAbort
     Abort ; causes installer to quit.

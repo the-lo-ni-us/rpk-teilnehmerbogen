@@ -182,13 +182,15 @@ class MultiSelect(LabeledWidget):
     def connect_dirty(self, slot):
         self.widget.itemSelectionChanged.connect(slot)
     def check_missing(self):
+        set_missing = len(self.widget.selectedItems()) == 0 and not self.allow_all_zero
+        # print('set_missing: {0}'.format(set_missing))
+        # print('   _missing: {0} -- len(selected): {1}'.format(self._missing, len(self.widget.selectedItems())))
         if self._missing:
-            keep_missing = len(self.widget.selectedItems()) == 0 and not self.allow_all_zero
-            self._missing = keep_missing
+            self._missing = set_missing
             old_state = self.widget.blockSignals(True)
-            self.widget.item(0).setSelected(keep_missing)
+            self.widget.item(0).setSelected(set_missing)
             self.widget.blockSignals(old_state)
-        elif self.widget.item(0).isSelected():
+        elif self.widget.item(0).isSelected() or set_missing:
             self.reset()
 
 class MultiNumeric(MultiSpinner):

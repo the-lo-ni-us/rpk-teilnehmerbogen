@@ -27,12 +27,15 @@ from settings import *
 
 class PdfRaising():
 
-  def __init__(self, filename='Doku/Erfassungsbogen.pdf', participant=None, prevent_exceptions=False):
+  def __init__(self, filename='Doku/Erhebungsbogen.pdf', participant=None, prevent_exceptions=False):
 
     self.participant = participant
 
-    self.prv_excps = prevent_exceptions
     self.datum = strftime("%d.%m.%Y")
+    name_str = u'für {0} '.format(self.participant.name) if self.participant else ''
+    self.title = u'Erhebungsbogen {0}Stand {1}'.format(name_str, self.datum)
+
+    self.prv_excps = prevent_exceptions
     self.anchors = []
   
     pageFrame = Frame(  12*mm, 10*mm, 18.6*cm, 26.5*cm, showBoundary=0 )
@@ -51,9 +54,9 @@ class PdfRaising():
                                 topMargin = cm,
                                 bottomMargin = cm,
                                 allowSplitting = 1,
-                                title = DOC_TITLE % self.datum,
+                                title = self.title,
                                 author = "schweesni",
-                                subject = "Erfassungsbogen",
+                                subject = "Erhebungsbogen",
                                 creator = "https://github.com/the-lo-ni-us/bagrpk-summenbogen",
                                 producer = "Produzent",
                                 keywords = u"Schlüsselwörter",
@@ -71,7 +74,7 @@ class PdfRaising():
 
     fmts = {'multi_int': DB_FMT_MI, 'multi_bool': DB_FMT_MB, 'multi_select': DB_FMT_MS, 'multi_numeric': DB_FMT_MN}
 
-    p =  Paragraph( 'Erfassungsbogen', styleH )
+    p =  Paragraph( 'Erhebungsbogen', styleH )
     self.story.append( p )
     self.story.append( Spacer(1,0.4*cm) )
 
@@ -182,7 +185,7 @@ class PdfRaising():
       return
     c.saveState()
     c.setFont( 'Helvetica', 10 )
-    c.drawString( 1.5*cm, 28*cm, DOC_TITLE  % self.datum)
+    c.drawString( 1.5*cm, 28*cm, self.title)
     c.drawString( 18.4*cm, 28*cm, "Seite %d" % c.getPageNumber() )
     c.restoreState()
   
