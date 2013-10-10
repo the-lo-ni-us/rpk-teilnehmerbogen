@@ -223,8 +223,7 @@ class MultiNumeric(MultiSpinner):
             old_state = sp.blockSignals(True)
             sp.setValue(values[i])
             sp.blockSignals(old_state)
-        if set(values) == {-1}:
-            self._missing = True
+        self._missing = set(values) == {-1}
     def reset(self):
         self._missing = True
         for sp in self.spinners:
