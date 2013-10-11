@@ -64,11 +64,8 @@ class MainWindow(QtGui.QMainWindow):
         self._reset()
         if self.config.value('geometry'):
             self.restoreGeometry(self.config.value('geometry')) #.toByteArray())
-        # QtGui.QMessageBox.information(self,
-        #         "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
-        #          <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen 
-        #          sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
-        #          <p>&copy; 2013 Thelonius Kort</p>""")
+        if len(sys.argv) == 1:
+            self.show_about()
 
     def initialize_db(self):
         if self.use_sqlite:
@@ -453,8 +450,11 @@ class MainWindow(QtGui.QMainWindow):
 
     def createActions(self):
         self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'), 
-                                     u"&Institutsangaben eingeben", self, 
-                                     statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben", triggered=self.dialog_prefs)
+                                     u"&Einstellungen", self, 
+                                     statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben und Datenbank konfigurieren", triggered=self.dialog_prefs)
+        self.aboutAct = QtGui.QAction(QtGui.QIcon(':icons/help-about.png'), 
+                                     u"Über Teilnehmerbogen", self, 
+                                      statusTip=u"Über diese Anwendung", triggered=self.show_about)
         self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
                                         u"Auswertung als &Pdf", self, 
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
@@ -491,6 +491,7 @@ class MainWindow(QtGui.QMainWindow):
         self.mainToolBar.setFloatable(False)
         self.mainToolBar.setMovable(False)
         self.mainToolBar.addAction(self.prefAct)
+        self.mainToolBar.addAction(self.aboutAct)
         self.mainToolBar.addWidget(self.space_widget())
         self.mainToolBar.addAction(self.saveCsvAct)
         if self.use_sqlite:
@@ -508,9 +509,24 @@ class MainWindow(QtGui.QMainWindow):
     def leck(self, event):
         pass
 
+    def show_about(self):
+        QtGui.QMessageBox.information(self,
+                "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
+                 <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen 
+                 sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
+                 <p>&copy; 2013 Thelonius Kort</p>""")
+
     def dialog_prefs(self, event):
+        if not(self.askSave(u'Einstellungen ändern...')):
+            return False
         prefsdialog = PrefsDialog(self.config)
         prefsdialog.exec_()
+        if prefsdialog.dbase_changed:
+            self._reset()
+            self.rightInnerBox.setEnabled(False)
+            self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB)
+            self.initialize_db()
+            self.list_participants()
 
 if __name__ == '__main__':
 

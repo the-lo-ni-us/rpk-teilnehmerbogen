@@ -16,6 +16,7 @@ class PrefsDialog(QtGui.QDialog):
         super(PrefsDialog, self).__init__(parent)
 
         self.config = config
+        self._dbase_changed = False
 
         self.conf_widgs = {}
 
@@ -86,6 +87,11 @@ class PrefsDialog(QtGui.QDialog):
 
     def db_change(self):
         self.remoteGroup.setDisabled(self.sqliteRadioButton.isChecked())
+        self._dbase_changed = True
+
+    @property
+    def dbase_changed(self):
+        return self._dbase_changed
 
     def closeEvent(self, event):
         self.writeSettings()

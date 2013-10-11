@@ -5,6 +5,7 @@
     <file>icons/application-pdf.png</file>
     <file>icons/application-vnd.ms-excel.png</file>
     <file>icons/spss.png</file>
+    <file>icons/help-about.png</file>
     <file>icons/database.png</file>
     <file>icons/exit.png</file>
 </qresource>
