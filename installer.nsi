@@ -52,11 +52,15 @@ Section
   SetOutPath $install_dir_path
 ;  File /r dist\*.*   
   File /r build\exe.win32-2.7\*.*  
+
+  writeUninstaller $install_dir_path\uninstaller.exe
+
 ;  CreateShortCut "$STARTMENU\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
   CreateDirectory $app_menu_path
   CreateShortCut "$app_menu_path\$app_name.lnk" "$app_exe_path"
   CreateShortCut "$app_menu_path\Erhebungsbogen.pdf.lnk" "$data_dir_path\Erhebungsbogen.pdf"
   CreateShortCut "$app_menu_path\Tech-Dok.pdf.lnk" "$data_dir_path\Tech-Dok.pdf"
+  CreateShortCut "$app_menu_path\$app_name entfernen.lnk" "$install_dir_path\uninstaller.exe"
   CreateShortCut "$DESKTOP\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
 
   WriteRegStr HKCU "Software\$app_reg_path" "DatabaseFilePath" "$data_dir_path\data.sqlite"
@@ -74,7 +78,18 @@ Section
   ${EndIf}
 SectionEnd
 
-
+section "uninstall"
+ 
+  MessageBox MB_YESNO "Entfernen von '$app_name' und aller dazu gehoerenden Dateien. Fortfahren?" IDYES NoAbort
+    Abort ; causes installer to quit.
+  NoAbort:
+  # Always delete uninstaller first
+  delete "$install_dir_path\uninstaller.exe"
+  delete "$DESKTOP\$app_name.lnk"
+ 
+  RMDir /R $install_dir_path
+  RMDir /R $app_menu_path
+sectionEnd
 
 
 Function .onInit
