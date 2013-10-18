@@ -69,6 +69,7 @@ class PrefsDialog(QtGui.QDialog):
                            (CONFIG_REMOTE_DB_PASSWORD, u'Paßwort'),
                            (CONFIG_REMOTE_DB_NAME, 'Datenbank')):
             self.conf_widgs[name] = QtGui.QLineEdit(self.config.value(name))
+            self.conf_widgs[name].textEdited.connect(self.db_change)
             remoteLayout.addRow(label, self.conf_widgs[name])
 
         mainLayout = QtGui.QVBoxLayout()
@@ -83,7 +84,6 @@ class PrefsDialog(QtGui.QDialog):
 
         {True: self.sqliteRadioButton, False: remoteRadioButton}\
             [self.config.value(CONFIG_USE_SQLITE_DB, True, type=bool)].setChecked(True)
-        self.db_change()
 
     def db_change(self):
         self.remoteGroup.setDisabled(self.sqliteRadioButton.isChecked())

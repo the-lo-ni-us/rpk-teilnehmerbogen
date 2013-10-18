@@ -65,9 +65,9 @@ Section
     WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBKind" "postgresql"
     WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBHost" "localhost"
     WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPort" "5432"
-    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBUser" "dbuser"
-    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPassword" "passwort"
-    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBName" "teilnehmerbogen"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBUser" "rpk"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPassword" "code00"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBName" "teilnehmer"
     WriteRegStr HKCU "Software\$app_reg_path" "DatabaseTable" "participants"
   ${EndIf}
   ReadRegStr $0 HKCU "Software\$app_reg_path" "LastSaveDir"

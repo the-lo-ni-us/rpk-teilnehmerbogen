@@ -523,8 +523,10 @@ class MainWindow(QtGui.QMainWindow):
         prefsdialog.exec_()
         if prefsdialog.dbase_changed:
             self._reset()
+            self.participants_lv.clear()
             self.rightInnerBox.setEnabled(False)
-            self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB)
+            self.repaint()
+            self.use_sqlite = self.config.value(CONFIG_USE_SQLITE_DB, True, type=bool)
             self.initialize_db()
             self.list_participants()
 
