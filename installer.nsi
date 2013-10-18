@@ -9,13 +9,9 @@ Name $app_name
 RequestExecutionLevel user
 
 !include LogicLib.nsh
+!include defines.nsh
 
-!searchparse /file x64 `` BIG ``
-!if ${BIG} == "True"
-  OutFile teilnehmerbogen_x64.exe
-!else
-  OutFile teilnehmerbogen_x86.exe
-!endif
+OutFile ${INSTALLER_NAME}
 
 SetCompressor /SOLID lzma
 
@@ -31,7 +27,6 @@ Section
   SetOutPath $TEMP
   File versions.ini
   ReadINIStr $0 "$TEMP\versions.ini" versions db_structure_fingerprint
-  ReadINIStr $2 "$TEMP\versions.ini" versions app_version
   ReadRegStr $1 HKCU "Software\$app_reg_path" "DbStructureFingerprint"
   SetOutPath $data_dir_path
   File Doku\Erhebungsbogen.pdf
@@ -64,14 +59,17 @@ Section
   CreateShortCut "$DESKTOP\$app_name.lnk" "$app_exe_path" ; "" "$install_dir_path" 0
 
   WriteRegStr HKCU "Software\$app_reg_path" "DatabaseFilePath" "$data_dir_path\data.sqlite"
-  WriteRegStr HKCU "Software\$app_reg_path" "UseSQLiteDB" "True"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBKind" "postgresql"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBHost" "localhost"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPort" "5432"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBUser" "dbuser"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPassword" "passwort"
-  WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBName" "teilnehmerbogen"
-  WriteRegStr HKCU "Software\$app_reg_path" "DatabaseTable" "participants"
+  ReadRegStr $0 HKCU "Software\$app_reg_path" "UseSQLiteDB"
+  ${If} $0 == ""
+    WriteRegStr HKCU "Software\$app_reg_path" "UseSQLiteDB" "True"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBKind" "postgresql"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBHost" "localhost"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPort" "5432"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBUser" "dbuser"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBPassword" "passwort"
+    WriteRegStr HKCU "Software\$app_reg_path" "RemoteDBName" "teilnehmerbogen"
+    WriteRegStr HKCU "Software\$app_reg_path" "DatabaseTable" "participants"
+  ${EndIf}
   ReadRegStr $0 HKCU "Software\$app_reg_path" "LastSaveDir"
   ${If} $0 == ""
     WriteRegStr HKCU "Software\$app_reg_path" "LastSaveDir" "$DESKTOP"
@@ -87,14 +85,19 @@ section "uninstall"
   RMDir /R $app_menu_path
 sectionEnd
 
-Function define_vars
-  StrCpy $app_name "Teilnehmerbogen"
-  StrCpy $app_reg_path "Thelonius\Teilnehmerbogen"
-  StrCpy $install_dir_path "$LOCALAPPDATA\$app_name"
-  StrCpy $data_dir_path "$APPDATA\$app_name"
-  StrCpy $app_exe_path "$install_dir_path\teilnehmerbogen.exe"
-  StrCpy $app_menu_path "$STARTMENU\$app_name"
-FunctionEnd
+!macro DEF_VARS un
+  Function ${un}define_vars
+    StrCpy $app_name "Teilnehmerbogen"
+    StrCpy $app_reg_path "Thelonius\Teilnehmerbogen"
+    StrCpy $install_dir_path "$LOCALAPPDATA\$app_name"
+    StrCpy $data_dir_path "$APPDATA\$app_name"
+    StrCpy $app_exe_path "$install_dir_path\teilnehmerbogen.exe"
+    StrCpy $app_menu_path "$STARTMENU\$app_name"
+  FunctionEnd
+!macroend
+ 
+!insertmacro DEF_VARS ""
+!insertmacro DEF_VARS "un."
 
 Function .onInit
   Call define_vars
@@ -104,7 +107,7 @@ Function .onInit
 FunctionEnd
 
 Function un.onInit
-  Call define_vars
+  Call un.define_vars
   MessageBox MB_YESNO "Entfernen von '$app_name' und aller dazu gehoerenden Dateien. Fortfahren?" IDYES NoAbort
     Abort
   NoAbort:
