@@ -10,8 +10,8 @@ RequestExecutionLevel user
 
 !include LogicLib.nsh
 
-!searchparse /file ARCH `` ARCH ``
-!if ${ARCH} == "AMD64"
+!searchparse /file x64 `` BIG ``
+!if ${BIG} == "True"
   OutFile teilnehmerbogen_x64.exe
 !else
   OutFile teilnehmerbogen_x86.exe
@@ -79,10 +79,6 @@ Section
 SectionEnd
 
 section "uninstall"
- 
-  MessageBox MB_YESNO "Entfernen von '$app_name' und aller dazu gehoerenden Dateien. Fortfahren?" IDYES NoAbort
-    Abort ; causes installer to quit.
-  NoAbort:
   # Always delete uninstaller first
   delete "$install_dir_path\uninstaller.exe"
   delete "$DESKTOP\$app_name.lnk"
@@ -91,16 +87,25 @@ section "uninstall"
   RMDir /R $app_menu_path
 sectionEnd
 
-
-Function .onInit
+Function define_vars
   StrCpy $app_name "Teilnehmerbogen"
   StrCpy $app_reg_path "Thelonius\Teilnehmerbogen"
   StrCpy $install_dir_path "$LOCALAPPDATA\$app_name"
   StrCpy $data_dir_path "$APPDATA\$app_name"
   StrCpy $app_exe_path "$install_dir_path\teilnehmerbogen.exe"
   StrCpy $app_menu_path "$STARTMENU\$app_name"
+FunctionEnd
 
+Function .onInit
+  Call define_vars
   MessageBox MB_YESNO "Installation von '$app_name'. Fortfahren?" IDYES NoAbort
     Abort ; causes installer to quit.
+  NoAbort:
+FunctionEnd
+
+Function un.onInit
+  Call define_vars
+  MessageBox MB_YESNO "Entfernen von '$app_name' und aller dazu gehoerenden Dateien. Fortfahren?" IDYES NoAbort
+    Abort
   NoAbort:
 FunctionEnd
