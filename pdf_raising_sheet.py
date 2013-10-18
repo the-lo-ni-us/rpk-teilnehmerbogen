@@ -194,8 +194,8 @@ if __name__ == '__main__':
   import sqlalchemy as sqAl
   from sqlalchemy.orm import sessionmaker as sqAl_sessionmaker
   from participant import Participant
-  config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
-  engine = sqAl.create_engine('sqlite:///%s' % config.value(CONFIG_DB_PATH_NAME))
-  session = sqAl_sessionmaker(bind=engine)()
-  participant = session.query(Participant).filter(Participant.id == 1).first()
-  print PdfRaising(participant=participant).write_pdf()
+  # config = QtCore.QSettings(CONFIG_VENDOR_NAME, CONFIG_MAIN_NAME)
+  # engine = sqAl.create_engine('sqlite:///%s' % config.value(CONFIG_DB_PATH_NAME))
+  # session = sqAl_sessionmaker(bind=engine)()
+  # participant = session.query(Participant).filter(Participant.id == 1).first()
+  print PdfRaising().write_pdf()
