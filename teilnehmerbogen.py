@@ -377,6 +377,10 @@ class MainWindow(QtGui.QMainWindow):
                       ioUtf8=True, formats=opt_opts['format'], missingValues=opt_opts['missing_values'],
                       ioLocale= 'english' if os.name == 'nt' else None)
 
+        # import pprint
+        # pp = pprint.PrettyPrinter(indent=4).pprint
+        # pp(opt_opts['missing_values'])
+
         try:
             logging.info('versuche SPSS-Datei zu speichern')
             with savReaderWriter.SavWriter(*sRWargs,**sRWkwargs) as writer:

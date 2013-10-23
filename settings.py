@@ -32,19 +32,19 @@ DB_FMT_MS = '%s_%s'
 DB_FMT_MN = '%s_%s'
 DB_MC_PECS = {   # peculiarities of multi-column fields
     'multi_bool': {
-        'format': '{0}_mb_{1}',
+        'format': u'{0}_mb_{1}',
         'db_col_type': 'Boolean'
     },
     'multi_int': {
-        'format': '{0}_mi_{1}',
+        'format': u'{0}_mi_{1}',
         'db_col_type': 'Integer'
     },
     'multi_select': {
-        'format': '{0}_{1}',
+        'format': u'{0}_{1}',
         'db_col_type': 'Integer'
     },
     'multi_numeric': {
-        'format': '{0}_{1}',
+        'format': u'{0}_{1}',
         'db_col_type': 'Integer'
     }
 }

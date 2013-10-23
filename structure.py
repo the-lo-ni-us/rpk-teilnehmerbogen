@@ -469,7 +469,7 @@ structure = FieldnameList([
     'typ': 'dropdown',
     'sav_opts': {
       'missing_values': {'values': [-1]},
-       'measure_level': 'nominal',
+      'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -1246,7 +1246,7 @@ structure = FieldnameList([
        'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
-      'var_type': 5
+      'var_type': 0
     },
     'allowance': [
       ( 'unbek',    u"00 - keine Angabe / nicht bekannt" ),
@@ -1608,3 +1608,4 @@ if __name__ == '__main__':
             auspr_count += len(field['allowance'])
     print repr(types)
     print auspr_count
+    print '\n'.join(['{0} {1}'.format(f['fieldname'], f['sav_opts']['var_type']) for f in structure if 'missing_values' in f.get('sav_opts', {}) ])
