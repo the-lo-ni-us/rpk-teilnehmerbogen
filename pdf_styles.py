@@ -214,7 +214,11 @@ styleCommon = ( ('SPAN',          (0,0), (0,-1)),
                 ('LEFTPADDING',   (0,0), ( 0, 0), 6),
                 ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
                 ('TOPPADDING',    (0,0), ( 0, 0), 3),
-                ('BOTTOMPADDING', (0,0), ( 0, 0), 3) )
+                ('BOTTOMPADDING', (0,0), ( 0, 0), 3),
+                ('LEFTPADDING',   (1,0), ( 1,-1),3),
+                ('RIGHTPADDING',  (1,0), ( 1,-1), 3),
+                ('TOPPADDING',    (1,0), ( 1,-1), 1),
+                ('BOTTOMPADDING', (1,0), ( 1,-1), -1) )
 
 typSpecWidths = [ 3.5*cm, 14.5*cm ]
 

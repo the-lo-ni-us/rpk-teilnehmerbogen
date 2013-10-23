@@ -150,6 +150,7 @@ class PdfWriter():
         t = [
               [ '', 'Variablenname: %s' % fn, '' ],
               [ '', u'Abkürzung: %s' % fn, '' ],
+              [ '', u'{0}/{1}'.format(field.get('raise_time',''), field.get('raiser','')), '' ],
               [ '',  Paragraph(u'Typ: <font name="courier-bold"><a color="blue" href="#typ_%s">%s</a></font>'
                                % (field['typ'], field['typ']), styleMult) ],
               # ['Datentyp: %s' % field['default'].__class__.__name__, field.get('longname')],
