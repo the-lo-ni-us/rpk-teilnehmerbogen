@@ -110,8 +110,8 @@ class MainWindow(QtGui.QMainWindow):
 
     def save_participant(self, event=None):
         if not self.Dirty:
-            QtGui.QMessageBox.information(self, 
-                                          u'Teilnehmerdatensatz speichern...', 
+            QtGui.QMessageBox.information(self,
+                                          u'Teilnehmerdatensatz speichern...',
                                           u'Es wurde nichts geändert')
             return False
         self._save_participant()
@@ -162,8 +162,8 @@ class MainWindow(QtGui.QMainWindow):
                 self._reset()
                 self.list_participants()
         else:
-            QtGui.QMessageBox.information(self, 
-                                          u'Teilnehmerdatensatz löschen', 
+            QtGui.QMessageBox.information(self,
+                                          u'Teilnehmerdatensatz löschen',
                                           u'Kein Teilnehmer ausgewählt')
 
 ###########################################################################
@@ -175,7 +175,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def _reset(self):
         self.participant = None # currently diplayed Participant() or None when none
-                                # Changed attributes will only be saved by a session.commit() if 
+                                # Changed attributes will only be saved by a session.commit() if
                                 # session is the same in which the Participant() is created (loaded).
         self.participants_lv.setCurrentIndex(QtCore.QModelIndex()) # sets invalid value (like -1 but much more sophisticated)
         for widg in self.widg_dict.values():
@@ -185,7 +185,7 @@ class MainWindow(QtGui.QMainWindow):
         # print 'set clean'
 
     def createRightBox(self):
-        scrolled = QtGui.QScrollArea(self) 
+        scrolled = QtGui.QScrollArea(self)
         scrolled.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         scrolled.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         scrolled.setWidgetResizable(True)
@@ -197,8 +197,8 @@ class MainWindow(QtGui.QMainWindow):
         self.widg_dict = {}
 
         for field in STRUCTURE.cap_items:
-            # wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, 
-            #                                    label=field['title'], allowance=field.get('allowance', None), 
+            # wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid,
+            #                                    label=field['title'], allowance=field.get('allowance', None),
             #                                    default=field.get('default', None))
             wid = self.typ2class[field['typ']](self.rightInnerBox, self.rightGrid, **field)
             if field['typ'] != 'heading':
@@ -288,8 +288,8 @@ class MainWindow(QtGui.QMainWindow):
 
     def get_save_path(self, **creds):
         filename = creds['filename'] if 'filename' in creds else self.config.value(CONFIG_LAST_SAVE_NAME, 'Summenbogen', type=str)
-        default = os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')), 
-                               '{0}.{1}'.format(filename, creds['ext']))
+        default = os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')),
+                               u'{0}.{1}'.format(filename, creds['ext']))
         if creds['dont_ask']:
             return default
         gsfn = QtGui.QFileDialog.getSaveFileName
@@ -300,7 +300,7 @@ class MainWindow(QtGui.QMainWindow):
             path = unicode(path)
             self.config.setValue(CONFIG_LAST_SAVE_DIR, os.path.dirname(unicode(path)))
             if not 'filename' in creds:
-                self.config.setValue(CONFIG_LAST_SAVE_NAME, 
+                self.config.setValue(CONFIG_LAST_SAVE_NAME,
                                      os.path.basename(unicode(path)).replace('.%s' % creds['ext'], ''))
         return path
 
@@ -309,7 +309,7 @@ class MainWindow(QtGui.QMainWindow):
         if not self.askSave():
             return 1
         items, nyi, byi = self.years_dict()
-        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken", 
+        item, ok = QtGui.QInputDialog.getItem(self, u"Auf Jahr einschränken",
                                               u"Auswertung beschränken auf:", items.keys(), byi, False)
         jahr = items[item]
         if not ok:
@@ -327,7 +327,7 @@ class MainWindow(QtGui.QMainWindow):
         if not self.askSave():
             return 1
 
-        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf', 
+        path = self.get_save_path(title="Pdf Auswertung/Zusammenfassung speichern unter...", ext='pdf',
                                   filename='Erhebungsbogen', dont_ask='shift' in modifiers)
         # print '%s - %s' % (path, os.path.dirname(str(path)))
         if path:
@@ -347,7 +347,7 @@ class MainWindow(QtGui.QMainWindow):
         select = sqAl.sql.select(Participant.__table__.columns)
         result = self.session.execute(select)
 
-        mf_specs = { # specifics of the multi-column fields 
+        mf_specs = { # specifics of the multi-column fields
             'multi_bool': {
                 'format': DB_FMT_MB,
                 'db_col_type': sqAl.Boolean
@@ -402,7 +402,7 @@ class MainWindow(QtGui.QMainWindow):
 
         try:
             logging.info('versuche SPSS-Datei zu speichern')
-            with savReaderWriter.SavWriter(path, result.keys(), var_types, measureLevels=measure_levels, columnWidths=column_widths, alignments=alignments, 
+            with savReaderWriter.SavWriter(path, result.keys(), var_types, measureLevels=measure_levels, columnWidths=column_widths, alignments=alignments,
                                         ioUtf8=True, formats=formats, ioLocale= 'english' if os.name == 'nt' else None) as writer:
                 for record in result:
                     writer.writerow(list(record))
@@ -437,7 +437,7 @@ class MainWindow(QtGui.QMainWindow):
 
         fh = open(path, 'wb')
         outcsv = csv.writer(fh)
-        
+
         select = sqAl.sql.select(Participant.__table__.columns)
         result = self.session.execute(select)
 
@@ -449,29 +449,29 @@ class MainWindow(QtGui.QMainWindow):
             self.open_file_externally(path)
 
     def createActions(self):
-        self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'), 
-                                     u"&Einstellungen", self, 
+        self.prefAct = QtGui.QAction(QtGui.QIcon(':icons/preferences-32.png'),
+                                     u"&Einstellungen", self,
                                      statusTip=u"'Name des Unterzeichners' und 'Einrichtungs-Code Nr.' eingeben und Datenbank konfigurieren", triggered=self.dialog_prefs)
-        self.aboutAct = QtGui.QAction(QtGui.QIcon(':icons/help-about.png'), 
-                                     u"Über Teilnehmerbogen", self, 
+        self.aboutAct = QtGui.QAction(QtGui.QIcon(':icons/help-about.png'),
+                                     u"Über Teilnehmerbogen", self,
                                       statusTip=u"Über diese Anwendung", triggered=self.show_about)
-        self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
-                                        u"Auswertung als &Pdf", self, 
+        self.savePdfAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'),
+                                        u"Auswertung als &Pdf", self,
                                         statusTip=u"Auswertung der Daten im PDF-Format speichern", triggered=self.save_pdf)
-        self.saveRaisingSheetAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'), 
-                                                 u"Erhebungsbogen", self, 
+        self.saveRaisingSheetAct = QtGui.QAction(QtGui.QIcon(':icons/application-pdf.png'),
+                                                 u"Erhebungsbogen", self,
                                                  statusTip=u"Erhebungsbogen für aktuellen Teilnehmer im PDF-Format speichern", triggered=self.save_raise_sheet)
-        self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'), 
-                                        u"&CSV exportieren", self, 
+        self.saveCsvAct = QtGui.QAction(QtGui.QIcon(':icons/application-vnd.ms-excel.png'),
+                                        u"&CSV exportieren", self,
                                         statusTip=u"Die Daten im CSV-Format exportieren", triggered=self.save_csv)
-        self.saveSavAct = QtGui.QAction(QtGui.QIcon(':icons/spss.png'), 
-                                        u"S&PSS exportieren", self, 
+        self.saveSavAct = QtGui.QAction(QtGui.QIcon(':icons/spss.png'),
+                                        u"S&PSS exportieren", self,
                                         statusTip=u"Die Daten im SAV-Format exportieren", triggered=self.save_sav)
         if self.use_sqlite:
-            self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/database.png'), 
-                                               u"S&QLite Datei speichern", self, 
+            self.saveSqliteAct = QtGui.QAction(QtGui.QIcon(':icons/database.png'),
+                                               u"S&QLite Datei speichern", self,
                                                statusTip=u"Eine Kopie der internen SQLite Datenbank speichern", triggered=self.save_sqlite)
-        self.exitAct = QtGui.QAction(QtGui.QIcon(':icons/exit.png'),u"&Beenden", 
+        self.exitAct = QtGui.QAction(QtGui.QIcon(':icons/exit.png'),u"&Beenden",
                                      self, shortcut="Ctrl+Q",
                                      statusTip=u"Beendet das Programm", triggered=self.close)
 
@@ -512,7 +512,7 @@ class MainWindow(QtGui.QMainWindow):
     def show_about(self):
         QtGui.QMessageBox.information(self,
                 "Bitte beachten", u"""<p>Dies ist eine Vorabversion, die nicht für den produktiven Einsatz geeignet ist.</p>
-                 <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen 
+                 <p>Dieses Programm steht unter der <a href='http://www.gnu.org/licenses/gpl-3.0'>GPLv3</a>, die Quellen
                  sind auf <a href='https://github.com/the-lo-ni-us/rpk-teilnehmerbogen'>github.com</a> zugänglich.</p>
                  <p>&copy; 2013 Thelonius Kort</p>""")
 
