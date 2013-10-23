@@ -49,7 +49,7 @@ if __name__ == '__main__':
             ms = QtGui.QApplication.keyboardModifiers()
             m = "keyboardModifiers: {1:0=32b} {0} has been pressed"
             self.statusBar().showMessage(m.format(repr(modifiers), int(ms)))
-            
+
     import sys
     app = QtGui.QApplication(sys.argv)
     mainWin = MainWindow()

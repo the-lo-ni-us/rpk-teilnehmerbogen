@@ -8,7 +8,23 @@ structure = FieldnameList([
   {
     'title': u"Einleitung",
     'content': """
-    Diese Dokumentation bezieht sich auf eine Beipielanwendung, die ursprünglich zur Erfassung von Teilnehmerdaten für die jährliche Meldung bei der <a color="blue" href="http://www.bagrpk.de/">BAG-RPK</a> gedacht war. Die Daten werden entweder in einer lokalen <a color="blue" href="http://www.sqlite.org/">SQLite</a>-Datenbank, oder auf einem Server im Netzwerk gespeichert (derzeit nur <a color="blue" href="http://www.postgresql.org/">PostgreSQL</a>). Die erfassten Daten können als SPSS Systemdatei, oder als .csv (z.B. für den Import in Excel) exportiert, oder als Auswertung im Pdf-Format ausgegeben werden, die an dieser <a color="blue" href="http://www.bagrpk.de/fileadmin/webseite/Downloads/Formulare/Summenb%F6gen%20BAG-RPK%202011.xls">Excel-Datei</a> orientiert ist. 
+    Diese Dokumentation bezieht sich auf eine Beipielanwendung, die ursprünglich zur Erfassung von Teilnehmerdaten für die jährliche Meldung bei der <a color="blue" href="http://www.bagrpk.de/">BAG-RPK</a> gedacht war. Die Daten werden entweder in einer lokalen <a color="blue" href="http://www.sqlite.org/">SQLite</a>-Datenbank, oder auf einem Server im Netzwerk gespeichert (derzeit nur <a color="blue" href="http://www.postgresql.org/">PostgreSQL</a>). Die erfassten Daten können als SPSS Systemdatei, oder als .csv (z.B. für den Import in Excel) exportiert, oder als Auswertung im Pdf-Format ausgegeben werden, die an dieser <a color="blue" href="http://www.bagrpk.de/fileadmin/webseite/Downloads/Formulare/Summenb%F6gen%20BAG-RPK%202011.xls">Excel-Datei</a> orientiert ist. Außerdem gibt es einen <a href="https://raw.github.com/the-lo-ni-us/rpk-teilnehmerbogen/develop/Doku/Erhebungsbogen.pdf" color="blue">Erhebungsbogen</a>, der entweder leer, oder mit den bereits erfassten Werten eines einzelnen Datensatzes (als Pdf) ausgegeben werden kann.
+    """,
+    'typ': 'doc_paragraph',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"How to read",
+    'content': """
+    Am einfachsten und direktesten erschliesst sich der Sinn der Erklärungen bzw. der Variablenbeschreibungen hier wahrscheinlich, wenn man in der Anwendung zwei/drei Datensätze eingibt, diese nach SPSS exportiert und dort öffnet und seine Aufmerksamkeit dann einzelnen Variablen widmet, indem man vergleicht, wie sie in der Anwendung, in SPSS und hier erscheinen. Die Betrachtung der Variablen <a color="blue" href="#f2">f2</a>, <a color="blue" href="#f5">f5</a>, <a color="blue" href="#f32">f32</a> und <a color="blue" href="#f40">f40</a> (und eventuell <a color="blue" href="#f7">f7</a>) sollte einen guten Überblick verschaffen.
+    """,
+    'typ': 'doc_paragraph',
+    'appears': ('documentation',)
+  },
+  {
+    'title': u"Beschreibung",
+    'content': """
+    Die Anwendung kann (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden: <a color="blue" href="http://downloads.banza.net/">http://downloads.banza.net/</a>. Es läuft auch unter Linux und eine Mac Os X Version wäre bei Bedarf ebenfalls machbar. Um mit der Mode zu gehen: <i><a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen" color="blue">Fork me on Github</a></i>.
     """,
     'typ': 'doc_paragraph',
     'appears': ('documentation',)
@@ -22,17 +38,9 @@ structure = FieldnameList([
     'appears': ('documentation',)
   },
   {
-    'title': u"Beschreibung",
-    'content': """
-    Die Anwendung kann (in Form eines Windows Installationsprogrammes) hier heruntergeladen werden: <a color="blue" href="http://downloads.banza.net/teilnehmerbogen_x86.exe">http://downloads.banza.net/teilnehmerbogen_x86.exe</a>. Es läuft auch unter Linux und eine Mac Os X Version wäre bei Bedarf ebenfalls machbar. Um mit der Mode zu gehen: <i><a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen" color="blue">Fork me on Github</a></i>.
-    """,
-    'typ': 'doc_paragraph',
-    'appears': ('documentation',)
-  },
-  {
     'title': u"Erklärung der Angaben in der Dokumentation",
     'content': u"""
-    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAG-RPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache numerische Werte (-1 statt "00", 0 statt "01" usw.). Vorgabewert ist in der Regel auch für die numerischen <i>Felder</i> der Wert <i>-1</i>, der in Auswertungen einheitlich als "fehlender Wert" interpretiert werden kann. 
+    Die gesamte Struktur entspricht noch im Wesentlichen den Vorgaben der BAG-RPK (von 2011?). Dort finden sich fast ausschliesslich zwei Arten von zu erfassenden Werten: Numerische Angaben, wie "Alter bei Aufnahme.." und die Auswahl aus einer Menge von Vorgaben (wie "keine Angabe", "männlich", "weiblich"). Die dort für die <i>Auswahl-Felder</i> verwendete Zuordnung der Angaben zu "Codes" wie "00", "01", usw. sind hier ersetzt durch einfache numerische Werte (-1 statt "00", 0 statt "01" usw.). Vorgabewert ist in der Regel auch für die numerischen <i>Felder</i> der Wert <i>-1</i>, der in Auswertungen einheitlich als "fehlender Wert" interpretiert werden kann.
     """,
     'typ': 'doc_paragraph',
     'appears': ('documentation',)
@@ -43,14 +51,14 @@ structure = FieldnameList([
     'typ': 'doc_paragraph',
     'allowance': None,
       'appears': ('documentation',)
-  }, 
+  },
   {
     'title': u"Allgemeines",
     'fieldname': u"h0",
     'typ': 'heading',
     'allowance': None,
     'appears': ('documentation')
-  }, 
+  },
   {
     'title': u"Name",
     'fieldname': u"name",
@@ -59,8 +67,8 @@ structure = FieldnameList([
     'sav_opts': {
       'measure_level': 'unknown',
       'column_width': 5,
-      'alignment': 'right',
-      'var_type': 15
+      'alignment': 'left',
+      'var_type': 25
     },
     'default': '',
     'disabled': False,
@@ -93,7 +101,8 @@ structure = FieldnameList([
     'fieldname': u"mtpv",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -110,7 +119,7 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'documentation')
-  }, 
+  },
   {
     'title': u"Teilnahme abgeschlossen",
     'fieldname': 'jahr',
@@ -150,7 +159,8 @@ structure = FieldnameList([
     'fieldname': u"fe hoch -!$%&/()=?;:,.",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -168,7 +178,8 @@ structure = FieldnameList([
     'fieldname': u"f2",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -185,7 +196,8 @@ structure = FieldnameList([
     'fieldname': u"f2a",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -195,14 +207,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "3",
     'title': u"Anzahl der in diesem Summenbogen erfassten Rehabilitanden",
     'fieldname': u"count_participants",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -210,21 +223,25 @@ structure = FieldnameList([
     },
     'default': -1,
     'appears': ('tabulation',),
-  }, 
+  },
   {
     'title': u"Soziodemografische Merkmale der Rehabilitanden (bei Aufnahme in eine RPK)",
     'fieldname': u"h1",
     'typ': 'heading',
     'allowance': None,
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "5",
     'title': u"Geschlecht ",
     'fieldname': u"f5",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+      # 'missing_values': {'value': -2}, # invalid (strange error in sRW)
+      # 'missing_values': {"lower": -9, "upper": -1, "value": 999},
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -239,14 +256,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "6",
     'title': u"Alter bei Aufnahme (in Jahren)",
     'fieldname': u"f6",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -262,14 +280,15 @@ structure = FieldnameList([
   #   'fieldname': u"f7",
   #   'typ': 'dropdown',
   #   'sav_opts': {
-  #     'measure_level': 'unknown',
+  #     'missing_values': {'values': [-1]},
+       # 'measure_level': 'unknown',
       # 'column_width': 5,
       # 'alignment': 'right',
       # 'var_type': 0,
   #     'format': 'F3.0'
   #   },
   #   'default': 0,
-  #   'allowance': [ 
+  #   'allowance': [
   #     u"00 - keine Angabe / nicht bekannt",
   #     u"01 - ledig",
   #     u"02 - verheiratet",
@@ -278,21 +297,22 @@ structure = FieldnameList([
   #     u"05 - verwitwet"
   #   ],
   #   'appears': ('capture', 'tabulation', 'documentation')
-  # }, 
+  # },
   {
     'number': "7",
     'title': u"Familienstand",
     'fieldname': u"f7",
     'typ': 'enumber',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       ( -1, u"00 - keine Angabe / nicht bekannt" ),
       (  1, u"01 - ledig" ),
       (  2, u"02 - verheiratet" ),
@@ -303,21 +323,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "8",
     'title': u"Lebensverhältnisse (in den letzten 4 Wochen vor der Aufnahme)",
     'fieldname': u"f8",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - lebe allein",
       u"02 - mit Ehe-(Partner)",
@@ -330,21 +351,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "9",
     'title': u"Zahl der Kinder",
     'fieldname': u"f9",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - keine Kinder",
       u"02 - ein Kind",
@@ -354,21 +376,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "10",
     'title': u"Wohnsituation (z.B.: Betreutes Einzelwohnen = 01) ",
     'fieldname': u"f10",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - eigene Wohnung",
       u"02 - Wohnung im elterlichen Haus",
@@ -380,21 +403,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "11",
     'title': u"Überwiegender Lebensunterhalt (in den letzten 4 Wochen    vor der Aufnahme)",
     'fieldname': u"f11",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - eigenenes Arbeitseinkommen",
       u"02 - finanzielle Unterstützung durch Angehörige",
@@ -410,21 +434,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "12",
     'title': u"Höchster Schulabschluss",
     'fieldname': u"f12",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ohne Schulabschluss",
       u"02 - Sonderschulabschluss",
@@ -436,21 +461,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "13",
     'title': u"Höchster beruflicher Abschluss (z.B. noch Schüler=1)",
     'fieldname': u"f13",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ohne Ausbildung / Anlernverhältnis",
       u"02 - Lehre oder vergleichbare Ausbildung",
@@ -462,21 +488,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "15",
     'title': u"Dauer der letzten sozialversicherungspflichtigen beruflichen Tätigkeit",
     'fieldname': u"f15",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - bis zu 1 Monat",
       u"02 - bis zu 6 Monaten",
@@ -490,14 +517,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "15.1",
-    'title': u"Gesamtdauer aller sozialversicherungspflichtigen beruflichen Tätigkeiten (in Jahren): (auch Ausbildungszeiten; Versicherungsverlauf eventuell beim Rentenvers. klären)", 
+    'title': u"Gesamtdauer aller sozialversicherungspflichtigen beruflichen Tätigkeiten (in Jahren): (auch Ausbildungszeiten; Versicherungsverlauf eventuell beim Rentenvers. klären)",
     'fieldname': u"f15_1",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -514,14 +542,15 @@ structure = FieldnameList([
     'fieldname': u"f16",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - bis direkt vor der Aufnahme gearbeitet",
       u"02 - bis 6 Monate vor der Aufnahme gearbeitet",
@@ -535,21 +564,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "17",
     'title': u"Erwerbs- und Ausbildungssituation   (Status zum Zeitpunkt der   Aufnahme) ",
     'fieldname': u"f17",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - allgemeiner Arbeitsmarkt - Vollzeit",
       u"02 - allgemeiner Arbeitsmarkt - Teilzeit",
@@ -572,21 +602,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "19",
     'title': u"Rente / Rentenantrag",
     'fieldname': u"f19",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - derzeit bereits Rentenbezug",
       u"02 - Rentenantrag gestellt/ volle Erwerbsminderungsrente",
@@ -597,21 +628,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "20",
     'title': u"Schwerbehindertenausweis",
     'fieldname': u"f20",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ja ( 50% und mehr GdB)",
       u"02 - beantragt",
@@ -620,21 +652,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "21",
     'title': u"Gesetzliche Betreuung",
     'fieldname': u"f21",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ja",
       u"02 - beantragt",
@@ -643,21 +676,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "22",
     'title': u"Entfernung vom Wohnort zur RPK (zu Beginn der Reha-Maßnahme,      laut Routenplaner)           ",
     'fieldname': u"f22",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - bis 20 km Umkreis",
       u"02 - bis 50 km Umkreis",
@@ -672,7 +706,7 @@ structure = FieldnameList([
     'typ': 'pagebreak',
     'allowance': None,
     'appears': ('documentation')
-  },                                                       
+  },
   {
     'title': u"Krankheitsmerkmale der Rehabilitanden",
     'typ': 'heading',
@@ -685,14 +719,15 @@ structure = FieldnameList([
     'fieldname': u"f23_1",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / keine Diagnose",
       u"F0",
       u"F10",
@@ -709,21 +744,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "23.2",
     'title': u"2. Diagnose",
     'fieldname': u"f23_2",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / keine Diagnose",
       u"F0",
       u"F10",
@@ -740,14 +776,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "24",
     'title': u"Alter beim ersten professionellen Kontakt (in Jahren):",
     'fieldname': u"f24",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -757,14 +794,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "25",
     'title': u"Alter bei der ersten Klinikaufnahme (in Jahren):",
     'fieldname': u"f25",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -774,14 +812,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "26",
     'title': u"Anzahl der psychiatrischen Klinikaufenthalte:",
     'fieldname': u"f26",
     'typ': 'int',
     'sav_opts': {
-      'measure_level': 'unknown',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'unknown',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -791,21 +830,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "27",
     'title': u"Dauer der Klinikaufenthalte insgesamt (Stationär / Teilstationär)      ",
     'fieldname': u"f27",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ohne Aufenthalte",
       u"02 - bis zu 3 Monaten",
@@ -818,21 +858,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "28",
     'title': u"Zeitraum zwischen letzter Klinikentlassung und RPK-Aufnahme ",
     'fieldname': u"f28",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - bis zu 1 Woche",
       u"02 - bis zu 4 Wochen",
@@ -846,7 +887,7 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "29",
     'title': u"Behandlung/Betreuung vor der Aufnahme (Mehrfachnennungen möglich) (in den letzten 4 Wochen vor der Aufnahme)",
@@ -858,7 +899,7 @@ structure = FieldnameList([
       'alignment': 'right',
       'var_type': 5
     },
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - stationäre psychiatrische Behandlung",
       u"02 - teilstationäre Behandlung (Tagesklinik)",
@@ -878,32 +919,33 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
-  {
-    'typ': 'pagebreak',
-    'allowance': None,
-    'appears': ('documentation')
-  },                                                       
+  },
+  # {
+  #   'typ': 'pagebreak',
+  #   'allowance': None,
+  #   'appears': ('documentation')
+  # },
   {
     'title': u"Rehabilitationsverlauf und Behandlungsergebnis",
     'typ': 'heading',
     'allowance': None,
     'appears': ('capture', 'tabulation', 'documentation')
-  },                                                       
+  },
   {
     'number': "30",
     'title': u"Durch wen wurde vorrangig der Kontakt zur RPK vermittelt?  ",
     'fieldname': u"f30",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - Psychiatrische Klinik / Tagesklinik",
       u"02 - niedergelassener Facharzt für Psychiatrie",
@@ -929,7 +971,8 @@ structure = FieldnameList([
     'fieldname': u"f31",
     'typ': 'multi_int',
     'sav_opts': {
-      'measure_level': 'scale',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'scale',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -954,14 +997,15 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "32",
     'title': u"Leistungsträger der beruflichen Reha-Phase  (Abgerechnete Tage auf der Basis einer 7 Tage Woche,  ohne Unterbrechungen)",
     'fieldname': u"f32",
     'typ': 'multi_numeric',
     'sav_opts': {
-      'measure_level': 'scale',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'scale',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
@@ -970,11 +1014,11 @@ structure = FieldnameList([
     'allowance': [
       ( 'drv_reg', u"01 - DRV Regional" ),
       ( 'drv_bnd', u"02 - DRV Bund" ),
-      ( 'drv_kna', u"03 - DRV Knappschaft / Bahn / See" ), 
-      ( 'sonder',  u"04 - Sonderkassen (Landwirte u.a.)" ), 
-      ( 'afg',     u"05 - Agentur für Arbeit" ), 
-      ( 'berufs',  u"06 - Berufsgenossenschaft" ), 
-      ( 'privat',  u"08 - Privatversicherung, Beihilfe, Selbstzahler" ), 
+      ( 'drv_kna', u"03 - DRV Knappschaft / Bahn / See" ),
+      ( 'sonder',  u"04 - Sonderkassen (Landwirte u.a.)" ),
+      ( 'afg',     u"05 - Agentur für Arbeit" ),
+      ( 'berufs',  u"06 - Berufsgenossenschaft" ),
+      ( 'privat',  u"08 - Privatversicherung, Beihilfe, Selbstzahler" ),
       ( 'sonst',   u"11 - Sonstiges" )
     ],
     'default': -1,
@@ -983,21 +1027,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  },      
+  },
   {
     'number': "32.1",
     'title': u"Art der beruflichen Reha-Maßnahme ",
     'fieldname': u"f32_1",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - berufliche Reha innerhalb der RPK",
       u"04 - berufliche Reha extern / WfbM",
@@ -1006,21 +1051,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "33",
     'title': u"Durchführung der Reha-Maßnahme  ",
     'fieldname': u"f33",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - nur stationär",
       u"02 - nur ganztägig Ambulant",
@@ -1030,42 +1076,44 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "34",
     'title': u"Beendigung der RPK- Maßnahme gemäß fortgeschriebenen Reha-Plan    (Nicht gemäß Kostenzusage!)  ",
     'fieldname': u"f34",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - planmäßig gemäß Reha-Plan beendet"
     ],
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "35",
     'title': u"Erreichtes Reha-Ziel gemäß Reha-Plan   (qualitative Einschätzung am Ende  der Maßnahme im Abgleich zum fortgeschriebenen Reha-Plan)   ",
     'fieldname': u"f35",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - Reha-Ziel erreicht",
       u"02 - Reha-Ziel bedingt erreicht",
@@ -1074,21 +1122,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "36",
     'title': u"Schwerbehindertenausweis (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f36",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ja ( 50% und mehr GdB)",
       u"02 - beantragt",
@@ -1097,21 +1146,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "37",
     'title': u"Rente / Rentenantrag (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f37",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - derzeit bereits Rentenbezug",
       # u"02 - Rentenantrag gestellt/Empfehlung volle Erwerbsminderungsrente",
@@ -1125,21 +1175,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "38",
     'title': u"Gesetzliche Betreuung (zum Zeitpunkt der Entlassung) ",
     'fieldname': u"f38",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - ja",
       u"02 - beantragt",
@@ -1148,21 +1199,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "39",
     'title': u"Entfernung vom Wohnort zur RPK (zum Zeitpunkt der Entlassung) (laut Routenplaner) ",
     'fieldname': u"f39",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - bis 20 km Umkreis",
       u"02 - bis 50 km Umkreis",
@@ -1177,7 +1229,7 @@ structure = FieldnameList([
   #   'typ': 'pagebreak',
   #   'allowance': None,
   #   'appears': ('documentation')
-  # },                                                       
+  # },
   {
     'title': u"Einschätzung /Empfehlung nach Beendigung der RPK-Maßnahme",
     'typ': 'heading',
@@ -1190,12 +1242,13 @@ structure = FieldnameList([
     'fieldname': u"f40",
     'typ': 'multi_select',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 5
     },
-    'allowance': [ 
+    'allowance': [
       ( 'unbek',    u"00 - keine Angabe / nicht bekannt" ),
       ( 'staPsy',   u"01 - stationäre psychiatrische Behandlung" ),
       ( 'tStaPsy',  u"02 - teilstationäre Behandlung (Tagesklinik)" ),
@@ -1217,7 +1270,7 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   # {
   #   'title': u"40 - Behandlung/Betreuung nach der RPK-Maßnahme   (Mehrfachnennungen möglich)  ",
   #   'fieldname': u"f40",
@@ -1228,7 +1281,7 @@ structure = FieldnameList([
   #     'alignment': 'right',
   #     'var_type': 5
   #   },
-  #   'allowance': [ 
+  #   'allowance': [
   #     u"00 - keine Angabe / nicht bekannt",
   #     u"01 - stationäre psychiatrische Behandlung",
   #     u"02 - teilstationäre Behandlung (Tagesklinik)",
@@ -1246,21 +1299,22 @@ structure = FieldnameList([
   #   ],
   #   'default': False,
   #   'appears': ('capture', 'tabulation', 'documentation')
-  # }, 
+  # },
   {
     'number': "41",
     'title': u"Erwerbs- und Ausbildungssituation   (Situation nach Beendigung  der RPK-Maßnahme)      ",
     'fieldname': u"f41",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - allgemeiner Arbeitsmarkt - Vollzeit",
       u"02 - allgemeiner Arbeitsmarkt - Teilzeit",
@@ -1283,21 +1337,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "41.1",
     'title': u"Erwerbsfähigkeit nach Rentenrecht   (Situation nach Beendigung der RPK-Maßnahme)     ",
     'fieldname': u"f41_1",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - unter drei Stunden",
       u"02 - bis 6 Stunden",
@@ -1307,21 +1362,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "43",
     'title': u"Lebensverhältnisse (Einschätzung nach Beendigung der RPK-Maßnahme) ",
     'fieldname': u"f43",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - lebt allein",
       u"02 - mit Ehe-(Partner)",
@@ -1334,21 +1390,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "44",
     'title': u"Wohnsituation (Einschätzung nach Beendigung   der RPK-Maßnahme) ",
     'fieldname': u"f44",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - Eigene Wohnung",
       u"02 - Wohnung im elterlichen Haus",
@@ -1360,21 +1417,22 @@ structure = FieldnameList([
     'raise_time': 'AufMR',
     'raiser': 'BT',
     'appears': ('capture', 'tabulation', 'documentation')
-  }, 
+  },
   {
     'number': "45",
     'title': u"Überwiegender Lebensunterhalt (Einschätzung nach Beendigung der RPK-Maßnahme) ",
     'fieldname': u"f45",
     'typ': 'dropdown',
     'sav_opts': {
-      'measure_level': 'nominal',
+      'missing_values': {'values': [-1]},
+       'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
       'var_type': 0,
       'format': 'F3.0'
     },
     'default': -1,
-    'allowance': [ 
+    'allowance': [
       u"00 - keine Angabe / nicht bekannt",
       u"01 - eigenenes Arbeitseinkommen",
       u"02 - finanzielle Unterstützung durch Angehörige",
@@ -1444,7 +1502,7 @@ structure = FieldnameList([
   {
     'title': u"dropdown",
     'purpose': u"""
-    Einfaches Auswahlfeld. In der Oberfläche eine "Dropdown Liste". In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert die Position des Ausgewählten Elementes (oder Eintrags).
+    Einfaches Auswahlfeld. In der Oberfläche eine "Dropdown Liste". In der Datenbank eine INTEGER Spalte. Der gespeicherte Wert repräsentiert die Position des Ausgewählten Elementes beginnend mit <i>-1</i> (also "keine Angabe / unbekannt" = <i>-1</i>).
     """,
     'typ': 'typ_specification',
     'appears': ('documentation',)
@@ -1522,7 +1580,7 @@ structure = FieldnameList([
   {
     'title': u"Über Typen",
     'content': u"""
-    Dieses Dokument ist abgeleitet von der Strukturdefinition in 
+    Dieses Dokument ist abgeleitet von der Strukturdefinition in
      <a href="https://github.com/the-lo-ni-us/rpk-teilnehmerbogen/blob/develop/structure.py" color="blue">dieser Datei</a>.
     Von dieser einen Datei wird auch die Anwendungsoberfläche und die von dieser gespeiste Datenbanktabelle abgeleitet. Das liesse sich leicht erweitern, z.B. um Erklärungen zur Erfassung der einzelnen Angaben, die dann als Pdf-Dokumentation für die Anwender ausgegeben werden könnten, oder als beim Überfahren mit der Maus in der Anwendung engeblendete Erläuterungen...
     """,
@@ -1534,7 +1592,7 @@ structure = FieldnameList([
   #   'typ': 'pagebreak',
   #   'allowance': None,
   #   'appears': ('documentation')
-  # },                                                       
+  # },
 ])
 
 if __name__ == '__main__':

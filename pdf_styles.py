@@ -54,6 +54,7 @@ fmt_mult.update(fontSize = 9,
                 leftIndent = hanging2,
                 firstLineIndent = -hanging2)
 
+# pdf_document pdf_raising_sheet
 styleMult = ParagraphStyle(**fmt_mult)
 
 styleH = ParagraphStyle(name='Normal-Heading',
@@ -69,8 +70,11 @@ styleH = ParagraphStyle(name='Normal-Heading',
             textColor =  black,
             backColor = None )
 
+############### pdf_output #######################
+
 spaltenBreiten = [ 8*cm, 10.4*cm ]
 
+# in pdf_output
 spaltenInner = [ 6*cm, 1*cm, 1*cm, 0.6*cm, 1*cm ]
 
 stdTablePadding = (
@@ -80,134 +84,132 @@ stdTablePadding = (
     ('BOTTOMPADDING', (0,0), (-1,-1), 0)
 )
 
-styleInnerHeading = [  ('SPAN',         (1,0), (2,0)), 
+# in pdf_output
+styleInnerHeading = [  ('SPAN',         (1,0), (2,0)),
                        ('SPAN',         (3,0), (4,0)),
-                       ('ALIGN',        (0,0), (-1,-1), 'CENTER'), 
-                       ('INNERGRID',    (1,0), ( 4,-1), 0.25, black), 
+                       ('ALIGN',        (0,0), (-1,-1), 'CENTER'),
+                       ('INNERGRID',    (1,0), ( 4,-1), 0.25, black),
                        ('LEFTPADDING', 	(0,0), (-1,-1), 0),
                        ('RIGHTPADDING', (0,0), (-1,-1), 0),
                        ('TOPPADDING',   (0,0), (-1,-1), 0),
                        ('BOTTOMPADDING',(0,0), (-1,-1), 2),
                        ('FONT',	        (0,0), (-1,-1), 'Helvetica', 8, 8 )]
 
-styleInner = [  ('ALIGN',         (0,0), (0,-1), 'LEFT'), 
+styleInner = [  ('ALIGN',         (0,0), (0,-1), 'LEFT'),
                 ('ALIGN',         (1,0), (4,-1), 'RIGHT'),
-                ('INNERGRID',     (0,0), (-1,-1), 0.25, black), 
-                ('BOX',           (0,0), (-1,-1), 0.25, black), 
+                ('INNERGRID',     (0,0), (-1,-1), 0.25, black),
+                ('BOX',           (0,0), (-1,-1), 0.25, black),
                 ('LEFTPADDING',   (0,0), (-1,-1), 3),
                 ('RIGHTPADDING',  (0,0), (-1,-1), 6),
                 ('TOPPADDING',    (0,0), (-1,-1), 0),
                 ('BOTTOMPADDING', (0,0), (-1,-1), 0) ]
 
-styleOuter = [  ('ALIGN', (0,0),(0,-1), 'LEFT'), 
+# in pdf_output
+styleOuter = [  ('ALIGN', (0,0),(0,-1), 'LEFT'),
                 ('ALIGN', (1,0),(1,-1), 'RIGHT'),
                 ('VALIGN',(0,0), (-1,-1), 'TOP'),
-                # ('INNERGRID',     (0,0), (-1,-1), 0.25, black), 
-                # ('BOX',           (0,0), (-1,-1), 0.25, black), 
+                # ('INNERGRID',     (0,0), (-1,-1), 0.25, black),
+                # ('BOX',           (0,0), (-1,-1), 0.25, black),
                 ('TOPPADDING',(0,0), (0,-1), 2), # since reportlab 2.3 for cells with a paragraph
                 ]
 
+# in pdf_output
 spaltenAllInSix = [ 6*cm, 8*cm, 1*cm, 1*cm, 1*cm, 1*cm ]
 
-styleAllInSix = [  ('SPAN',          (0,0), (0,-1)), 
-                   ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+# in pdf_output
+styleAllInSix = [  ('SPAN',          (0,0), (0,-1)),
+                   ('ALIGN',         (0,0), (1,-1), 'LEFT'),
                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
                    ('ALIGN',         (2,0), (5,-1), 'RIGHT'),
                    ('VALIGN',        (2,0), (5,-1), 'MIDDLE'),
                    ('BACKGROUND',    (2,0), (5,-1),  Color(0,0.4,0.4)),
                    ('TEXTCOLOR',     (2,0), (5,-1),  white),
-                   ('INNERGRID',     (0,0), (-1,-1), 1, black), 
-                   ('BOX',           (0,0), (-1,-1), 1, black), 
+                   ('INNERGRID',     (0,0), (-1,-1), 1, black),
+                   ('BOX',           (0,0), (-1,-1), 1, black),
                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
                    ('RIGHTPADDING',  (0,0), (-1,-1), 6),
                    ('TOPPADDING',    (0,0), (-1,-1), 0),
                    ('BOTTOMPADDING', (0,0), (-1,-1), 0) ]
 
-spaltenAllInFour = [ 6*cm, 2.4*cm, 8*cm, 1.6*cm ]
+########################## pdf_document ########################
 
-styleAllInFour = [  ('SPAN',          (0,0), (0,-1)), 
-                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+# in pdf_document
+fieldTop5 = [ 1.0*cm, 5.0*cm, 2.4*cm, 8*cm, 1.6*cm ]
+
+bold_0_0 = ( ('FACE', (0,0), (0,0), 'Helvetica-Bold' ),
+             ('SIZE', (0,0), (0,0), 10 ) )
+
+
+styleFieldTop5 = (  ('SPAN',          (0,0), (0,-1)),
+                    ('SPAN',          (1,0), (1,-1)),
+                    ('ALIGN',         (0,0), (1,-1), 'LEFT'),
                     ('VALIGN',        (0,0), (1,-1), 'TOP'),
-                    ('ALIGN',         (1,0), (3,-1), 'CENTER'),
-                    ('VALIGN',        (1,0), (3,-1), 'MIDDLE'),
+                    ('ALIGN',         (4,0), (4,-1), 'CENTER'),
+                    ('VALIGN',        (2,0), (4,-1), 'MIDDLE'),
                     ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                    # ('SIZE',      (0,0), (1,0), 10 ),
                     # ('BACKGROUND',    (2,0), (3,-1),  Color(0,0.4,0.4)),
                     # ('TEXTCOLOR',     (2,0), (3,-1),  white),
-                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('INNERGRID',     (1,0), (-1,-1), 0.3, black),
+                    ('BOX',           (0,0), (-1,-1), 0.3, black),
                     ('LEFTPADDING',   (0,0), (-1,-1), 3),
                     ('RIGHTPADDING',  (0,0), (-1,-1), 4),
                     ('TOPPADDING',    (0,0), (-1,-1), 0),
-                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
-                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
-                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
-                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
-                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+                    ('LEFTPADDING',   (0,0), ( 1, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 1, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 1, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 1, 0), 3) ) + bold_0_0
 
-styleAllInFour2 = [ ('SPAN',          (0,0), (0,-1)), 
-                    ('SPAN',          (1,0), (1,-1)), 
-                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
-                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
-                    ('ALIGN',         (1,0), (3,-1), 'CENTER'),
-                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
-                    ('VALIGN',        (1,0), (3,-1), 'MIDDLE'),
-                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
-                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
-                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
-                    ('TOPPADDING',    (0,0), (-1,-1), 0),
-                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
-                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
-                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
-                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
-                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
 
-spaltenAllInTwo = [ 16.4*cm, 1.6*cm ]
+fieldTop4 = [ 1.0*cm, 7.4*cm, 8*cm, 1.6*cm ]
 
-styleAllInTwo = [ ('ALIGN',         (0,0), (0,-1), 'LEFT'), 
+styleFieldTop4 = ( ('SPAN',          (0,0), (0,-1)),
+                   ('SPAN',          (1,0), (1,-1)),
+                   ('ALIGN',         (0,0), (1,-1), 'LEFT'),
+                   ('VALIGN',        (0,0), (1,-1), 'TOP'),
+                   ('ALIGN',         (2,0), (3,-1), 'CENTER'),
+                   ('VALIGN',        (2,0), (3,-1), 'MIDDLE'),
+                   ('FONTSIZE',      (0,0), (-1,-1), 9 ),
+                   ('INNERGRID',     (1,0), (-1,-1), 0.3, black),
+                   ('BOX',           (0,0), (-1,-1), 0.3, black),
+                   ('LEFTPADDING',   (0,0), (-1,-1), 3),
+                   ('RIGHTPADDING',  (0,0), (-1,-1), 4),
+                   ('TOPPADDING',    (0,0), (-1,-1), 0),
+                   ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+                   ('LEFTPADDING',   (0,0), ( 1, 0), 6),
+                   ('RIGHTPADDING',  (0,0), ( 1, 0), 6),
+                   ('TOPPADDING',    (0,0), ( 1, 0), 3),
+                   ('BOTTOMPADDING', (0,0), ( 1, 0), 3) ) + bold_0_0
+
+fieldTop3 = [ 1.0*cm, 15.4*cm, 1.6*cm ]
+
+styleFieldTop3 = ( ('ALIGN',         (0,0), (0,-1), 'LEFT'),
                     ('VALIGN',        (0,0), (0,-1), 'TOP'),
                     ('ALIGN',         (1,0), (1,-1), 'CENTER'),
-                    ('VALIGN',        (1,0), (1,-1), 'MIDDLE'),
+                    ('VALIGN',        (2,0), (2,-1), 'MIDDLE'),
                     ('FONTSIZE',      (0,0), (-1,-1), 9 ),
-                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                    ('INNERGRID',     (1,0), (-1,-1), 0.3, black),
+                    ('BOX',           (0,0), (-1,-1), 0.3, black),
                     ('LEFTPADDING',   (0,0), (-1,-1), 3),
                     ('RIGHTPADDING',  (0,0), (-1,-1), 4),
                     ('TOPPADDING',    (0,0), (-1,-1), 0),
-                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
-                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
-                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
-                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
-                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+                    ('LEFTPADDING',   (0,0), ( 1, 0), 6),
+                    ('RIGHTPADDING',  (0,0), ( 1, 0), 6),
+                    ('TOPPADDING',    (0,0), ( 1, 0), 3),
+                    ('BOTTOMPADDING', (0,0), ( 1, 0), 3) ) + bold_0_0
 
-spaltenAllInThree = [ 8.4*cm, 8*cm, 1.6*cm ]
+commonWidths = [ 8.4*cm, 4.8*cm, 4.8*cm ]
 
-styleAllInThree = [ ('SPAN',          (0,0), (0,-1)), 
-                    ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
-                    ('VALIGN',        (0,0), (1,-1), 'TOP'),
-                    ('ALIGN',         (1,0), (2,-1), 'CENTER'),
-                    ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
-                    ('FONTSIZE',      (0,0), (-1,-1), 9 ),
-                    ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                    ('BOX',           (0,0), (-1,-1), 0.3, black), 
-                    ('LEFTPADDING',   (0,0), (-1,-1), 3),
-                    ('RIGHTPADDING',  (0,0), (-1,-1), 4),
-                    ('TOPPADDING',    (0,0), (-1,-1), 0),
-                    ('BOTTOMPADDING', (0,0), (-1,-1), 0), 
-                    ('LEFTPADDING',   (0,0), ( 0, 0), 6),
-                    ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
-                    ('TOPPADDING',    (0,0), ( 0, 0), 3),
-                    ('BOTTOMPADDING', (0,0), ( 0, 0), 3) ]
-
-commonWidths = [ 4.2*cm, 4.2*cm, 9.6*cm ]
-
-styleCommon = ( ('SPAN',          (2,0), (2,-1)), 
-                ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+styleCommon = ( ('SPAN',          (0,0), (0,-1)),
+                ('SPAN',          (2,0), (2,-1)),
+                ('ALIGN',         (0,0), (1,-1), 'LEFT'),
                 ('VALIGN',        (0,0), (1,-1), 'TOP'),
-                ('ALIGN',         (1,0), (2,-1), 'CENTER'),
-                ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
-                ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                # ('ALIGN',         (1,0), (2,-1), 'CENTER'),
+                # ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
+                ('INNERGRID',     (0,0), (-1,-1), 0.3, black),
+                ('BOX',           (0,0), (-1,-1), 0.3, black),
                 ('FONTSIZE',      (0,0), (-1,-1), 9 ),
                 ('LEFTPADDING',   (0,0), ( 0, 0), 6),
                 ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
@@ -216,13 +218,13 @@ styleCommon = ( ('SPAN',          (2,0), (2,-1)),
 
 typSpecWidths = [ 3.5*cm, 14.5*cm ]
 
-styleTypSpec = ( ('SPAN',          (1,0), (1,-1)), 
-                ('ALIGN',         (0,0), (1,-1), 'LEFT'), 
+styleTypSpec = ( ('SPAN',          (1,0), (1,-1)),
+                ('ALIGN',         (0,0), (1,-1), 'LEFT'),
                 ('VALIGN',        (0,0), (1,-1), 'TOP'),
                 # ('ALIGN',         (1,0), (2,-1), 'CENTER'),
                 # ('VALIGN',        (1,0), (2,-1), 'MIDDLE'),
-                # ('INNERGRID',     (0,0), (-1,-1), 0.3, black), 
-                # ('BOX',           (0,0), (-1,-1), 0.3, black), 
+                # ('INNERGRID',     (0,0), (-1,-1), 0.3, black),
+                # ('BOX',           (0,0), (-1,-1), 0.3, black),
                 ('FONTSIZE',      (0,0), (-1,-1), 9 ),
                 ('LEFTPADDING',   (0,0), ( 0, 0), 6),
                 ('RIGHTPADDING',  (0,0), ( 0, 0), 6),
@@ -231,7 +233,7 @@ styleTypSpec = ( ('SPAN',          (1,0), (1,-1)),
 
 ###################   RAISING   ######################
 
-grid_borders = ( ('INNERGRID', (0,0), (-1,-1), line_width, black), 
+grid_borders = ( ('INNERGRID', (0,0), (-1,-1), line_width, black),
                  ('BOX',       (0,0), (-1,-1), line_width, black) )
 
 paddings = (('LEFTPADDING',   (0,0), (-1,-1), 3),
@@ -239,7 +241,7 @@ paddings = (('LEFTPADDING',   (0,0), (-1,-1), 3),
             ('TOPPADDING',    (0,0), (-1,-1), 0),
             ('BOTTOMPADDING', (0,0), (-1,-1), 0))
 
-vspan_first2 = ( ('SPAN', (0,0), (0,-1)), 
+vspan_first2 = ( ('SPAN', (0,0), (0,-1)),
                  ('SPAN', (1,0), (1,-1)) )
 
 vspan_3 = ( ('SPAN', (2,0), (2,-1)) ,)
