@@ -347,25 +347,6 @@ class MainWindow(QtGui.QMainWindow):
         select = sqAl.sql.select(Participant.__table__.columns)
         result = self.session.execute(select)
 
-        mf_specs = { # specifics of the multi-column fields
-            'multi_bool': {
-                'format': DB_FMT_MB,
-                'db_col_type': sqAl.Boolean
-            },
-            'multi_int': {
-                'format': DB_FMT_MI,
-                'db_col_type': sqAl.Integer
-            },
-            'multi_select': {
-                'format': DB_FMT_MS,
-                'db_col_type': sqAl.Integer
-            },
-            'multi_numeric': {
-                'format': DB_FMT_MN,
-                'db_col_type': sqAl.Integer
-            }
-        }
-
         var_types, measure_levels, column_widths, alignments = {'id': 1}, {'id': 'nominal'}, {'id': 5}, {'id': 'right'}
         opt_opts = {'format': {},'missing_values': {}}
         for f in STRUCTURE.db_items:
@@ -398,12 +379,7 @@ class MainWindow(QtGui.QMainWindow):
 
         try:
             logging.info('versuche SPSS-Datei zu speichern')
-<<<<<<< HEAD
             with savReaderWriter.SavWriter(*sRWargs,**sRWkwargs) as writer:
-=======
-            with savReaderWriter.SavWriter(path, result.keys(), var_types, measureLevels=measure_levels, columnWidths=column_widths, alignments=alignments,
-                                        ioUtf8=True, formats=formats, ioLocale= 'english' if os.name == 'nt' else None) as writer:
->>>>>>> 68478629feb09c7b399763fde26a030f22a0ecb2
                 for record in result:
                     writer.writerow(list(record))
         except Exception as inst:

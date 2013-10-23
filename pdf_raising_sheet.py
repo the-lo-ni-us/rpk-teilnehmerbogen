@@ -19,7 +19,7 @@ import re, os, random
 from time import gmtime, strftime
 
 from pdf_doku_template import DokuTemplate
-from structure import structure as STRUCTURE 
+from structure import structure as STRUCTURE
 from pdf_styles import *
 import report
 from settings import *
@@ -37,7 +37,7 @@ class PdfRaising():
 
     self.prv_excps = prevent_exceptions
     self.anchors = []
-  
+
     pageFrame = Frame(  12*mm, 10*mm, 18.6*cm, 26.5*cm, showBoundary=0 )
 
     pageT = PageTemplate(	id = 'seite',
@@ -62,9 +62,9 @@ class PdfRaising():
                                 keywords = u"Schlüsselwörter",
                                 _pageBreakQuick = 0 )
 
-    # pdfencrypt.encryptDocTemplate(self.doc,userPassword='u',ownerPassword='o', 
-    #                               canPrint=1, canModify=1, canCopy=1, canAnnotate=1,	
-    #                               strength=40) 
+    # pdfencrypt.encryptDocTemplate(self.doc,userPassword='u',ownerPassword='o',
+    #                               canPrint=1, canModify=1, canCopy=1, canAnnotate=1,
+    #                               strength=40)
     # self.bm_ables = {1: [], 2: []}
     self.bm_ables = ([],[],[])
     self.doc.bm_ables = self.bm_ables
@@ -81,8 +81,8 @@ class PdfRaising():
     together_with_next = None
 
     for field in STRUCTURE.cap_items:
-  
-      fn = str(field.get('fieldname', '')) 
+
+      fn = str(field.get('fieldname', ''))
       if self.participant and hasattr(self.participant, fn):
         value = getattr(self.participant, fn)
       else:
@@ -101,8 +101,8 @@ class PdfRaising():
       elif field['typ'] == 'pagebreak':
         self.story.append( PageBreak())
       else:
-        first3 = [ str(field.get('number', '')), 
-                   '{0}/{1}'.format(field['raise_time'],field['raiser']), 
+        first3 = [ str(field.get('number', '')),
+                   '{0}/{1}'.format(field['raise_time'],field['raiser']),
                    Paragraph(self.indexed(field['title'], fn), styleText)
         ]
 
@@ -112,26 +112,26 @@ class PdfRaising():
           to_append = Table( [ first3 + [ value, '' ] ], spaltenRaise, None, styleRaise_str, 0, 0 )
         elif field['typ'] in fmts:
           if field['typ'] in ('multi_bool', 'multi_int'):
-            fl = field['allowance'] 
+            fl = field['allowance']
           else:
             fl = [ v for k,v in field['allowance']]
           if value:
             if field['typ'] in ('multi_bool'):
-              vl = [ v and 'x' or '' for v in value ] 
+              vl = [ v and 'x' or '' for v in value ]
             elif field['typ'] in ('multi_select'):
-              vl = [ v > 0 and 'x' or '' for v in value ] 
+              vl = [ v > 0 and 'x' or '' for v in value ]
             else:
               vl = [ v > 0 and v or '' for v in value ]
           else:
             vl = ['' for n in range(len(field['allowance']))]
           # print('{2}; {0},{1}'.format(len(vl),len(fl), fn))
-          table = [ first3 + [ Paragraph(item, styleMult), vl[n] ] for n, item in enumerate(fl) ] 
+          table = [ first3 + [ Paragraph(item, styleMult), vl[n] ] for n, item in enumerate(fl) ]
           to_append = Table( table, spaltenRaise, None, styleRaise, splitByRow=1 )
-        elif field['typ'] == 'dropdown': 
-          table = [ first3 + [ Paragraph(item, styleMult), (n-1 == value and 'x' or '') ] for n, item in enumerate(field['allowance']) ] 
+        elif field['typ'] == 'dropdown':
+          table = [ first3 + [ Paragraph(item, styleMult), (n-1 == value and 'x' or '') ] for n, item in enumerate(field['allowance']) ]
           to_append = Table( table, spaltenRaise, None, styleRaise, splitByRow=1 )
-        elif field['typ'] in ('enumber', 'enum'): 
-          table = [ first3 + [ Paragraph(item, styleMult), (v == value and 'x' or '') ] for v, item in field['allowance'] ] 
+        elif field['typ'] in ('enumber', 'enum'):
+          table = [ first3 + [ Paragraph(item, styleMult), (v == value and 'x' or '') ] for v, item in field['allowance'] ]
           to_append = Table( table, spaltenRaise, None, styleRaise, splitByRow=1 )
         else:
           # print('nicht berücksichtigter Typ %s' % field['typ'])
@@ -139,7 +139,7 @@ class PdfRaising():
 
       if to_append:
         fl = to_append
-        fl.bm_title = str(fn)
+        fl.bm_title = str(field.get('number','') if field.get('number','') else fn)
         fl.bm_name = str(fn)
         self.bm_ables[1].append( fn )
         pre = [ together_with_next ] if together_with_next else []
@@ -156,7 +156,7 @@ class PdfRaising():
 
     # index = SimpleIndex(dot=' ') #, headers=headers)
     # self.story.append(index)
- 
+
     if self.prv_excps:
       try:
         self.doc.build(self.story)
@@ -172,13 +172,13 @@ class PdfRaising():
     while fl.__class__ == KeepTogether:
       fl = fl._content[0]
     return fl
-    
+
   def indexed(self, words, index_text):
     # return index_text
     self.anchors.append(index_text)
     return '<a name="%s" />%s' % (index_text, words)
     # return '<index item="%s" />%s' % (index_text, words)
-    
+
 
   def headRoutine (self, c, doc):
     if c.getPageNumber() == 1:
@@ -188,7 +188,7 @@ class PdfRaising():
     c.drawString( 1.5*cm, 28*cm, self.title)
     c.drawString( 18.4*cm, 28*cm, "Seite %d" % c.getPageNumber() )
     c.restoreState()
-  
+
 if __name__ == '__main__':
   from PyQt4 import QtCore
   import sqlalchemy as sqAl
