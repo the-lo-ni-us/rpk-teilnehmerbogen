@@ -289,7 +289,7 @@ class MainWindow(QtGui.QMainWindow):
     def get_save_path(self, **creds):
         filename = creds['filename'] if 'filename' in creds else self.config.value(CONFIG_LAST_SAVE_NAME, 'Summenbogen', type=str)
         default = os.path.join(str(self.config.value(CONFIG_LAST_SAVE_DIR,'')),
-                               '{0}.{1}'.format(filename, creds['ext']))
+                               u'{0}.{1}'.format(filename, creds['ext']))
         if creds['dont_ask']:
             return default
         gsfn = QtGui.QFileDialog.getSaveFileName
@@ -398,7 +398,12 @@ class MainWindow(QtGui.QMainWindow):
 
         try:
             logging.info('versuche SPSS-Datei zu speichern')
+<<<<<<< HEAD
             with savReaderWriter.SavWriter(*sRWargs,**sRWkwargs) as writer:
+=======
+            with savReaderWriter.SavWriter(path, result.keys(), var_types, measureLevels=measure_levels, columnWidths=column_widths, alignments=alignments,
+                                        ioUtf8=True, formats=formats, ioLocale= 'english' if os.name == 'nt' else None) as writer:
+>>>>>>> 68478629feb09c7b399763fde26a030f22a0ecb2
                 for record in result:
                     writer.writerow(list(record))
         except Exception as inst:
