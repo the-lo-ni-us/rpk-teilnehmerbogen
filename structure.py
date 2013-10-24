@@ -1243,10 +1243,11 @@ structure = FieldnameList([
     'typ': 'multi_select',
     'sav_opts': {
       'missing_values': {'values': [-1]},
-       'measure_level': 'nominal',
+      'measure_level': 'nominal',
       'column_width': 5,
       'alignment': 'right',
-      'var_type': 0
+      'var_type': 0,
+      'format': 'F2.0'
     },
     'allowance': [
       ( 'unbek',    u"00 - keine Angabe / nicht bekannt" ),
